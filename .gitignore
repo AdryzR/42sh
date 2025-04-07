@@ -1,0 +1,8 @@
+mysh
+*.o
+.vscode
+lib/libmy.a
+tester
+my_segfault
+invalid_bin
+binaire-mac
