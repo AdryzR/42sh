@@ -73,6 +73,7 @@ int left_to_right(shell_t *shell);
 char *strip_str(char *str, char remove);
 int handle_redirections(shell_t *shell);
 int ret_and_set_status(int ret, shell_t *shell);
+char *my_getenv(char **env, char *tofind);
 void add_env_line(char *env, shell_t *shell);
 void delete_env_node(envi_t *current, shell_t *shell);
 int my_cd(shell_t *shell);

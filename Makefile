@@ -33,6 +33,7 @@ SRC =	src/main.c \
 		src/strip_str.c \
 		src/separators/pipes/exec_pipe.c \
 		src/separators/pipes/handle_pipe.c \
+		src/my_getenv.c 					\
 		src/builtins/my_exit.c
 
 OBJ = $(SRC:.c=.o)
