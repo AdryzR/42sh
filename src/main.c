@@ -71,6 +71,8 @@ int main(int ac, char **av, char **env)
             getline_end(shell);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
+        arrows_key(shell);
+        history_gest(shell);
         clean_line(shell);
         setup_args(shell);
     }

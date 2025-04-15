@@ -33,7 +33,9 @@ SRC =	src/main.c \
 		src/strip_str.c \
 		src/separators/pipes/exec_pipe.c \
 		src/separators/pipes/handle_pipe.c \
-		src/builtins/my_exit.c
+		src/builtins/my_exit.c \
+		history_gest.c \
+		arrows_key.c \
 
 OBJ = $(SRC:.c=.o)
 

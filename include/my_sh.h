@@ -26,6 +26,11 @@
     #include <sys/resource.h>
     #include <sys/wait.h>
     #include <sys/stat.h>
+    #include <errno.h>
+    #include <termios.h>
+    #include <fcntl.h>
+    #include <unistd.h>
+    #include <stdarg.h>
 
 typedef enum error_e {
     FAILURE = 84,
@@ -91,5 +96,9 @@ int check_commands(shell_t *shell);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
+int history_gest(shell_t *shell);
+int history_up(shell_t *shell);
+int history_down(shell_t *shell);
+int arrows_key(shell_t *shell);
 
 #endif
