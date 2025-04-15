@@ -10,7 +10,7 @@
 #include <errno.h>
 #include <signal.h>
 #include "my.h"
-#include "my_printf.h"
+#include "printf.h"
 #include "my_sh.h"
 
 void check_signal_status(int status)
@@ -18,9 +18,9 @@ void check_signal_status(int status)
     if (WTERMSIG(status) != SIGSEGV)
         return;
     if (WCOREDUMP(status))
-        my_printf("Segmentation fault (core dumped)\n");
+        printf("Segmentation fault (core dumped)\n");
     else
-        my_printf("Segmentation fault\n");
+        printf("Segmentation fault\n");
 }
 
 static int wait_for_pid(shell_t *shell, int c_pid)

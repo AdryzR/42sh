@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "my.h"
-#include "my_printf.h"
+#include "printf.h"
 #include "my_sh.h"
 
 void use_previous_path(shell_t *shell)

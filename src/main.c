@@ -8,13 +8,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "my.h"
-#include "my_printf.h"
 #include "my_sh.h"
 
 void print_prompt(void)
 {
-    my_printf(getcwd(NULL, 0));
-    my_printf("> ");
+    printf("%s", getcwd(NULL, 0));
+    printf("> ");
 }
 
 static void getline_end(shell_t *shell)
@@ -33,7 +32,7 @@ static void count_pipes(shell_t *shell)
 
 int setup_args(shell_t *shell)
 {
-    char **commands = str_to_warray(shell->line, "^_^");
+    char **commands = str_to_warray(shell->line, ";");
 
     if (!commands)
         return 84;

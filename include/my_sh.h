@@ -50,6 +50,7 @@ typedef struct shell_s {
     char *home;
     char *old_pwd;
     int nb_pipes;
+    int nb_parths;
     bool should_skip_wait;
 } shell_t;
 
