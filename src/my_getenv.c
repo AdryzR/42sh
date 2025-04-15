@@ -5,7 +5,7 @@
 ** my_getenv
 */
 
-#include "../include/my.h"
+#include "my.h"
 
 char *my_getenv(char **env, char *tofind)
 {
