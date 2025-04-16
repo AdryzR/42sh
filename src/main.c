@@ -11,10 +11,25 @@
 #include "my_printf.h"
 #include "my_sh.h"
 
-void print_prompt(void)
+void print_prompt(char **env)
 {
-    my_printf(getcwd(NULL, 0));
-    my_printf("> ");
+    char *user = my_getenv(env, "USER");
+    char cwd[1000];
+
+    user = my_strcat(user, "@");
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        write(1, "\033[0;32m", my_strlen("\033[0;32m"));
+        write(1, user, my_strlen(user));
+        write(1, "\033[0;36m", my_strlen("\033[0;36m"));
+        write(1, cwd, my_strlen(cwd));
+        write(1, "> ", 2);
+        write(1, "\033[0m", my_strlen("\033[0m"));
+    }
+}
+
+static void handle_sigint(__attribute__((unused)) int sig)
+{
+    my_putstr("\n$> ");
 }
 
 static void getline_end(shell_t *shell)
@@ -54,26 +69,57 @@ static void clean_line(shell_t *shell)
         shell->line[my_strlen(shell->line) - 1] = '\0';
 }
 
-int main(int ac, char **av, char **env)
+static int check_cond(shell_t *shell, ssize_t byte_read, size_t args_len)
 {
-    shell_t *shell = malloc(sizeof(shell_t));
-    size_t args_len = 0;
+    if (isatty(0) == 1)
+        print_prompt();
+    byte_read = getline(&shell->line, &args_len, stdin);
+    if (byte_read == -1)
+        getline_end(shell);
+    if (my_strcmp(shell->line, "\n") == 0)
+        return 0;
+}
+int getline_gest(shell_t *shell, char **env)
+{
+    int c;
     ssize_t byte_read = 0;
+    size_t args_len = 0;
 
     if (!shell)
         return 84;
     init_struct(shell, env);
-    for (;;) {
-        if (isatty(0) == 1)
-            print_prompt();
-        byte_read = getline(&shell->line, &args_len, stdin);
-        if (byte_read == -1)
-            getline_end(shell);
-        if (my_strcmp(shell->line, "\n") == 0)
+    if (isatty(STDIN_FILENO))
+        my_putstr("$> ");
+    byte_read = getline(&shell->line, &args_len, stdin);
+    if (byte_read == -1)
+        exit(84);
+    if (shell->line[byte_read - 1] == '\n')
+        shell->line[byte_read - 1] = '\0';
+    return 0;
+}
+
+int while_loop(shell_t *shell, char **env)
+{
+    signal(SIGINT, handle_sigint);
+    while (1) {
+        getline_gest(shell, env);
+        if (shell->line[0] == '\0') {
+            my_putstr("\n");
             continue;
-        arrows_key(shell);
-        history_gest(shell);
+        }
+        arrows_key(shell, shell->history);
+        history_gest(shell, shell->history);
         clean_line(shell);
         setup_args(shell);
     }
+}
+
+int main(int ac, char **av, char **env)
+{
+    shell_t *shell = malloc(sizeof(shell_t));
+
+    if (init_struct(shell, env))
+        return 84;
+    while_loop(shell, env);
+    return 0;
 }

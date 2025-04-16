@@ -33,13 +33,15 @@ SRC =	src/main.c \
 		src/strip_str.c \
 		src/separators/pipes/exec_pipe.c \
 		src/separators/pipes/handle_pipe.c \
+		src/my_getenv.c 					\
+		src/globbing.c
 		src/builtins/my_exit.c \
-		history_gest.c \
-		arrows_key.c \
+		src/history_arrows/history_gest.c \
+		src/history_arrows/arrows_key.c \
 
 OBJ = $(SRC:.c=.o)
 
-NAME =	mysh
+NAME =	42sh
 
 CFLAGS = -I./include
 

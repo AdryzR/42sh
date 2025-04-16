@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2022
 ** bootstrap
 ** File description:
-** ex02.c
+** arrows_key
 */
 
 #include "my_sh.h"
@@ -36,15 +36,17 @@ void console_log(FILE *stream, const char *restrict format, ...)
     fflush(stream);
 }
 
-void check_arrows(char buff, shell_t *shell)
+void check_arrows(char buff, shell_t *shell, history_t *hist)
 {
+    int tmp_index = hist->index;
+
     buff = getchar();
     switch (buff) {
         case 'A':
-            history_up(shell);
+            tmp_index = history_up(shell, tmp_index);
             break;
         case 'B':
-            history_down(shell);
+            tmp_index = history_down(shell, hist, tmp_index);
             break;
         case 'C':
             printf("\033[C");
@@ -56,23 +58,21 @@ void check_arrows(char buff, shell_t *shell)
     fflush(stdout);
 }
 
-int arrows_key(shell_t *shell)
+int arrows_key(shell_t *shell, history_t *hist)
 {
     char buff;
 
     termios_init();
-    while (42) {
-        if (read(STDIN_FILENO, &buff, 1) <= 0) {
-            termios_reset();
-            exit(84);
-        }
-        console_log(stdout, "%c", buff);
-        if (buff == '[')
-            check_arrows(buff, shell);
-        if (buff == '\n') {
-            console_log(stdout, "\nenter!\n");
-            break;
-        }
+    if (read(STDIN_FILENO, &buff, 1) <= 0) {
+        termios_reset();
+        exit(84);
+    }
+    console_log(stdout, "%c", buff);
+    if (buff == '\033')
+        check_arrows(buff, shell, hist);
+    if (buff == '\n') {
+        console_log(stdout, "\nenter!\n");
+        return 0;
     }
     termios_reset();
     return 0;

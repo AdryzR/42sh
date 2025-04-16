@@ -15,6 +15,12 @@
     #include <stdlib.h>
     #include <stdarg.h>
     #include "my_printf.h"
+    #include <errno.h>
+    #include <signal.h>
+    #include <signal.h>
+    #include <glob.h>
+
+
 char *my_strcpy(char *dest, const char *src);
 char *my_strdup(const char *str);
 char **my_str_to_word_array(char *str, char *delim);

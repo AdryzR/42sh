@@ -31,6 +31,8 @@
     #include <fcntl.h>
     #include <unistd.h>
     #include <stdarg.h>
+    #include <stddef.h>
+    #include <signal.h>
 
 typedef enum error_e {
     FAILURE = 84,
@@ -44,6 +46,10 @@ typedef struct envi_s {
     struct envi_s *next;
 } envi_t;
 
+typedef struct history_s {
+    int index;
+} history_t;
+
 typedef struct shell_s {
     int nb_args;
     envi_t *envi;
@@ -56,6 +62,7 @@ typedef struct shell_s {
     char *old_pwd;
     int nb_pipes;
     bool should_skip_wait;
+    history_t *history;
 } shell_t;
 
 int handle_pipes(shell_t *shell);
@@ -78,10 +85,11 @@ int left_to_right(shell_t *shell);
 char *strip_str(char *str, char remove);
 int handle_redirections(shell_t *shell);
 int ret_and_set_status(int ret, shell_t *shell);
+char *my_getenv(char **env, char *tofind);
 void add_env_line(char *env, shell_t *shell);
 void delete_env_node(envi_t *current, shell_t *shell);
 int my_cd(shell_t *shell);
-void init_struct(shell_t *shell, char **env);
+int init_struct(shell_t *shell, char **env);
 void free_array(char **array);
 char *my_strcat(char *dest, char const *src);
 char *my_strcat_m(char *dest, char const *src);
@@ -96,9 +104,9 @@ int check_commands(shell_t *shell);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
-int history_gest(shell_t *shell);
-int history_up(shell_t *shell);
-int history_down(shell_t *shell);
-int arrows_key(shell_t *shell);
+int history_gest(shell_t *shell, history_t *hist);
+int history_up(shell_t *shell, int index);
+int history_down(shell_t *shell, history_t *hist, int index);
+int arrows_key(shell_t *shell, history_t *hist);
 
 #endif
