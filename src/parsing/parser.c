@@ -17,66 +17,82 @@ const char *token_list[NB_TOKENS] = {
     [TT_JOB] = "&",
     [TT_REDIRECT_OUT] = ">",
     [TT_APPEND] = ">>",
-    [TT_REDIRECT_IN] = "<<",
+    [TT_REDIRECT_IN] = "<",
     [TT_HEREDOC] = "<<",
     [TT_BACKTICK] = "`",
     [TT_RAW_STRING] = "'",
     [TT_LPAREN] = "(",
-    [TT_RPAREN] = "(",
+    [TT_RPAREN] = ")",
     [TT_WORD] = NULL,
     [TT_EOF] = NULL,
 };
 
-bool is_whitespace(char c)
-{
-    return
-        c == '\0' ||
-        c == '\t' ||
-        c == ' ';
-}
-
-void skip_whitespace(lexer_t *lexer)
-{
-    while (*lexer->start != '\0' && is_whitespace(*lexer->start))
-        lexer->start++;
-}
-
-//* ls bob 
-
-token_t get_word_token(lexer_t *lexer)
-{
-    while (!is_whitespace(lexer->start[lexer->pos]))
-        lexer->pos++;
-    return (token_t){
-        .type = TT_WORD,
-        .value = lexer->start,
-        .len = lexer->pos
-    };
-}
-
+/*
+** Return a generic token filled with the type and the lenght given in args.
+*/
 token_t make_generic(lexer_t *lexer, token_type_t type, size_t length)
 {
-    return (token_t){
+    return (token_t) {
         .type = type,
         .value = lexer->start,
         .len = length
     };
 }
 
-token_t get_other_token(lexer_t *lexer)
+bool is_eol(lexer_t *lexer)
+{
+    return
+        lexer->start[lexer->pos] == '\0' ||
+        lexer->start[lexer->pos] == '\n';
+}
+
+token_t make_raw_string(lexer_t *lexer)
+{
+    while (lexer->start[lexer->pos] != '\'' && !is_eol(lexer))
+        lexer->pos++;
+    if (lexer->start[lexer->pos] == '\'')
+        lexer->pos++;
+    return (token_t) {
+        .type = TT_RAW_STRING,
+        .value = lexer->start + 1,
+        .len = lexer->pos - 1,
+    };
+}
+
+token_t make_word_token(lexer_t *lexer)
+{
+    while (!is_reserved_char(lexer->start[lexer->pos]))
+        lexer->pos++;
+
+    return (token_t) {
+        .type = TT_WORD,
+        .value = lexer->start,
+        .len = lexer->pos
+    };
+}
+
+static token_t get_other_token(lexer_t *lexer)
 {
     switch (*lexer->start)
     {
-    case constant expression:
-        /* code */
-        break;
-    
+    case '\n':
+        return make_generic(lexer, TT_NEWLINE, 1);
+    case '`':
+        return make_generic(lexer, TT_BACKTICK, 1);
+    case '\'':
+        return make_raw_string(lexer);
+    case '(':
+        return make_generic(lexer, TT_LPAREN, 1);
+    case ')':
+        return make_generic(lexer, TT_RPAREN, 1);
+    case '\0':
+        return make_generic(lexer, TT_EOF, 1);
     default:
-        break;
+        return make_word_token(lexer);
     }
 }
 
-token_t get_redirect_token(lexer_t *lexer)
+static token_t get_redirect_token(lexer_t *lexer)
 {
     switch (*lexer->start)
     {
@@ -95,6 +111,7 @@ token_t get_redirect_token(lexer_t *lexer)
 
 token_t get_next_token(lexer_t *lexer)
 {
+    lexer->start += lexer->pos; //* init lexer->pos et start à 0
     lexer->pos = 0;
     skip_whitespace(lexer);
     switch (*lexer->start) {
@@ -110,11 +127,8 @@ token_t get_next_token(lexer_t *lexer)
         return make_generic(lexer, TT_NEWLINE, 1);
     default:
         return get_redirect_token(lexer);
-        // return get_word_token(lexer);
     }
 }
-
 // main:
 // parse_input(readline(stdin))
 // free(parse_input)
-// 

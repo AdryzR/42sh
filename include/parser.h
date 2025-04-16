@@ -9,6 +9,10 @@
     #define PARSER_H_
 
     #include <stdlib.h>
+    #include <stdbool.h>
+    #include <stdio.h>
+
+
 // ? Token types for our parser
 typedef enum token_type_s {
     TT_SMCL,            // ? 0: ';'
@@ -37,11 +41,23 @@ typedef struct lexer_s {
 
 extern const char *tokens_list[NB_TOKENS];
 
+//* cat Makefile | grep "sep"
+
 typedef struct token_s {
     token_type_t type;
-    char *value;
+    const char *value;
     size_t len;
 } token_t;
 
+
+token_t make_generic(lexer_t *lexer, token_type_t type, size_t length);
+void skip_whitespace(lexer_t *lexer);
+bool is_whitespace(char c);
+bool is_reserved_char(char c);
+
+static inline void print_token(const token_t *restrict token)
+{
+    printf("Token: %.*s\n", (int)token->len, token->value);
+}
 
 #endif /* !PARSER_H_ */
