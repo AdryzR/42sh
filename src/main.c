@@ -53,6 +53,7 @@ static void clean_line(shell_t *shell)
         shell->line[my_strlen(shell->line) - 1] = '\0';
 }
 
+#if 0
 int main(int ac, char **av, char **env)
 {
     shell_t *shell = malloc(sizeof(shell_t));
@@ -72,5 +73,19 @@ int main(int ac, char **av, char **env)
             continue;
         clean_line(shell);
         setup_args(shell);
+    }
+}
+#endif
+
+#include <parser.h>
+int main(void)
+{
+    const char *input = "  hehe bonjour \n | ( >><<> test 'nyeh\0eheh 3>e' \"lellek\"";
+    lexer_t lexer = { .start = input };
+    token_t current_token = get_next_token(&lexer);
+
+    while (current_token.type != TT_EOF) {
+        print_token(&current_token);
+        current_token = get_next_token(&lexer);
     }
 }

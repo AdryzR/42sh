@@ -9,8 +9,8 @@
 #include <stdbool.h>
 
 const char *token_list[NB_TOKENS] = {
-    [TT_SMCL] = ";",
-    [TT_NEWLINE] = "\n",
+    [TT_SMCL] = "Semicolon",
+    [TT_NEWLINE] = "Newline",
     [TT_PIPE] = "|",
     [TT_AND] = "&&",
     [TT_OR] = "||",
@@ -32,10 +32,11 @@ const char *token_list[NB_TOKENS] = {
 */
 token_t make_generic(lexer_t *lexer, token_type_t type, size_t length)
 {
+    lexer->pos = length;
     return (token_t) {
         .type = type,
         .value = lexer->start,
-        .len = length
+        .len = lexer->pos
     };
 }
 
@@ -46,16 +47,18 @@ bool is_eol(lexer_t *lexer)
         lexer->start[lexer->pos] == '\n';
 }
 
-token_t make_raw_string(lexer_t *lexer)
+token_t make_string(lexer_t *lexer, char c, token_type_t type)
 {
-    while (lexer->start[lexer->pos] != '\'' && !is_eol(lexer))
+    lexer->pos++;
+    while (lexer->start[lexer->pos] != c && !is_eol(lexer))
         lexer->pos++;
-    if (lexer->start[lexer->pos] == '\'')
-        lexer->pos++;
+    if (lexer->start[lexer->pos] != c)
+        return (token_t){ .type = TT_ERROR };
+    lexer->pos++;
     return (token_t) {
-        .type = TT_RAW_STRING,
+        .type = type,
         .value = lexer->start + 1,
-        .len = lexer->pos - 1,
+        .len = lexer->pos - 2,
     };
 }
 
@@ -78,9 +81,11 @@ static token_t get_other_token(lexer_t *lexer)
     case '\n':
         return make_generic(lexer, TT_NEWLINE, 1);
     case '`':
-        return make_generic(lexer, TT_BACKTICK, 1);
+        return make_string(lexer, '`', TT_BACKTICK);
     case '\'':
-        return make_raw_string(lexer);
+        return make_string(lexer, '\'', TT_RAW_STRING);
+    case '"':
+        return make_string(lexer, '"', TT_WORD);
     case '(':
         return make_generic(lexer, TT_LPAREN, 1);
     case ')':
@@ -114,6 +119,8 @@ token_t get_next_token(lexer_t *lexer)
     lexer->start += lexer->pos; //* init lexer->pos et start à 0
     lexer->pos = 0;
     skip_whitespace(lexer);
+    if (*lexer->start == '\0')
+        return (token_t){ .type = TT_EOF };
     switch (*lexer->start) {
     case '|':
         return *(lexer->start + 1) == '|' ?

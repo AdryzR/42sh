@@ -48,7 +48,7 @@ SRC =	src/main.c \
 		src/strip_str.c \
 		src/separators/pipes/exec_pipe.c \
 		src/separators/pipes/handle_pipe.c \
-		src/parsing/parser.c \
+		src/parsing/lexer.c \
 		src/parsing/utilities.c \
 		src/builtins/my_exit.c
 

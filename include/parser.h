@@ -8,6 +8,8 @@
 #ifndef PARSER_H_
     #define PARSER_H_
 
+    #define IS_SEPARATOR(type) (type == TT_SMCL || type == TT_NEWLINE)
+
     #include <stdlib.h>
     #include <stdbool.h>
     #include <stdio.h>
@@ -30,8 +32,9 @@ typedef enum token_type_s {
     TT_LPAREN,          // ? 12: '('
     TT_RPAREN,          // ? 13: ')'
     TT_WORD,            // ? 14: Generic word (e.g., command names)
-    TT_EOF,             // ? 15: '\0' End of input
-    NB_TOKENS           // ? 16: Count of tokens (not an actual token)
+    TT_ERROR,           // ? 15: Error token
+    TT_EOF,             // ? 16: '\0' End of input
+    NB_TOKENS           // ? 17: Count of tokens (not an actual token)
 } token_type_t;
 
 typedef struct lexer_s {
@@ -50,6 +53,7 @@ typedef struct token_s {
 } token_t;
 
 
+token_t get_next_token(lexer_t *lexer);
 token_t make_generic(lexer_t *lexer, token_type_t type, size_t length);
 void skip_whitespace(lexer_t *lexer);
 bool is_whitespace(char c);
@@ -57,7 +61,10 @@ bool is_reserved_char(char c);
 
 static inline void print_token(const token_t *restrict token)
 {
-    printf("Token: %.*s\n", (int)token->len, token->value);
+    printf(
+        "Token: \"%.*s\"; type: %hhu\n",
+        (int)token->len, token->value, token->type
+    );
 }
 
 #endif /* !PARSER_H_ */
