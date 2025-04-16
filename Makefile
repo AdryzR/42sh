@@ -34,7 +34,7 @@ SRC =	src/main.c \
 		src/separators/pipes/exec_pipe.c \
 		src/separators/pipes/handle_pipe.c \
 		src/my_getenv.c 					\
-		src/globbing.c
+		src/globbing.c \
 		src/builtins/my_exit.c \
 		src/history_arrows/history_gest.c \
 		src/history_arrows/arrows_key.c \

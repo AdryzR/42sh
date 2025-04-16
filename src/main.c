@@ -71,8 +71,8 @@ static void clean_line(shell_t *shell)
 
 static int check_cond(shell_t *shell, ssize_t byte_read, size_t args_len)
 {
-    if (isatty(0) == 1)
-        print_prompt();
+    // if (isatty(0) == 1)
+    //     print_prompt(shell->envi);
     byte_read = getline(&shell->line, &args_len, stdin);
     if (byte_read == -1)
         getline_end(shell);

@@ -1,4 +1,4 @@
-mysh
+42sh
 *.o
 .vscode
 lib/libmy.a
