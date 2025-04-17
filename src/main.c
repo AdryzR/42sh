@@ -13,7 +13,7 @@
 
 static void handle_sigint(__attribute__((unused)) int sig)
 {
-    my_putstr("\n$> ");
+    my_putstr("\n> ");
 }
 
 static void getline_end(shell_t *shell)
@@ -47,36 +47,11 @@ int setup_args(shell_t *shell)
     return 0;
 }
 
-int getline_gest(shell_t *shell, char **env)
-{
-    int c;
-    ssize_t byte_read = 0;
-    size_t args_len = 0;
-
-    if (!shell)
-        return 84;
-    init_struct(shell, env);
-    if (isatty(STDIN_FILENO))
-        my_putstr("> ");
-    byte_read = getline(&shell->line, &args_len, stdin);
-    if (byte_read == -1)
-        exit(84);
-    if (shell->line[byte_read - 1] == '\n')
-        shell->line[byte_read - 1] = '\0';
-    return 0;
-}
-
 int while_loop(shell_t *shell, char **env)
 {
     signal(SIGINT, handle_sigint);
-    while (1) {
-        getline_gest(shell, env);
-        if (shell->line[0] == '\0') {
-            my_putstr("\n");
-            continue;
-        }
-        // arrows_key(shell, shell->history);
-        // history_gest(shell, shell->history);
+    while (42) {
+        getinput_gest(shell, env);
         setup_args(shell);
     }
 }

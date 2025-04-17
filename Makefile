@@ -38,6 +38,8 @@ SRC =	src/main.c \
 		src/builtins/my_exit.c \
 		src/history_arrows/history_gest.c \
 		src/history_arrows/arrows_key.c \
+		read_input.c \
+		handle_specific_case_read.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -58,22 +58,10 @@ void check_arrows(char buff, shell_t *shell, history_t *hist)
     fflush(stdout);
 }
 
-int arrows_key(shell_t *shell, history_t *hist)
+int arrows_key(shell_t *shell, history_t *hist, char c)
 {
-    char buff;
-
-    termios_init();
-    if (read(STDIN_FILENO, &buff, 1) <= 0) {
-        termios_reset();
-        exit(84);
-    }
-    console_log(stdout, "%c", buff);
-    if (buff == '\033')
-        check_arrows(buff, shell, hist);
-    if (buff == '\n') {
-        console_log(stdout, "\nenter!\n");
-        return 0;
-    }
-    termios_reset();
+    console_log(stdout, "%c", c);
+    if (c == '\033')
+        check_arrows(c, shell, hist);
     return 0;
 }
