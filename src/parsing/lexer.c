@@ -5,7 +5,7 @@
 ** parser
 */
 
-#include "parser.h"
+#include "lexer.h"
 #include <stdbool.h>
 
 const char *token_list[NB_TOKENS] = {
@@ -66,7 +66,6 @@ token_t make_word_token(lexer_t *lexer)
 {
     while (!is_reserved_char(lexer->start[lexer->pos]))
         lexer->pos++;
-
     return (token_t) {
         .type = TT_WORD,
         .value = lexer->start,
@@ -76,8 +75,7 @@ token_t make_word_token(lexer_t *lexer)
 
 static token_t get_other_token(lexer_t *lexer)
 {
-    switch (*lexer->start)
-    {
+    switch (*lexer->start) {
     case '\n':
         return make_generic(lexer, TT_NEWLINE, 1);
     case '`':
@@ -99,8 +97,7 @@ static token_t get_other_token(lexer_t *lexer)
 
 static token_t get_redirect_token(lexer_t *lexer)
 {
-    switch (*lexer->start)
-    {
+    switch (*lexer->start) {
     case '>':
         return *(lexer->start + 1) == '>' ?
             make_generic(lexer, TT_APPEND, 2) :
@@ -114,9 +111,10 @@ static token_t get_redirect_token(lexer_t *lexer)
     }
 }
 
+//* init lexer->pos et start à 0 avant
 token_t get_next_token(lexer_t *lexer)
 {
-    lexer->start += lexer->pos; //* init lexer->pos et start à 0
+    lexer->start += lexer->pos;
     lexer->pos = 0;
     skip_whitespace(lexer);
     if (*lexer->start == '\0')
@@ -127,7 +125,7 @@ token_t get_next_token(lexer_t *lexer)
             make_generic(lexer, TT_OR, 2) : make_generic(lexer, TT_PIPE, 1);
     case '&':
         return *(lexer->start + 1) == '&' ?
-            make_generic(lexer, TT_JOB, 1) : make_generic(lexer, TT_AND, 2);
+            make_generic(lexer, TT_AND, 2) : make_generic(lexer, TT_JOB, 1);
     case ';':
         return make_generic(lexer, TT_SMCL, 1);
     case '\n':

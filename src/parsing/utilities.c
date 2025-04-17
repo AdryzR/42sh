@@ -5,7 +5,7 @@
 ** utilities
 */
 
-#include <parser.h>
+#include <lexer.h>
 
 
 static const char reserved_chars[] = {

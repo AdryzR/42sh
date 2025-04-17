@@ -7,64 +7,60 @@
 
 #ifndef PARSER_H_
     #define PARSER_H_
-
-    #define IS_SEPARATOR(type) (type == TT_SMCL || type == TT_NEWLINE)
-
-    #include <stdlib.h>
-    #include <stdbool.h>
-    #include <stdio.h>
+    #include "lexer.h"
 
 
-// ? Token types for our parser
-typedef enum token_type_s {
-    TT_SMCL,            // ? 0: ';'
-    TT_NEWLINE,         // ? 1: '\n'
-    TT_PIPE,            // ? 2: '|'
-    TT_AND,             // ? 3: '&&'
-    TT_OR,              // ? 4: '||'
-    TT_JOB,             // ? 5: '&'
-    TT_REDIRECT_OUT,    // ? 6: '>'
-    TT_APPEND,          // ? 7: '>>'
-    TT_REDIRECT_IN,     // ? 8: '<'
-    TT_HEREDOC,         // ? 9: '<<'
-    TT_BACKTICK,        // ? 10: '`'
-    TT_RAW_STRING,      // ? 11: "'" [char]* "'"
-    TT_LPAREN,          // ? 12: '('
-    TT_RPAREN,          // ? 13: ')'
-    TT_WORD,            // ? 14: Generic word (e.g., command names)
-    TT_ERROR,           // ? 15: Error token
-    TT_EOF,             // ? 16: '\0' End of input
-    NB_TOKENS           // ? 17: Count of tokens (not an actual token)
-} token_type_t;
+typedef enum {
+    AT_ERROR,    // ? Use in case of error found in ast.
+    AT_COMMAND,  // ? []
+    AT_REDIRECT, // ? command <REDIRECTION_TYPE> command
+    AT_PIPE,     // ? command | command
+    AT_OR,       // ? command || command
+    AT_AND,      // ? command && command
+    AT_COUNT,    // ? keep last
+} ast_type_t;
 
-typedef struct lexer_s {
-    const char *start;
-    size_t pos;
-} lexer_t;
+typedef struct {
+    token_t left;
+    token_t right;
+} pipe_node_t;
 
-extern const char *tokens_list[NB_TOKENS];
+typedef enum {
+    REDIR_IN,
+    REDIR_OUT,
+    REDIR_APPEND,
+    REDIR_HEREDOC
+} op_type_t;
 
-//* cat Makefile | grep "sep"
-
-typedef struct token_s {
+typedef struct {
     token_type_t type;
-    const char *value;
-    size_t len;
-} token_t;
+    op_node_t left;
+    char *left_value;
+    op_node_t right;
+    char *right_value;
+} op_node_t;
+
+// ? Maybe replace error_msg by an error enum,
+// ? that would be interpreted in an error handler function.
+typedef struct {
+    char *error_msg;
+    token_t error_token; // ? For debug purposes (permit to print the token)
+} error_node_t;
+
+typedef union {
+    pipe_node_t *pipe_node;
+    redir_node_t *redirect;
+    token_t *command;
+} ast_data_t;
 
 
-token_t get_next_token(lexer_t *lexer);
-token_t make_generic(lexer_t *lexer, token_type_t type, size_t length);
-void skip_whitespace(lexer_t *lexer);
-bool is_whitespace(char c);
-bool is_reserved_char(char c);
+typedef struct {
+    ast_type_t type;
+    ast_data_t data;
+} ast_t;
 
-static inline void print_token(const token_t *restrict token)
-{
-    printf(
-        "Token: \"%.*s\"; type: %hhu\n",
-        (int)token->len, token->value, token->type
-    );
-}
+typedef struct {
+    ast_node_t **ast_list;
+} ast_t;
 
-#endif /* !PARSER_H_ */
+#endif

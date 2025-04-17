@@ -77,10 +77,11 @@ int main(int ac, char **av, char **env)
 }
 #endif
 
-#include <parser.h>
+#include <lexer.h>
 int main(void)
 {
-    const char *input = "  hehe bonjour \n | ( >><<> test 'nyeh\0eheh 3>e' \"lellek\"";
+    // const char *input = "  hehe bonjour \n | ( >><<> test 'nyeh\0eheh 3>e' \"lellek\"";*
+    const char *input = "test | test >> a < (b && a)";
     lexer_t lexer = { .start = input };
     token_t current_token = get_next_token(&lexer);
 
