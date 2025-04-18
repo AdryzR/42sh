@@ -49,7 +49,7 @@ SRC =	src/main.c \
 		src/separators/pipes/exec_pipe.c \
 		src/separators/pipes/handle_pipe.c \
 		src/parsing/lexer.c \
-		src/parsing/utilities.c \
+		src/parsing/lexer_utilities.c \
 		src/builtins/my_exit.c
 
 OBJ = $(SRC:.c=.o)
