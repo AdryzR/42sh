@@ -14,24 +14,14 @@ int init_output(shell_t *shell, struct termios newt, struct termios oldt)
         return 84;
     if (isatty(STDIN_FILENO))
         my_putstr("> ");
-    if (tcgetattr(STDIN_FILENO, &oldt) == -1)
-        return 84;
     newt = oldt;
     newt.c_lflag &= ~(ICANON | ECHO);
-    if (tcsetattr(STDIN_FILENO, TCSANOW, &newt) == -1)
-        return 84;
 }
 
 int specific_case(char c, char *line)
 {
-    if (c == 4)
-        exit(84);
-    if (c == '\n')
-        return 2;
     // if (arrows_key(shell, shell->history, c) == 0)
     //     continue;
-    if (c == 10)
-        return 1;
     if (c == 127) {
         // implement backspace logic here if needed
         return 1;
