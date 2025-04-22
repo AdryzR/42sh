@@ -8,31 +8,16 @@
 #include "my.h"
 #include "my_sh.h"
 
-int realloc_input(shell_t *shell, size_t args_len, struct termios oldt)
-{
-    char *temp = NULL;
-
-    temp = realloc(shell->line, sizeof(char) * (args_len + 2));
-        if (!temp) {
-            tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-            free(shell->line);
-            return ret_and_set_status(84, shell);
-    }
-    shell->line = temp;
-    return 0;
-}
-
 int read_loop(shell_t *shell, struct termios oldt)
 {
     size_t args_len = 0;
     ssize_t byte_read = 0;
     char c = 0;
 
+    shell->line = malloc(sizeof(char) * 1024)
     byte_read = read(STDIN_FILENO, &c, 1);
     while (byte_read > 0 && c != '\n' && c != 4) {
         specific_case(c, shell->line);
-        // check si last char == 127 si oui realloc - 1
-        realloc_input(shell, args_len, oldt);
         shell->line[args_len] = c;
         shell->line[args_len + 1] = '\0';
         args_len++;
