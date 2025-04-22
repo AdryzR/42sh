@@ -6,7 +6,7 @@
 */
 
 #include <lexer.h>
-
+#include <string.h>
 
 static const char reserved_chars[] = {
     '&', '|', '>', '<',  // ? operators
@@ -41,4 +41,9 @@ void skip_whitespace(lexer_t *lexer)
 {
     while (*lexer->start != '\0' && is_whitespace(*lexer->start))
         lexer->start++;
+}
+
+char *get_token_value(const token_t *token)
+{
+    return strndup(token->value, token->type);
 }

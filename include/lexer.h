@@ -55,6 +55,7 @@ token_t make_generic(lexer_t *lexer, token_type_t type, size_t length);
 void skip_whitespace(lexer_t *lexer);
 bool is_whitespace(char c);
 bool is_reserved_char(char c);
+char *get_token_value(const token_t *token);
 
 static inline void print_token(const token_t *restrict token)
 {

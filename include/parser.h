@@ -34,7 +34,7 @@ typedef enum {
 } redir_type_t;
 
 typedef struct {
-    int fd;
+    char *path;
     redir_type_t red_type;
 } redir_node_t;
 
@@ -44,7 +44,6 @@ typedef struct {
     char *error_msg;
     token_t error_token; // ? For debug purposes (permit to print the token)
 } error_node_t;
-
 
 typedef struct {
     lexer_t lexer;
@@ -58,10 +57,20 @@ typedef struct ast_s {
     ast_data_t data;
 } ast_t;
 
+typedef struct {
+    ast_t **data;
+    size_t count;
+    size_t capacity;
+} ast_list_t;
+
 typedef union {
+   redir_node_t redirect;
     struct ast_s **binary_operation;
-    struct ast_s **program;
+    ast_list_t program;
 } ast_data_t;
+
+
+void ast_list_append(ast_list_t *list, ast_t *node);
 
 
 ast_t *parser_parse(lexer_t *lexer);
