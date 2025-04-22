@@ -7,8 +7,8 @@
 
 #include "my_sh.h"
 #include "my.h"
- 
-static void termios_init()
+
+static void termios_init(void)
 {
     struct termios t;
 
@@ -17,7 +17,7 @@ static void termios_init()
     tcsetattr(STDOUT_FILENO, TCSAFLUSH, &t);
 }
 
-static void termios_reset()
+static void termios_reset(void)
 {
     struct termios t;
 
