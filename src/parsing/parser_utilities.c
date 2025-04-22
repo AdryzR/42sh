@@ -19,3 +19,17 @@ void parser_skip_separators(parser_t *parser)
     parser_next(parser);
 }
 
+void ast_list_append(ast_list_t *list, ast_t *node)
+{
+    if (list->capacity == list->count) {
+        list->capacity = list->capacity == 0 ? 4 : list->capacity * 1.5f;
+        list->data = reallocarray(list->capacity, sizeof(ast_t *));
+        if (list->data == NULL)
+            return;
+    }
+    list->data[list->count] = node;
+    list->count++;
+}
+
+//* > bob ls
+//* ls > bob
