@@ -50,6 +50,9 @@ SRC =	src/main.c \
 		src/separators/pipes/handle_pipe.c \
 		src/parsing/lexer.c \
 		src/parsing/lexer_utilities.c \
+		src/parsing/parser.c \
+		src/parsing/parser_utilities.c \
+		src/parsing/print_ast.c \
 		src/builtins/my_exit.c
 
 OBJ = $(SRC:.c=.o)

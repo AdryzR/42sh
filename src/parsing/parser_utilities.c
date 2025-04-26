@@ -23,7 +23,7 @@ void ast_list_append(ast_list_t *list, ast_t *node)
 {
     if (list->capacity == list->count) {
         list->capacity = list->capacity == 0 ? 4 : list->capacity * 1.5f;
-        list->data = reallocarray(list->capacity, sizeof(ast_t *));
+        list->data = reallocarray(list->data, list->capacity, sizeof(ast_t *));
         if (list->data == NULL)
             return;
     }
@@ -31,5 +31,9 @@ void ast_list_append(ast_list_t *list, ast_t *node)
     list->count++;
 }
 
-//* > bob ls
-//* ls > bob
+parser_t *create_parser(void)
+{
+    static parser_t parser = { NULL };
+
+    return &parser;
+}

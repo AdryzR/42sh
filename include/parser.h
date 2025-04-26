@@ -9,11 +9,11 @@
     #define PARSER_H_
     #include "lexer.h"
 
-
 typedef enum {
     AT_ERROR,    // ? Use in case of error found in ast.
     AT_COMMAND,  // ? []
     AT_PROGRAM,  // ? commands separated by ';' or '\n'
+    AT_PAREN,    // ? Used for paentheses.
     AT_REDIRECT, // ? [argument] <REDIRECTION_TYPE> [argument]
     AT_PIPE,     // ? command | command
     AT_OR,       // ? command || command
@@ -27,10 +27,10 @@ typedef struct {
 } pipe_node_t;
 
 typedef enum {
-    REDIR_IN,
-    REDIR_OUT,
-    REDIR_APPEND,
-    REDIR_HEREDOC
+    REDIR_IN,       // ? <
+    REDIR_OUT,      // ? >
+    REDIR_APPEND,   // ? >>
+    REDIR_HEREDOC   // ? <<
 } redir_type_t;
 
 typedef struct {
@@ -52,10 +52,7 @@ typedef struct {
     token_t next;
 } parser_t;
 
-typedef struct ast_s {
-    ast_type_t type;
-    ast_data_t data;
-} ast_t;
+typedef struct ast_s ast_t;
 
 typedef struct {
     ast_t **data;
@@ -66,15 +63,41 @@ typedef struct {
 typedef union {
    redir_node_t redirect;
     struct ast_s **binary_operation;
+    ast_list_t paren;
     ast_list_t program;
 } ast_data_t;
 
 
+typedef struct ast_s {
+    ast_type_t type;
+    ast_data_t data;
+} ast_t;
+
+
+
+
 void ast_list_append(ast_list_t *list, ast_t *node);
 
+static inline bool is_paren_end(parser_t *parser)
+{
+    return
+        parser->current.type == TT_NEWLINE ||
+        parser->current.type == TT_RPAREN ||
+        parser->current.type == TT_EOF;
+}
 
 ast_t *parser_parse(lexer_t *lexer);
+
+ast_t *parse_statement(parser_t *parser);
+ast_t *parser_parse_program(parser_t *parser);
+ast_t *parser_parse_redirect(parser_t *parser);
+ast_t *parse_binary_operation(parser_t *parser);
+ast_t *parse_expression(parser_t *parser);
+ast_t *parse_parentheses(parser_t *parser);
+
+parser_t *create_parser(void);
 void parser_next(parser_t *parser);
 void parser_skip_separators(parser_t *parser);
+void print_ast(const ast_t *ast);
 
 #endif
