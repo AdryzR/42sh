@@ -54,6 +54,8 @@ typedef struct shell_s {
     int nb_args;
     envi_t *envi;
     int shell_status;
+    size_t args_len;
+    size_t cursor_pos;
     char *line;
     char **command;
     char *path_copy;

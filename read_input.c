@@ -10,21 +10,25 @@
 
 int read_loop(shell_t *shell, struct termios *oldt)
 {
-    size_t args_len = 0;
+    shell->cursor_pos = 0;
+    shell->args_len = 0;
     ssize_t byte_read = 0;
     char c = 0;
 
     shell->line = malloc(sizeof(char) * 1024);
+    if (!shell->line)
+        return 84; // handle malloc fail
     byte_read = read(STDIN_FILENO, &c, 1);
-    while (byte_read > 0 && c != '\n') {
-        specific_case(shell, c, shell->line);
-        shell->line[args_len] = c;
-        shell->line[args_len + 1] = '\0';
-        args_len++;
+    while (byte_read > 0 && c != '\n' && c != 4) {
+        arrows_key(shell, shell->history, c);  // <-- ONLY handle inside arrows_key
+        fflush(stdout);
         byte_read = read(STDIN_FILENO, &c, 1);
     }
-    if (byte_read == 0)
-        exit(84);
+    printf("\n");
+    if (c == 4)
+        exit(0);
+    if (byte_read <= 0)
+        return 84;
     return 0;
 }
 
