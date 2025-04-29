@@ -8,6 +8,22 @@
 #include "my_sh.h"
 #include "my.h"
 
+static void handle_suppr_char(shell_t *shell)
+{
+    if (shell->cursor_pos >= shell->args_len)
+        return;
+    for (int i = shell->cursor_pos; i < shell->args_len - 1; ++i)
+        shell->line[i] = shell->line[i + 1];
+    shell->args_len--;
+    shell->line[shell->args_len] = '\0';
+    write(STDOUT_FILENO, "\033[s", 3);
+    write(STDOUT_FILENO, "\033[K", 3);
+    write(STDOUT_FILENO, &shell->line[shell->cursor_pos],
+    shell->args_len - shell->cursor_pos);
+    write(STDOUT_FILENO, " ", 1);
+    write(STDOUT_FILENO, "\033[u", 3);
+}
+
 void check_arrows(char buff, shell_t *shell, history_t *hist)
 {
     // int tmp_index = hist->index;
@@ -31,6 +47,11 @@ void check_arrows(char buff, shell_t *shell, history_t *hist)
                 dprintf(STDOUT_FILENO, "\033[D");
                 shell->cursor_pos--;
             }
+            break;
+        case '3':
+            buff = getchar();
+            if (buff == '~')
+                handle_suppr_char(shell);
             break;
     }
 }
