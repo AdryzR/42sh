@@ -52,7 +52,7 @@ int while_loop(shell_t *shell, char **env)
     signal(SIGINT, handle_sigint);
     while (42) {
         write(0, "> ", 2);
-        getinput_gest(shell, env);
+        shell->line = read_line(shell, env);
         if (shell->line[0] == '\0')
             continue;
         setup_args(shell);

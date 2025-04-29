@@ -8,23 +8,24 @@
 #include "my_sh.h"
 #include "my.h"
 
-static void handle_suppr_char(shell_t *shell)
+static char *handle_suppr_char(shell_t *shell, char *line)
 {
     if (shell->cursor_pos >= shell->args_len)
-        return;
+        return line;
     for (int i = shell->cursor_pos; i < shell->args_len - 1; ++i)
-        shell->line[i] = shell->line[i + 1];
+        line[i] = line[i + 1];
     shell->args_len--;
-    shell->line[shell->args_len] = '\0';
+    line[shell->args_len] = '\0';
     write(STDOUT_FILENO, "\033[s", 3);
     write(STDOUT_FILENO, "\033[K", 3);
-    write(STDOUT_FILENO, &shell->line[shell->cursor_pos],
+    write(STDOUT_FILENO, &line[shell->cursor_pos],
     shell->args_len - shell->cursor_pos);
     write(STDOUT_FILENO, " ", 1);
     write(STDOUT_FILENO, "\033[u", 3);
+    return line;
 }
 
-void check_arrows(char buff, shell_t *shell, history_t *hist)
+char *check_arrows(char buff, shell_t *shell, history_t *hist, char *line)
 {
     // int tmp_index = hist->index;
 
@@ -51,59 +52,62 @@ void check_arrows(char buff, shell_t *shell, history_t *hist)
         case '3':
             buff = getchar();
             if (buff == '~')
-                handle_suppr_char(shell);
+                line = handle_suppr_char(shell, line);
             break;
     }
+    return line;
 }
 
-static void handle_delete_char(shell_t *shell)
+static char *handle_delete_char(shell_t *shell, char *line)
 {
     if (shell->args_len < 1 || shell->cursor_pos < 1)
-        return;
+        return line;
     for (int i = shell->cursor_pos - 1; i < shell->args_len - 1; i++)
-        shell->line[i] = shell->line[i + 1];
+        line[i] = line[i + 1];
     shell->args_len--;
     shell->cursor_pos--;
-    shell->line[shell->args_len] = '\0';
+    line[shell->args_len] = '\0';
     write(STDOUT_FILENO, "\b", 1);
     write(STDOUT_FILENO, "\033[s", 3);
     write(STDOUT_FILENO, "\033[K", 3);
-    write(STDOUT_FILENO, &shell->line[shell->cursor_pos],
+    write(STDOUT_FILENO, &line[shell->cursor_pos],
     shell->args_len - shell->cursor_pos);
     write(STDOUT_FILENO, " ", 1);
     write(STDOUT_FILENO, "\033[u", 3);
+    return line;
 }
 
-static void handle_input_char(shell_t *shell, char c)
+static char *handle_input_char(shell_t *shell, char c, char *line)
 {
     for (int i = shell->args_len; i > shell->cursor_pos; i--)
-        shell->line[i] = shell->line[i - 1];
-    shell->line[shell->cursor_pos] = c;
+        line[i] = line[i - 1];
+    line[shell->cursor_pos] = c;
     shell->args_len++;
     shell->cursor_pos++;
-    shell->line[shell->args_len] = '\0';
+    line[shell->args_len] = '\0';
     write(STDOUT_FILENO, "\033[s", 3);
     write(STDOUT_FILENO, "\033[K", 3);
-    write(STDOUT_FILENO, &shell->line[shell->cursor_pos - 1],
+    write(STDOUT_FILENO, &line[shell->cursor_pos - 1],
     shell->args_len - shell->cursor_pos + 1);
     write(STDOUT_FILENO, "\033[u", 3);
     write(0, &c, 1);
+    return line;
 }
 
-int arrows_key(shell_t *shell, history_t *hist, char c)
+char *arrows_key(shell_t *shell, history_t *hist, char c, char *line)
 {
     if (c == 127) {
-        handle_delete_char(shell);
-        return 0;
+        line = handle_delete_char(shell, line);
+        return line;
     }
     if (c == '\033') {
         if (read(STDIN_FILENO, &c, 1) == 0)
-            return 0;
+            return line;
         if (c == '[') {
-            check_arrows(c, shell, hist);
-            return 0;
+            line = check_arrows(c, shell, hist, line);
+            return line;
         }
     }
-    handle_input_char(shell, c);
-    return 0;
+    line = handle_input_char(shell, c, line);
+    return line;
 }

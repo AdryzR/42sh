@@ -109,8 +109,8 @@ int my_putstr_ch(int fd, char const *str);
 int history_gest(shell_t *shell, history_t *hist);
 int history_up(shell_t *shell, int index);
 int history_down(shell_t *shell, history_t *hist, int index);
-int arrows_key(shell_t *shell, history_t *hist, char c);
-int getinput_gest(shell_t *shell, char **env);
+char *arrows_key(shell_t *shell, history_t *hist, char c, char *line);
+char *read_line(shell_t *shell, char **env);
 int specific_case(shell_t *shell, char c, char *line);
 int init_output(struct termios *newt, struct termios *oldt);
 

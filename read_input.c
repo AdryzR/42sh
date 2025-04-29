@@ -8,52 +8,52 @@
 #include "my.h"
 #include "my_sh.h"
 
-static int error_case(char c, ssize_t byte_read)
+static char *error_case(char c, ssize_t byte_read, char *line)
 {
     if (c == 4)
         exit(0);
     if (byte_read <= 0)
-        return 84;
-    return 0;
+        return NULL;
+    return line;
 }
 
-int read_loop(shell_t *shell, struct termios *oldt)
+char *read_loop(shell_t *shell, struct termios *oldt, char *line)
 {
     ssize_t byte_read = 0;
     char c = 0;
 
     shell->cursor_pos = 0;
     shell->args_len = 0;
-    shell->line = malloc(sizeof(char) * 1024);
-    if (!shell->line)
-        return 84;
+    line = malloc(sizeof(char) * 1024);
+    if (!line)
+        return NULL;
     byte_read = read(STDIN_FILENO, &c, 1);
     while (byte_read > 0 && c != '\n' && c != 4) {
-        arrows_key(shell, shell->history, c);
+        line = arrows_key(shell, shell->history, c, line);
         fflush(stdout);
         byte_read = read(STDIN_FILENO, &c, 1);
     }
     my_printf("\n");
     tcsetattr(STDIN_FILENO, TCSANOW, oldt);
-    return error_case(c, byte_read);
+    return error_case(c, byte_read, line);
 }
 
-int getinput_gest(shell_t *shell, char **env)
+char *read_line(shell_t *shell, char **env)
 {
     struct termios oldt;
     struct termios newt;
+    char *line = NULL;
 
-    shell->line = NULL;
     if (init_output(&newt, &oldt) == -1)
-        return 84;
-    read_loop(shell, &oldt);
+        return NULL;
+    line = read_loop(shell, &oldt, line);
     fflush(stdout);
-    if (!shell->line) {
-        shell->line = malloc(sizeof(char));
-        if (!shell->line) {
-            return 84;
+    if (!line) {
+        line = malloc(sizeof(char));
+        if (!line) {
+            return NULL;
         }
-        shell->line[0] = '\0';
+        line[0] = '\0';
     }
-    return 0;
+    return line;
 }
