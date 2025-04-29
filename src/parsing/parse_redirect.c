@@ -12,17 +12,17 @@ static redir_node_t get_redir_node(redir_type_t type, parser_t *parser)
     redir_node_t redir;
 
     redir.red_type = type;
-    redir.path = get_token_value(&parser->next); //* Vérifier ? command "" path/file et current == command ?
+    parser_next(parser);
+    redir.path = get_token_value(&parser->current);
+    parser_next(parser);
     return redir;
 }
 
 ast_t *parse_redirect(parser_t *parser)
 {
     ast_t *node = create_ast(AT_REDIRECT);
-    redir_node_t redir;
 
-    switch (parser->current.type)
-    {
+    switch (parser->current.type) {
     case TT_APPEND:
         node->data.redirect = get_redir_node(REDIR_APPEND, parser);
         return node;
