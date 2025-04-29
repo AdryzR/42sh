@@ -97,7 +97,7 @@ ast_t *parse_statement(parser_t *parser)
 }
 
 
-ast_t *parser_parse_program(parser_t *parser)
+ast_t *parse_program(parser_t *parser)
 {
     ast_t *tree = create_ast(AT_PROGRAM);
     ast_t *current;
@@ -125,10 +125,11 @@ ast_t *parser_parse(lexer_t *lexer)
     parser_t *parser = create_parser();
     ast_t *ast;
 
+    parser->error_msg = NULL;
     parser->lexer = *lexer;
     parser->prev = (token_t){ TT_EOF, 0 };
     parser->current = get_next_token(&parser->lexer);
     parser->next = get_next_token(&parser->lexer);
-    ast = parser_parse_program(parser);
+    ast = parse_program(parser);
     return ast;
 }

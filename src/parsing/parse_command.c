@@ -7,16 +7,7 @@
 
 #include <parser.h>
 
-static bool is_a_redirect(parser_t *parser)
-{
-    return
-        parser->current.type == TT_REDIRECT_IN ||
-        parser->current.type == TT_REDIRECT_OUT ||
-        parser->current.type == TT_APPEND ||
-        parser->current.type == TT_HEREDOC;
-}
-
-ast_t *return_error(parser_t *parser)
+ast_t *return_ast_error(parser_t *parser)
 {
     ast_t *error = create_ast(AT_ERROR);
 
@@ -53,7 +44,9 @@ ast_t *parse_command(parser_t *parser)
         current = parse_command_node(parser);
         ast_list_append(&node->data.command, current);
     }
+    if (!contains_argument_node(node))
+        parser->error_msg = "Invalid null command.";
     return node;
 }
 
-//* ls > bob
+//* > bob

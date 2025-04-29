@@ -37,3 +37,4 @@ ast_t *parse_redirect(parser_t *parser)
     }
     //TODO: add the heredoc (first have to handle it)
 }
+

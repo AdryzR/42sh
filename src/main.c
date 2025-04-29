@@ -85,12 +85,12 @@ int main(int ac, char **av, char **env)
 //     // const char *input = "  hehe bonjour \n | ( >><<> test 'nyeh\0eheh 3>e' \"lellek\"";*
 //     const char *input = "test | test >> a < (b && a)";
 //     lexer_t lexer = { .start = input };
-//     token_t current_token = get_next_token(&lexer);
+    // token_t current_token = get_next_token(&lexer);
 
-//     while (current_token.type != TT_EOF) {
-//         print_token(&current_token);
-//         current_token = get_next_token(&lexer);
-//     }
+    // while (current_token.type != TT_EOF) {
+    //     print_token(&current_token);
+    //     current_token = get_next_token(&lexer);
+    // }
 // }
 
 int main(void)
@@ -99,7 +99,12 @@ int main(void)
     const char *input = "test | test ; (b&&a)";
     lexer_t lexer = { .start = input };
     lexer.pos = 0;
-    ast_t *ast = parser_parse(&lexer);
     // token_t current_token = get_next_token(&lexer);
+    // while (current_token.type != TT_EOF) {
+    //     print_token(&current_token);
+    //     current_token = get_next_token(&lexer);
+    // }
+    ast_t *ast = parser_parse(&lexer);
+    token_t current_token = get_next_token(&lexer);
     print_ast(ast);
 }

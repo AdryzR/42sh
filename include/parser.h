@@ -51,6 +51,7 @@ typedef struct {
     token_t current;
     token_t prev;
     token_t next;
+    const char *error_msg;
 } parser_t;
 
 typedef struct ast_s ast_t;
@@ -86,10 +87,19 @@ static inline bool is_paren_end(parser_t *parser)
         parser->current.type == TT_EOF;
 }
 
+static inline bool is_a_redirect(parser_t *parser)
+{
+    return
+        parser->current.type == TT_REDIRECT_IN ||
+        parser->current.type == TT_REDIRECT_OUT ||
+        parser->current.type == TT_APPEND ||
+        parser->current.type == TT_HEREDOC;
+}
+
 ast_t *parser_parse(lexer_t *lexer);
 
 ast_t *parse_statement(parser_t *parser);
-ast_t *parser_parse_program(parser_t *parser);
+ast_t *parse_program(parser_t *parser);
 ast_t *parse_redirect(parser_t *parser);
 ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_expression(parser_t *parser);
@@ -100,6 +110,7 @@ parser_t *create_parser(void);
 void parser_next(parser_t *parser);
 void parser_skip_separators(parser_t *parser);
 void print_ast(const ast_t *ast);
+bool contains_argument_node(const ast_t *node);
 ast_t *create_ast(ast_type_t type);
 
 #endif

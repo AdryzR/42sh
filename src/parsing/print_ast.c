@@ -43,7 +43,11 @@ static void print_ast_binary(const ast_t *ast, unsigned short depth, const char 
 static void print_ast_command(const ast_t *ast, unsigned short depth)
 {
     print_indent(depth);
-    printf("Command Node\n");
+    printf("Command Node:");
+    for (size_t i = 0; i < ast->data.command.count; i++)
+        if (ast->data.command.data[i]->type == AT_ARGUMENT)
+            printf(" %s", ast->data.command.data[i]->data.arg);
+    putchar('\n');
     //TODO: Print the arguments of the command
 }
 

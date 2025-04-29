@@ -32,6 +32,14 @@ void ast_list_append(ast_list_t *list, ast_t *node)
     list->count++;
 }
 
+bool contains_argument_node(const ast_t *node)
+{
+    for (size_t i = 0; i < node->data.command.count; i++)
+        if (node->data.command.data[i]->type == AT_ARGUMENT)
+            return true;
+    return false;
+}
+
 parser_t *create_parser(void)
 {
     static parser_t parser = { NULL };
