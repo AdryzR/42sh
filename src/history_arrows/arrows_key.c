@@ -37,7 +37,7 @@ void check_arrows(char buff, shell_t *shell, history_t *hist)
 
 static void handle_delete_char(shell_t *shell)
 {
-    if (shell->args_len < 1)
+    if (shell->args_len < 1 || shell->cursor_pos < 1)
         return;
     for (int i = shell->cursor_pos - 1; i < shell->args_len - 1; i++)
         shell->line[i] = shell->line[i + 1];
