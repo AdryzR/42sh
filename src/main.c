@@ -53,6 +53,8 @@ int while_loop(shell_t *shell, char **env)
     while (42) {
         write(0, "> ", 2);
         getinput_gest(shell, env);
+        if (shell->line[0] == '\0')
+            continue;
         setup_args(shell);
     }
 }

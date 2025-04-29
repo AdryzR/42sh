@@ -45,7 +45,7 @@ OBJ = $(SRC:.c=.o)
 
 NAME =	42sh
 
-CFLAGS = -I./include
+CFLAGS = -I./include -g
 
 all: $(NAME)
 

@@ -112,6 +112,6 @@ int history_down(shell_t *shell, history_t *hist, int index);
 int arrows_key(shell_t *shell, history_t *hist, char c);
 int getinput_gest(shell_t *shell, char **env);
 int specific_case(shell_t *shell, char c, char *line);
-int init_output(shell_t *shell, struct termios *newt, struct termios *oldt);
+int init_output(struct termios *newt, struct termios *oldt);
 
 #endif

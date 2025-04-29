@@ -35,6 +35,7 @@ static int right_to_left(shell_t *shell)
         free_array(commands);
         return 1;
     }
+    free_array(commands);
     return 0;
 }
 

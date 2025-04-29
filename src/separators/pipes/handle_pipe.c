@@ -35,7 +35,7 @@ int check_pipes(shell_t *shell)
         return err_invalid_command(commands, shell);
     if (shell->nb_pipes > 0)
         ret = exec_pipe(shell, commands);
-    free(commands);
+    free_array(commands);
     return ret;
 }
 

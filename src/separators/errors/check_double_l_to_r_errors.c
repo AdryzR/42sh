@@ -25,5 +25,6 @@ int check_double_l_to_r_errors(shell_t *shell)
         if (len_array(commands) == 2 &&
             is_another_l_to_r_redirect(commands[i]))
                 return ambiguous_redirect_err(commands, shell, OUTPUT);
+    free_array(commands);
     return 0;
 }
