@@ -18,6 +18,7 @@ typedef enum {
     AT_PIPE,     // ? command | command
     AT_OR,       // ? command || command
     AT_AND,      // ? command && command
+    AT_ARGUMENT, // ? argument for a command.
     AT_COUNT,    // ? keep last
 } ast_type_t;
 
@@ -61,7 +62,9 @@ typedef struct {
 } ast_list_t;
 
 typedef union {
-   redir_node_t redirect;
+    ast_list_t command;
+    char *arg;
+    redir_node_t redirect;
     struct ast_s **binary_operation;
     ast_list_t paren;
     ast_list_t program;
@@ -72,9 +75,6 @@ typedef struct ast_s {
     ast_type_t type;
     ast_data_t data;
 } ast_t;
-
-
-
 
 void ast_list_append(ast_list_t *list, ast_t *node);
 
@@ -90,14 +90,16 @@ ast_t *parser_parse(lexer_t *lexer);
 
 ast_t *parse_statement(parser_t *parser);
 ast_t *parser_parse_program(parser_t *parser);
-ast_t *parser_parse_redirect(parser_t *parser);
+ast_t *parse_redirect(parser_t *parser);
 ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_expression(parser_t *parser);
 ast_t *parse_parentheses(parser_t *parser);
+ast_t *parse_command(parser_t *parser);
 
 parser_t *create_parser(void);
 void parser_next(parser_t *parser);
 void parser_skip_separators(parser_t *parser);
 void print_ast(const ast_t *ast);
+ast_t *create_ast(ast_type_t type);
 
 #endif

@@ -1,0 +1,59 @@
+/*
+** EPITECH PROJECT, 2025
+** 42sh
+** File description:
+** parse_command
+*/
+
+#include <parser.h>
+
+static bool is_a_redirect(parser_t *parser)
+{
+    return
+        parser->current.type == TT_REDIRECT_IN ||
+        parser->current.type == TT_REDIRECT_OUT ||
+        parser->current.type == TT_APPEND ||
+        parser->current.type == TT_HEREDOC;
+}
+
+ast_t *return_error(parser_t *parser)
+{
+    ast_t *error = create_ast(AT_ERROR);
+
+    parser_next(parser);
+    return error;
+}
+
+ast_t *parse_argument(parser_t *parser)
+{
+    ast_t *node = create_ast(AT_ARGUMENT);
+
+    node->data.arg = get_token_value(&parser->current);
+    parser_next(parser);
+    return node;
+}
+
+// parse_command_node qui parse soit un arg ou une redirection
+// TODO: check si y'a bien un noeud d'arguments
+ast_t *parse_command_node(parser_t *parser)
+{
+    // if (parser->current.type == TT_ERROR)
+    //     return return_error(parser);
+    if (is_a_redirect(parser))
+        return parse_redirect(parser);
+    return parse_argument(parser);
+}
+
+ast_t *parse_command(parser_t *parser)
+{
+    ast_t *node = create_ast(AT_COMMAND);
+    ast_t *current;
+
+    while (is_a_redirect(parser) || parser->current.type == TT_WORD) {
+        current = parse_command_node(parser);
+        ast_list_append(&node->data.command, current);
+    }
+    return node;
+}
+
+//* ls > bob

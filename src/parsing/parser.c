@@ -42,6 +42,7 @@ static token_type_t get_operation_type(const parser_t *parser)
     }
 }
 
+
 ast_t *parse_parentheses(parser_t *parser)
 {
     ast_t *node = create_ast(AT_PAREN);
@@ -57,6 +58,7 @@ ast_t *parse_parentheses(parser_t *parser)
     // TODO: Rajouter gestion d'erreur ici
     // if (parser->current.type != TT_RPAREN)
         // return make_ast_error(node, current, ERR_PAREN)
+    parser_next(parser);
     return node;
 }
 
@@ -88,7 +90,7 @@ ast_t *parse_binary_operation(parser_t *parser)
     return left;
 }
 
-//TODO: ajouter les if, while et for (scripting)
+//TODO: ajouter les if, while et foreach (scripting)
 ast_t *parse_statement(parser_t *parser)
 {
     return parse_binary_operation(parser);
@@ -100,7 +102,7 @@ ast_t *parser_parse_program(parser_t *parser)
     ast_t *tree = create_ast(AT_PROGRAM);
     ast_t *current;
 
-    while (IS_SEPARATOR(parser->current.type)) {
+    do {
         parser_skip_separators(parser);
         if (parser->current.type == TT_EOF)
             break;
@@ -108,12 +110,10 @@ ast_t *parser_parse_program(parser_t *parser)
         ast_list_append(&tree->data.program, current);
         if (current->type == AT_ERROR)
             break;
-    }
+    } while (IS_SEPARATOR(parser->current.type));
     //todo: gestion d'erreur à mettre ici
-    if (parser->current.type != TT_EOF) {
+    if (parser->current.type != TT_EOF)
         fputs("ERROR IN PARSING\n", stderr);
-        exit(150);
-    }
     return tree;
 }
 
@@ -125,9 +125,10 @@ ast_t *parser_parse(lexer_t *lexer)
     parser_t *parser = create_parser();
     ast_t *ast;
 
+    parser->lexer = *lexer;
     parser->prev = (token_t){ TT_EOF, 0 };
-    parser->current = get_next_token(lexer);
-    parser->next = get_next_token(lexer);
+    parser->current = get_next_token(&parser->lexer);
+    parser->next = get_next_token(&parser->lexer);
     ast = parser_parse_program(parser);
     return ast;
 }

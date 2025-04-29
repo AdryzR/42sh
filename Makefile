@@ -51,6 +51,7 @@ SRC =	src/main.c \
 		src/parsing/lexer.c \
 		src/parsing/lexer_utilities.c \
 		src/parsing/parser.c \
+		src/parsing/parse_command.c \
 		src/parsing/parser_utilities.c \
 		src/parsing/print_ast.c \
 		src/builtins/my_exit.c

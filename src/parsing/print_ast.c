@@ -66,33 +66,25 @@ static void print_ast_node(const ast_t *ast, unsigned short depth)
 
     switch (ast->type) {
         case AT_PROGRAM:
-            print_ast_program(ast, depth);
-            break;
+            return print_ast_program(ast, depth);
         case AT_PAREN:
-            print_ast_paren(ast, depth);
-            break;
+            return print_ast_paren(ast, depth);
         case AT_PIPE:
-            print_ast_binary(ast, depth, "PIPE");
-            break;
+            return print_ast_binary(ast, depth, "PIPE");
         case AT_AND:
-            print_ast_binary(ast, depth, "AND");
-            break;
+            return print_ast_binary(ast, depth, "AND");
         case AT_OR:
-            print_ast_binary(ast, depth, "OR");
-            break;
+            return print_ast_binary(ast, depth, "OR");
         case AT_COMMAND:
-            print_ast_command(ast, depth);
-            break;
+            return print_ast_command(ast, depth);
         case AT_REDIRECT:
-            print_ast_redirect(ast, depth);
-            break;
+            return print_ast_redirect(ast, depth);
         case AT_ERROR:
-            print_ast_error(ast, depth);
-            break;
+            return print_ast_error(ast, depth);
         default:
             print_indent(depth);
             puts("Error: Unknown AST Node Type");
-            break;
+            return;
     }
 }
 

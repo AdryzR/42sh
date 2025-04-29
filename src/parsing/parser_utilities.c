@@ -16,7 +16,8 @@ void parser_next(parser_t *parser)
 
 void parser_skip_separators(parser_t *parser)
 {
-    parser_next(parser);
+    while (IS_SEPARATOR(parser->current.type))
+        parser_next(parser);
 }
 
 void ast_list_append(ast_list_t *list, ast_t *node)

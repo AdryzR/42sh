@@ -16,7 +16,7 @@ static redir_node_t get_redir_node(redir_type_t type, parser_t *parser)
     return redir;
 }
 
-ast_t *parser_parse_redirect(parser_t *parser)
+ast_t *parse_redirect(parser_t *parser)
 {
     ast_t *node = create_ast(AT_REDIRECT);
     redir_node_t redir;
