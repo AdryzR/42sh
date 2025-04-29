@@ -96,7 +96,7 @@ int main(int ac, char **av, char **env)
 int main(void)
 {
     // const char *input = "  hehe bonjour \n | ( >><<> test 'nyeh\0eheh 3>e' \"lellek\"";*
-    const char *input = "test | test ; (b&&a)";
+    const char *input = "test | tost ; (b&&a)";
     lexer_t lexer = { .start = input };
     lexer.pos = 0;
     // token_t current_token = get_next_token(&lexer);

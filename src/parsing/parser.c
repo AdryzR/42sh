@@ -15,19 +15,6 @@ ast_t *create_ast(ast_type_t type)
     return ast;
 }
 
-// ast_t *parse_statement(parser_t *parser)
-// {
-//     switch (parser->current.type) {
-//     case TT_REDIRECT_IN:
-//     case TT_REDIRECT_OUT:
-//     case TT_APPEND:
-//     case TT_HEREDOC:
-//         return parser_parse_redirect(parser);
-//     case TT_SMCL:
-//         return parse_parse_
-//     }
-// }
-
 static token_type_t get_operation_type(const parser_t *parser)
 {
     switch (parser->current.type) {
@@ -42,7 +29,6 @@ static token_type_t get_operation_type(const parser_t *parser)
     }
 }
 
-
 ast_t *parse_parentheses(parser_t *parser)
 {
     ast_t *node = create_ast(AT_PAREN);
@@ -56,8 +42,8 @@ ast_t *parse_parentheses(parser_t *parser)
             parser_next(parser);
     }
     // TODO: Rajouter gestion d'erreur ici
-    // if (parser->current.type != TT_RPAREN)
-        // return make_ast_error(node, current, ERR_PAREN)
+    if (parser->current.type != TT_RPAREN)
+        parser->error_msg = "R_PAREN missing.";
     parser_next(parser);
     return node;
 }
@@ -82,6 +68,10 @@ ast_t *parse_binary_operation(parser_t *parser)
         right = parse_expression(parser);
         operation = create_ast(op_type);
         operation->data.binary_operation = malloc(sizeof(ast_t *) * 2);
+        if (!operation->data.binary_operation) {
+            parser->error_msg = "Malloc failed";
+            return left;
+        }
         operation->data.binary_operation[0] = left;
         operation->data.binary_operation[1] = right;
         left = operation;
@@ -95,7 +85,6 @@ ast_t *parse_statement(parser_t *parser)
 {
     return parse_binary_operation(parser);
 }
-
 
 ast_t *parse_program(parser_t *parser)
 {
@@ -131,5 +120,7 @@ ast_t *parser_parse(lexer_t *lexer)
     parser->current = get_next_token(&parser->lexer);
     parser->next = get_next_token(&parser->lexer);
     ast = parse_program(parser);
+    if (parser->error_msg != NULL)
+        printf("%s\n", parser->error_msg);
     return ast;
 }

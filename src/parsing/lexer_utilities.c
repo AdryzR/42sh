@@ -45,5 +45,5 @@ void skip_whitespace(lexer_t *lexer)
 
 char *get_token_value(const token_t *token)
 {
-    return strndup(token->value, token->type);
+    return strndup(token->value, token->len);
 }
