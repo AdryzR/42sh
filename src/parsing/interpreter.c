@@ -27,11 +27,7 @@ static const interpret_fnc_t interpret_functions[AT_COUNT] = {
     [AT_AND] = interpret_and,
     [AT_ARGUMENT] = interpret_argument
 };
-static int interpret_error(UNUSED const ast_t *ast, UNUSED shell_t *shell)
-{
-    dprintf(2, "Syntax error in AST\n");
-    return 84;
-}
+
 int interpret(const ast_t *ast, shell_t *shell)
 {
     if (!ast)
