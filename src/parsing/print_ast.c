@@ -14,8 +14,6 @@ static void print_indent(unsigned short depth)
         printf("    ");
 }
 
-static void print_ast_node(const ast_t *ast, unsigned short depth);
-
 static void print_ast_program(const ast_t *ast, unsigned short depth)
 {
     print_indent(depth);
@@ -32,7 +30,8 @@ static void print_ast_paren(const ast_t *ast, unsigned short depth)
         print_ast_node(ast->data.paren.data[i], depth + 1);
 }
 
-static void print_ast_binary(const ast_t *ast, unsigned short depth, const char *op_name)
+static void print_ast_binary(const ast_t *ast,
+    unsigned short depth, const char *op_name)
 {
     print_indent(depth);
     printf("Binary Operation Node: %s\n", op_name);
@@ -40,6 +39,7 @@ static void print_ast_binary(const ast_t *ast, unsigned short depth, const char 
     print_ast_node(ast->data.binary_operation[1], depth + 1);
 }
 
+//TODO: Print the arguments of the command
 static void print_ast_command(const ast_t *ast, unsigned short depth)
 {
     print_indent(depth);
@@ -48,26 +48,26 @@ static void print_ast_command(const ast_t *ast, unsigned short depth)
         if (ast->data.command.data[i]->type == AT_ARGUMENT)
             printf(" %s", ast->data.command.data[i]->data.arg);
     putchar('\n');
-    //TODO: Print the arguments of the command
 }
 
 static void print_ast_redirect(const ast_t *ast, unsigned short depth)
 {
     print_indent(depth);
-    printf("Redirect Node: path=%s, type=%d\n", ast->data.redirect.path, ast->data.redirect.red_type);
+    printf("Redirect Node: path=%s, type=%d\n", ast->data.redirect.path,
+        ast->data.redirect.red_type);
 }
 
+//TODO: add the type of error
 static void print_ast_error(const ast_t *ast, unsigned short depth)
 {
     print_indent(depth);
     puts("AST ERROR");
-    //TODO: add the type of error
 }
 
-static void print_ast_node(const ast_t *ast, unsigned short depth)
+void print_ast_node(const ast_t *ast, unsigned short depth)
 {
-    if (!ast) return;
-
+    if (!ast)
+        return;
     switch (ast->type) {
         case AT_PROGRAM:
             return print_ast_program(ast, depth);
