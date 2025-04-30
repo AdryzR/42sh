@@ -24,12 +24,8 @@ ast_t *parse_argument(parser_t *parser)
     return node;
 }
 
-// parse_command_node qui parse soit un arg ou une redirection
-// TODO: check si y'a bien un noeud d'arguments
 ast_t *parse_command_node(parser_t *parser)
 {
-    // if (parser->current.type == TT_ERROR)
-    //     return return_error(parser);
     if (is_a_redirect(parser))
         return parse_redirect(parser);
     return parse_argument(parser);
@@ -48,5 +44,3 @@ ast_t *parse_command(parser_t *parser)
         parser->error_msg = "Invalid null command.";
     return node;
 }
-
-//* > bob

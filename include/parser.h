@@ -7,7 +7,8 @@
 
 #ifndef PARSER_H_
     #define PARSER_H_
-    #include "lexer.h"
+    #define UNUSED __attribute__((unused))
+    #include <lexer.h>
 
 typedef enum {
     AT_ERROR,    // ? Use in case of error found in ast.
@@ -109,6 +110,7 @@ ast_t *parse_command(parser_t *parser);
 parser_t *create_parser(void);
 void parser_next(parser_t *parser);
 void parser_skip_separators(parser_t *parser);
+void print_ast_node(const ast_t *ast, unsigned short depth);
 void print_ast(const ast_t *ast);
 bool contains_argument_node(const ast_t *node);
 ast_t *create_ast(ast_type_t type);
