@@ -88,6 +88,11 @@ int interpret_program(const ast_t *ast, shell_t *shell)
     return status;
 }
 
+int interpret_paren(const ast_t *ast, shell_t *shell)
+{
+    
+}
+
 int interpret_argument(const ast_t *ast, shell_t *shell)
 {
     size_t array_size;

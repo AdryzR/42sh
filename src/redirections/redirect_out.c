@@ -16,6 +16,11 @@ int make_redirect_out(shell_t *shell, char *filename, redir_type_t type)
 
     file_fd = open(filename, O_WRONLY | O_CREAT |
         (REDIR_APPEND ? O_APPEND : O_TRUNC), 0664);
+    if (file_fd < 0) {
+        dprintf(2, "%s: No such file or directory.\n", filename);
+        return 84;
+    }
     dup2(file_fd, STDOUT);
+    close(file_fd);
     return 0;
 }
