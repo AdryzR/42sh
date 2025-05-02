@@ -1,0 +1,30 @@
+/*
+** EPITECH PROJECT, 2025
+** 42sh
+** File description:
+** heredoc_redirect
+*/
+
+#include <my_sh.h>
+#include <fcntl.h>
+#include <parser.h>
+
+int make_redir_heredoc(shell_t *shell, char *eof)
+{
+    int pipefd[2];
+    ssize_t br = 0;
+    char *line = NULL;
+    size_t len = 0;
+
+    pipe(pipefd);
+    do {
+        br = getline(&line, &len, stdin);
+        if (strstr(line, eof) == line && line[strlen(eof)] == '\n')
+            break;
+        write(pipefd[1], line, br);
+    } while (br != -1);
+    close(pipefd[1]);
+    dup2(pipefd[0], STDIN);
+    close(pipefd[0]);
+    return 0;
+}

@@ -26,8 +26,8 @@ int double_left_to_right(shell_t *shell)
         return missing_name_err(commands, shell);
     if (commands[1] != NULL) {
         shell->line = commands[0];
-        make_left_to_right_red(shell, commands[1], true);
-        free_array(commands);
+        // make_left_to_right_red(shell, commands[1], true);
+        // free_array(commands);
         return 1;
     }
     return 0;

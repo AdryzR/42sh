@@ -52,7 +52,12 @@ typedef struct shell_s {
     int nb_pipes;
     int nb_parths;
     bool should_skip_wait;
+    int saved_fds[2];
 } shell_t;
+
+int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
+int make_redirect_in(shell_t *shell, char *filename);
+int make_redir_heredoc(shell_t *shell, char *eof);
 
 int handle_pipes(shell_t *shell);
 int exec_pipe(shell_t *shell, char **commands);

@@ -45,6 +45,37 @@ int interpret_error(UNUSED const ast_t *ast, UNUSED shell_t *shell)
     return 84;
 }
 
+/*
+* Used after doing a redirection, make fd to base fd again and remove saves.
+*/
+static void cleanup_redir(shell_t *shell)
+{
+    for (int i = 0; i < 2; i++) {
+        if (shell->saved_fds[i] < 0)
+            continue;
+        dup2(shell->saved_fds[i], i);
+        close(shell->saved_fds[i]);
+        shell->saved_fds[i] = -1;
+    }
+}
+
+int interpret_redirect(const ast_t *ast, shell_t *shell)
+{
+    int status = 0;
+    redir_node_t *redir = &ast->data.redirect;
+
+    if (is_left_redir(redir->red_type)) {
+        shell->saved_fds[STDOUT] = dup(STDOUT);
+        status = make_redirect_out(shell, redir->path, redir->red_type);
+    } else {
+        shell->saved_fds[STDIN] = dup(STDIN);
+        status = (redir->red_type == TT_HEREDOC)
+        ? make_redir_heredoc(shell, redir->path)
+        : make_redirect_in(shell, redir->path);
+    }
+    return status;
+}
+
 int interpret_program(const ast_t *ast, shell_t *shell)
 {
     int status = 0;

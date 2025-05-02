@@ -57,11 +57,18 @@ void init_pwd(shell_t *shell)
     shell->old_pwd = my_strdup(buff->parts[1]);
 }
 
+void save_fd(shell_t *shell)
+{
+    shell->saved_fds[0] = -1;
+    shell->saved_fds[1] = -1;
+}
+
 void init_struct(shell_t *shell, char **env)
 {
     *shell = (shell_t){ 0 };
     for (int i = 0; env[i]; i++)
         add_env_line(env[i], shell);
     init_pwd(shell);
+    save_fd(shell);
     setup_path_copy(shell);
 }
