@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <parser.h>
 
+// TODO: change pipe() by using a temporary file to avoid blocking pipes.
 int make_redir_heredoc(shell_t *shell, char *eof)
 {
     int pipefd[2];
@@ -26,5 +27,6 @@ int make_redir_heredoc(shell_t *shell, char *eof)
     close(pipefd[1]);
     dup2(pipefd[0], STDIN);
     close(pipefd[0]);
+    free(line);
     return 0;
 }
