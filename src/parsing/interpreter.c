@@ -62,7 +62,7 @@ static void cleanup_redir(shell_t *shell)
 int interpret_redirect(const ast_t *ast, shell_t *shell)
 {
     int status = 0;
-    redir_node_t *redir = &ast->data.redirect;
+    const redir_node_t *redir = &ast->data.redirect;
 
     if (is_left_redir(redir->red_type)) {
         shell->saved_fds[STDOUT] = dup(STDOUT);
@@ -80,17 +80,46 @@ int interpret_program(const ast_t *ast, shell_t *shell)
 {
     int status = 0;
 
-    for (size_t i = 0; i < ast->data.program.count; i++) {
+    for (size_t i = 0; i < ast->data.program.count; i++)
         status = interpret(ast->data.program.data[i], shell);
-    }
-    if (status != 0)
-        shell->shell_status = 84;
     return status;
 }
 
+//TODO: add fork
 int interpret_paren(const ast_t *ast, shell_t *shell)
 {
+    int status = 0;
 
+    for (size_t i = 0; i < ast->data.paren.count; i++)
+        status = interpret(ast->data.paren.data[i], shell);
+    return 0;
+}
+
+int interpret_and(const ast_t *ast, shell_t *shell)
+{
+    int status = 0;
+
+    status = interpret(ast->data.binary_operation[0], shell);
+    if (status != 0)
+        return status;
+    return interpret(ast->data.binary_operation[1], shell);
+}
+
+int interpret_or(const ast_t *ast, shell_t *shell)
+{
+    int status = 0;
+
+    status = interpret(ast->data.binary_operation[0], shell);
+    if (status == 0)
+        return status;
+    return interpret(ast->data.binary_operation[1], shell);
+}
+
+int interpret_pipe(const ast_t *ast, shell_t *shell)
+{
+    int status = 0;
+
+    return status;
 }
 
 int interpret_argument(const ast_t *ast, shell_t *shell)
@@ -101,14 +130,14 @@ int interpret_argument(const ast_t *ast, shell_t *shell)
         shell->command = calloc(2, sizeof(char *));
         if (!shell->command)
             return 84;
-        shell->command[0] = strdup(ast->data);
+        shell->command[0] = strdup(ast->data.arg);
         return 0;
     }
     array_size = len_array(shell->command);
     shell->command = reallocarray(
         shell->command, array_size + 2, sizeof(char *)
     );
-    shell->command[array_size] = strdup(ast->data);
+    shell->command[array_size] = strdup(ast->data.arg);
     shell->command[array_size + 1] = NULL;
     return 0;
 }
@@ -120,12 +149,12 @@ int interpret_command(const ast_t *ast, shell_t *shell)
     for (size_t i = 0; i < ast->data.command.count; i++)
         interpret(ast->data.command.data[i], shell);
     ;
-    shell->line = strdup(shell->command[0]);
+    shell->full_path = strdup(shell->command[0]);
     status = check_shell_args(shell);
     ;
     cleanup_redir(shell);
     free_array(shell->command);
-    free(shell->line);
+    // free(shell->line);
     shell->command = NULL;
-    return status;
+    return shell->shell_status;
 }

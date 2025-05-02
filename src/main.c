@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include "my.h"
 #include "my_sh.h"
+#include <lexer.h>
+#include <parser.h>
+#include <interpreter.h>
 
 void print_prompt(void)
 {
@@ -53,7 +56,7 @@ static void clean_line(shell_t *shell)
         shell->line[my_strlen(shell->line) - 1] = '\0';
 }
 
-#if 0
+
 int main(int ac, char **av, char **env)
 {
     shell_t *shell = malloc(sizeof(shell_t));
@@ -71,27 +74,13 @@ int main(int ac, char **av, char **env)
             getline_end(shell);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
-        clean_line(shell);
-        setup_args(shell);
+        lexer_t lexer = { .start = shell->line };
+        lexer.pos = 0;
+        ast_t *ast = parser_parse(&lexer);
+        interpret(ast, shell);
+        // clean_line(shell);
+        // setup_args(shell);
     }
 }
-#endif
 
-#include <lexer.h>
-#include <parser.h>
 
-int main(void)
-{
-    // const char *input = "  hehe bonjour \n | ( >><<> test 'nyeh\0eheh 3>e' \"lellek\"";*
-    const char *input = "test | tost ; (b&&a)";
-    lexer_t lexer = { .start = input };
-    lexer.pos = 0;
-    // token_t current_token = get_next_token(&lexer);
-    // while (current_token.type != TT_EOF) {
-    //     print_token(&current_token);
-    //     current_token = get_next_token(&lexer);
-    // }
-    ast_t *ast = parser_parse(&lexer);
-    token_t current_token = get_next_token(&lexer);
-    print_ast(ast);
-}

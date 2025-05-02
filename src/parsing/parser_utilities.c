@@ -22,7 +22,7 @@ void parser_skip_separators(parser_t *parser)
 
 void ast_list_append(ast_list_t *list, ast_t *node)
 {
-    if (list->capacity == list->count) {
+    if (list->count == list->capacity) {
         list->capacity = list->capacity == 0 ? 4 : list->capacity * 1.5f;
         list->data = reallocarray(list->data, list->capacity, sizeof(ast_t *));
         if (list->data == NULL)

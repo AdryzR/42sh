@@ -26,6 +26,7 @@
     #include <sys/resource.h>
     #include <sys/wait.h>
     #include <sys/stat.h>
+    #include <parser.h>
 
 typedef enum error_e {
     FAILURE = 84,

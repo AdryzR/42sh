@@ -55,6 +55,10 @@ SRC =	src/main.c \
 		src/parsing/parse_redirect.c \
 		src/parsing/parser_utilities.c \
 		src/parsing/print_ast.c \
+		src/parsing/interpreter.c \
+		src/redirections/redirect_heredoc.c \
+		src/redirections/redirect_in.c \
+		src/redirections/redirect_out.c \
 		src/builtins/my_exit.c
 
 OBJ = $(SRC:.c=.o)
