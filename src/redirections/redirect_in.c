@@ -15,6 +15,10 @@ int make_redirect_in(shell_t *shell, char *filename)
     int saved_stdin = dup(STDIN);
 
     file_fd = open(filename, O_RDONLY, 0664);
+    if (file_fd < 0) {
+        dprintf(2, "%s: No such file or directory.\n", filename);
+        return 84;
+    }
     dup2(file_fd, STDIN);
     close(file_fd);
     return 0;
