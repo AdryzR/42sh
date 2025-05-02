@@ -27,7 +27,7 @@ int interpret_pipe(const ast_t *ast, shell_t *shell);
 int interpret_or(const ast_t *ast, shell_t *shell);
 int interpret_and(const ast_t *ast, shell_t *shell);
 int interpret_argument(const ast_t *ast, shell_t *shell); // ? DONE
-int interpret_redirect(const ast_t *ast, shell_t *shell);
+int interpret_redirect(const ast_t *ast, shell_t *shell); // ? DONE
 int interpret_error(UNUSED const ast_t *ast, UNUSED shell_t *shell); // ? DONE
 
 #endif

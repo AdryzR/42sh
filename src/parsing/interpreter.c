@@ -90,7 +90,7 @@ int interpret_program(const ast_t *ast, shell_t *shell)
 
 int interpret_paren(const ast_t *ast, shell_t *shell)
 {
-    
+
 }
 
 int interpret_argument(const ast_t *ast, shell_t *shell)
@@ -123,6 +123,7 @@ int interpret_command(const ast_t *ast, shell_t *shell)
     shell->line = strdup(shell->command[0]);
     status = check_shell_args(shell);
     ;
+    cleanup_redir(shell);
     free_array(shell->command);
     free(shell->line);
     shell->command = NULL;

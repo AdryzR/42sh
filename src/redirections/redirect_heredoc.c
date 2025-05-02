@@ -12,17 +12,17 @@
 int make_redir_heredoc(shell_t *shell, char *eof)
 {
     int pipefd[2];
-    ssize_t br = 0;
+    ssize_t bytes_read = 0;
     char *line = NULL;
     size_t len = 0;
 
     pipe(pipefd);
     do {
-        br = getline(&line, &len, stdin);
+        bytes_read = getline(&line, &len, stdin);
         if (strstr(line, eof) == line && line[strlen(eof)] == '\n')
             break;
-        write(pipefd[1], line, br);
-    } while (br != -1);
+        write(pipefd[1], line, bytes_read);
+    } while (bytes_read != -1);
     close(pipefd[1]);
     dup2(pipefd[0], STDIN);
     close(pipefd[0]);

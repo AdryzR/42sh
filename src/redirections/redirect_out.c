@@ -8,6 +8,7 @@
 #include <my_sh.h>
 #include <fcntl.h>
 #include <parser.h>
+#include <errno.h>
 
 int make_redirect_out(shell_t *shell, char *filename, redir_type_t type)
 {
@@ -17,7 +18,7 @@ int make_redirect_out(shell_t *shell, char *filename, redir_type_t type)
     file_fd = open(filename, O_WRONLY | O_CREAT |
         (REDIR_APPEND ? O_APPEND : O_TRUNC), 0664);
     if (file_fd < 0) {
-        dprintf(2, "%s: No such file or directory.\n", filename);
+        dprintf(2, "%s: %s.\n", filename, strerror(errno));
         return 84;
     }
     dup2(file_fd, STDOUT);
