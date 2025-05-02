@@ -22,7 +22,7 @@ static const interpret_fnc_t interpret_functions[AT_COUNT] = {
     [AT_PROGRAM] = interpret_program,
     [AT_PAREN] = interpret_paren,
     [AT_REDIRECT] = interpret_redirect,
-    [AT_PIPE] = interpret_pipe,
+    [AT_PIPELINE] = interpret_pipe,
     [AT_OR] = interpret_or,
     [AT_AND] = interpret_and,
     [AT_ARGUMENT] = interpret_argument
@@ -113,13 +113,6 @@ int interpret_or(const ast_t *ast, shell_t *shell)
     if (status == 0)
         return status;
     return interpret(ast->data.binary_operation[1], shell);
-}
-
-int interpret_pipe(const ast_t *ast, shell_t *shell)
-{
-    int status = 0;
-
-    return status;
 }
 
 int interpret_argument(const ast_t *ast, shell_t *shell)

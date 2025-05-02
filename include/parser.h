@@ -14,9 +14,9 @@ typedef enum {
     AT_ERROR,    // ? Use in case of error found in ast.
     AT_COMMAND,  // ? []
     AT_PROGRAM,  // ? commands separated by ';' or '\n'
-    AT_PAREN,    // ? Used for paentheses.
+    AT_PAREN,    // ? Used for parentheses.
     AT_REDIRECT, // ? [argument] <REDIRECTION_TYPE> [argument]
-    AT_PIPE,     // ? command | command
+    AT_PIPELINE, // ? command [| command]+
     AT_OR,       // ? command || command
     AT_AND,      // ? command && command
     AT_ARGUMENT, // ? argument for a command.
@@ -68,6 +68,7 @@ typedef union {
     char *arg;
     redir_node_t redirect;
     struct ast_s **binary_operation;
+    ast_list_t pipeline;
     ast_list_t paren;
     ast_list_t program;
 } ast_data_t;

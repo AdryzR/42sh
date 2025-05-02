@@ -22,8 +22,6 @@ static token_type_t get_operation_type(const parser_t *parser)
         return AT_AND;
     case TT_OR:
         return AT_OR;
-    case TT_PIPE:
-        return AT_PIPE;
     default:
         return AT_ERROR;
     }
@@ -55,17 +53,33 @@ ast_t *parse_expression(parser_t *parser)
     return parse_command(parser);
 }
 
-//TODO later: replace parse_expression with parse_pipeline
+ast_t *parse_pipeline(parser_t *parser)
+{
+    ast_t *expr = parse_expression(parser);
+    ast_t *node;
+
+    if (parser->current.type != TT_PIPE)
+        return expr;
+    node = create_ast(AT_PIPELINE);
+    ast_list_append(&node->data.pipeline, expr);
+    while (parser->current.type == TT_PIPE) {
+        parser_next(parser);
+        expr = parse_expression(parser);
+        ast_list_append(&node->data.pipeline, expr);
+    }
+    return node;
+}
+
 ast_t *parse_binary_operation(parser_t *parser)
 {
-    ast_t *left = parse_expression(parser);
+    ast_t *left = parse_pipeline(parser);
     ast_type_t op_type = get_operation_type(parser);
     ast_t *right;
     ast_t *operation;
 
     while (op_type != AT_ERROR) {
         parser_next(parser);
-        right = parse_expression(parser);
+        right = parse_pipeline(parser);
         operation = create_ast(op_type);
         operation->data.binary_operation = malloc(sizeof(ast_t *) * 2);
         if (!operation->data.binary_operation) {

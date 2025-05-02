@@ -73,7 +73,7 @@ void print_ast_node(const ast_t *ast, unsigned short depth)
             return print_ast_program(ast, depth);
         case AT_PAREN:
             return print_ast_paren(ast, depth);
-        case AT_PIPE:
+        case AT_PIPELINE:
             return print_ast_binary(ast, depth, "PIPE");
         case AT_AND:
             return print_ast_binary(ast, depth, "AND");
