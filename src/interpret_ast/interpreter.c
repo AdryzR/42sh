@@ -89,10 +89,23 @@ int interpret_program(const ast_t *ast, shell_t *shell)
 int interpret_paren(const ast_t *ast, shell_t *shell)
 {
     int status = 0;
+    pid_t pid = fork();
+    int wstatus;
 
-    for (size_t i = 0; i < ast->data.paren.count; i++)
-        status = interpret(ast->data.paren.data[i], shell);
-    return 0;
+    if (pid < 0) {
+        perror("fork");
+        return 84;
+    }
+    if (pid == 0) {
+        for (size_t i = 0; i < ast->data.paren.count; i++)
+            status = interpret(ast->data.paren.data[i], shell);
+        exit(0);
+    }
+    if (waitpid(pid, &wstatus, 0) < 0) {
+        perror("waitpid");
+        return 84;
+    }
+    return status;
 }
 
 int interpret_and(const ast_t *ast, shell_t *shell)
