@@ -22,21 +22,21 @@ SRC =	src/main.c \
 		lib/my_strdup.c \
 		lib/my_strlen.c \
 		lib/my_strncpy.c \
-		src/my_strcat_m.c \
-		src/my_strcat.c \
-		src/execute_cmd.c \
-		src/init_struct.c \
-		src/check_shell_args.c \
-		src/check_command.c \
-		src/my_strncmp.c \
-		src/free_array.c \
+		lib/my_strcat_m.c \
+		lib/my_strcat.c \
+		src/utilities/init_struct.c \
+		src/commands/execute_cmd.c \
+		src/commands/check_shell_args.c \
+		src/commands/check_command.c \
+		lib/my_strncmp.c \
+		lib/free_array.c \
 		src/builtins/my_cd.c \
 		src/builtins/my_setenv.c \
 		src/builtins/my_unsetenv.c \
 		src/builtins/my_env.c \
-		src/str_to_warray.c \
-		src/ret_and_set_status.c \
-		src/strip_str.c \
+		lib/str_to_warray.c \
+		src/utilities/ret_and_set_status.c \
+		lib/strip_str.c \
 		src/parsing/lexer.c \
 		src/parsing/lexer_utilities.c \
 		src/parsing/parser.c \

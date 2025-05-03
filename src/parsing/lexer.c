@@ -134,6 +134,3 @@ token_t get_next_token(lexer_t *lexer)
         return get_redirect_token(lexer);
     }
 }
-// main:
-// parse_input(readline(stdin))
-// free(parse_input)
