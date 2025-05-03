@@ -37,8 +37,8 @@ SRC =	src/main.c \
 		src/builtins/my_setenv.c \
 		src/builtins/my_unsetenv.c \
 		src/builtins/my_env.c \
-		src/my_getenv.c 					\
-		src/globbing.c
+		src/my_getenv.c \
+		src/globbing.c \
 		lib/str_to_warray.c \
 		lib/strip_str.c \
 		src/parsing/lexer.c \

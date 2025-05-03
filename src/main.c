@@ -29,8 +29,6 @@ void print_prompt2(char **env)
     }
 }
 
-
-
 int main(int ac, char **av, char **env)
 {
     shell_t *shell = malloc(sizeof(shell_t));
