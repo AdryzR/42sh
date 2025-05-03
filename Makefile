@@ -54,9 +54,9 @@ SRC =	src/main.c \
 		src/parsing/parse_command.c \
 		src/parsing/parse_redirect.c \
 		src/parsing/parser_utilities.c \
-		src/parsing/print_ast.c \
-		src/parsing/interpreter.c \
-		src/parsing/interpret_pipe.c \
+		src/interpret_ast/print_ast.c \
+		src/interpret_ast/interpreter.c \
+		src/interpret_ast/interpret_pipe.c \
 		src/redirections/redirect_heredoc.c \
 		src/redirections/redirect_in.c \
 		src/redirections/redirect_out.c \

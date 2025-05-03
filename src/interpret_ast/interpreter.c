@@ -146,8 +146,9 @@ int interpret_command(const ast_t *ast, shell_t *shell)
     status = check_shell_args(shell);
     ;
     cleanup_redir(shell);
+    free(shell->full_path);
     free_array(shell->command);
-    // free(shell->line);
+    shell->full_path = NULL;
     shell->command = NULL;
     return shell->shell_status;
 }
