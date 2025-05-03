@@ -14,6 +14,7 @@ SRC =	src/main.c \
 		lib/my_putchar.c \
 		lib/my_putstr_ch.c \
 		lib/my_putstr.c \
+		lib/my_getcwd.c \
 		lib/my_str_to_warray.c \
 		lib/my_str_to_word_array.c \
 		lib/my_strcmp.c \
@@ -55,6 +56,7 @@ SRC =	src/main.c \
 		src/parsing/parse_redirect.c \
 		src/parsing/parser_utilities.c \
 		src/interpret_ast/print_ast.c \
+		src/interpret_ast/free_ast.c \
 		src/interpret_ast/interpreter.c \
 		src/interpret_ast/interpret_pipe.c \
 		src/redirections/redirect_heredoc.c \

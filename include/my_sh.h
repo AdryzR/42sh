@@ -10,6 +10,7 @@
     #define INPUT 0
     #define OUTPUT 1
     #define MY_SH
+    #define SH_PATH_MAX 4096
     #define CHECK_MALLOC(ptr, retval) if (ptr == NULL) return retval
     #define CURRENT_STATUS 150000
     #define ATTRIB(ptr) free_array(ptr) ENDL
@@ -82,6 +83,7 @@ int handle_redirections(shell_t *shell);
 int ret_and_set_status(int ret, shell_t *shell);
 void add_env_line(char *env, shell_t *shell);
 void delete_env_node(envi_t *current, shell_t *shell);
+char *my_getcwd(void);
 int my_cd(shell_t *shell);
 void init_struct(shell_t *shell, char **env);
 void free_array(char **array);

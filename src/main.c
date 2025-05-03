@@ -15,8 +15,12 @@
 
 void print_prompt(void)
 {
-    printf("%s", getcwd(NULL, 0));
-    printf("> ");
+    char path[SH_PATH_MAX];
+
+    if (getcwd(path, SH_PATH_MAX) != NULL)
+        printf("%s> ", path);
+    else
+        fputs("> ", stdout);
 }
 
 static void getline_end(shell_t *shell)
@@ -78,6 +82,7 @@ int main(int ac, char **av, char **env)
         lexer.pos = 0;
         ast_t *ast = parser_parse(&lexer);
         interpret(ast, shell);
+        free_ast(ast);
         // clean_line(shell);
         // setup_args(shell);
     }

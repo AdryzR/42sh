@@ -19,15 +19,18 @@ static inline bool is_left_redir(redir_type_t type)
         (type == REDIR_APPEND || type == REDIR_OUT);
 }
 
-int interpret(const ast_t *ast, shell_t *shell); // ? DONE
-int interpret_program(const ast_t *ast, shell_t *shell); // ? DONE
-int interpret_paren(const ast_t *ast, shell_t *shell); // ? PARTIALLY DONE
-int interpret_command(const ast_t *ast, shell_t *shell); // ? DONE
+void free_ast(ast_t *ast);
+void free_ast_node(ast_t *ast);
+
+int interpret(const ast_t *ast, shell_t *shell);
+int interpret_program(const ast_t *ast, shell_t *shell);
+int interpret_paren(const ast_t *ast, shell_t *shell);
+int interpret_command(const ast_t *ast, shell_t *shell);
 int interpret_pipe(const ast_t *ast, shell_t *shell);
-int interpret_or(const ast_t *ast, shell_t *shell); // ? DONE
-int interpret_and(const ast_t *ast, shell_t *shell); // ? DONE
-int interpret_argument(const ast_t *ast, shell_t *shell); // ? DONE
-int interpret_redirect(const ast_t *ast, shell_t *shell); // ? DONE
-int interpret_error(UNUSED const ast_t *ast, UNUSED shell_t *shell); // ? DONE
+int interpret_or(const ast_t *ast, shell_t *shell);
+int interpret_and(const ast_t *ast, shell_t *shell);
+int interpret_argument(const ast_t *ast, shell_t *shell);
+int interpret_redirect(const ast_t *ast, shell_t *shell);
+int interpret_error(UNUSED const ast_t *ast, UNUSED shell_t *shell);
 
 #endif

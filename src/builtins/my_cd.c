@@ -68,14 +68,14 @@ static int update_pwd(shell_t *shell, char *old_pwd)
     for (buff = shell->envi; buff && my_strcmp(buff->parts[0], "PWD") != 0;
         buff = buff->next);
     CHECK_MALLOC(buff, 84);
-    update_env_line(buff, shell, "PWD", getcwd(NULL, 0));
+    update_env_line(buff, shell, "PWD", my_getcwd());
     return 0;
 }
 
 static int cd_home(shell_t *shell)
 {
     envi_t *buff = shell->envi;
-    char *old_pwd = getcwd(NULL, 0);
+    char *old_pwd = my_getcwd();
     int status = 0;
 
     for (; buff && my_strcmp(buff->parts[0], "HOME") != 0;
@@ -97,7 +97,7 @@ static int cd_home(shell_t *shell)
 
 static int exec_cd(shell_t *shell)
 {
-    char *old_pwd = getcwd(NULL, 0);
+    char *old_pwd = my_getcwd();
     int status = 0;
     int result = 0;
 
@@ -112,7 +112,7 @@ static int exec_cd(shell_t *shell)
 
 static int cd_minus(shell_t *shell)
 {
-    char *old_pwd = getcwd(NULL, 0);
+    char *old_pwd = my_getcwd();
     int status = 0;
     int result = 0;
 
