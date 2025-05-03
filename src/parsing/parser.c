@@ -6,6 +6,7 @@
 */
 
 #include <parser.h>
+#include <interpreter.h>
 
 ast_t *create_ast(ast_type_t type)
 {
@@ -39,9 +40,8 @@ ast_t *parse_parentheses(parser_t *parser)
         while (parser->current.type == TT_SMCL)
             parser_next(parser);
     }
-    // TODO: Rajouter gestion d'erreur ici
     if (parser->current.type != TT_RPAREN)
-        parser->error_msg = "R_PAREN missing.";
+        parser->error_msg = "Too many ('s.";
     parser_next(parser);
     return node;
 }
@@ -115,8 +115,11 @@ ast_t *parse_program(parser_t *parser)
             break;
     } while (IS_SEPARATOR(parser->current.type));
     //todo: gestion d'erreur à mettre ici
-    if (parser->current.type != TT_EOF)
+    if (parser->current.type != TT_EOF) {
         fputs("ERROR IN PARSING\n", stderr);
+        free_ast(tree);
+        return NULL;
+    }
     return tree;
 }
 
@@ -134,7 +137,10 @@ ast_t *parser_parse(lexer_t *lexer)
     parser->current = get_next_token(&parser->lexer);
     parser->next = get_next_token(&parser->lexer);
     ast = parse_program(parser);
-    if (parser->error_msg != NULL)
+    if (parser->error_msg != NULL) {
         printf("%s\n", parser->error_msg);
+        free_ast(ast);
+        return NULL;
+    }
     return ast;
 }

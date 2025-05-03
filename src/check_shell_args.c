@@ -69,14 +69,10 @@ static int parse_line(shell_t *shell)
 
 int check_shell_args(shell_t *shell)
 {
-    // int exec = parse_line(shell);
-
     int exec = 0;
 
     shell->nb_args = len_array(shell->command);
     is_path_existing(shell);
-    if (exec != 0)
-        return exec;
     exec = is_a_built_in(shell);
     if (exec == 1)
         exec = check_commands(shell);

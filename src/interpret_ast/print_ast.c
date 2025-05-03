@@ -83,12 +83,8 @@ void print_ast_node(const ast_t *ast, unsigned short depth)
             return print_ast_command(ast, depth);
         case AT_REDIRECT:
             return print_ast_redirect(ast, depth);
-        case AT_ERROR:
-            return print_ast_error(ast, depth);
         default:
-            print_indent(depth);
-            puts("Error: Unknown AST Node Type");
-            return;
+            return print_ast_error(ast, depth);
     }
 }
 

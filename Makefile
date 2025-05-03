@@ -59,6 +59,14 @@ SRC =	src/main.c \
 		src/interpret_ast/free_ast.c \
 		src/interpret_ast/interpreter.c \
 		src/interpret_ast/interpret_pipe.c \
+		src/interpret_ast/interpret_command.c \
+		src/interpret_ast/interpret_paren.c \
+		src/interpret_ast/interpret_and.c \
+		src/interpret_ast/interpret_or.c \
+		src/interpret_ast/interpret_error.c \
+		src/interpret_ast/interpret_argument.c \
+		src/interpret_ast/interpret_program.c \
+		src/interpret_ast/interpret_redirect.c \
 		src/redirections/redirect_heredoc.c \
 		src/redirections/redirect_in.c \
 		src/redirections/redirect_out.c \

@@ -35,6 +35,4 @@ ast_t *parse_redirect(parser_t *parser)
     case TT_HEREDOC:
         node->data.redirect = get_redir_node(REDIR_HEREDOC, parser);
     }
-    //TODO: add the heredoc (first have to handle it)
 }
-
