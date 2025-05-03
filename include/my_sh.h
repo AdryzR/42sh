@@ -83,7 +83,7 @@ int left_to_right(shell_t *shell);
 char *strip_str(char *str, char remove);
 int handle_redirections(shell_t *shell);
 int ret_and_set_status(int ret, shell_t *shell);
-char *my_getenv(char **env, char *tofind);
+char *my_getenv(shell_t *shell, char *tofind);
 void add_env_line(char *env, shell_t *shell);
 void delete_env_node(envi_t *current, shell_t *shell);
 char *my_getcwd(void);
@@ -103,6 +103,6 @@ int check_commands(shell_t *shell);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
-void print_prompt(void);
+void print_prompt(shell_t *shell);
 
 #endif

@@ -15,10 +15,10 @@ static lexer_t update_lexer(lexer_t lexer, char *line)
     return new;
 }
 
-static void print_prompt_if_tty(void)
+static void print_prompt_if_tty(shell_t *shell)
 {
     if (isatty(0) == 1)
-        print_prompt();
+        print_prompt(shell);
 }
 
 static void check_getline_end(shell_t *shell, ssize_t bytes_read)
@@ -36,7 +36,7 @@ void main_loop(shell_t *shell)
     lexer_t lexer = { 0 };
 
     for (;;) {
-        print_prompt_if_tty();
+        print_prompt_if_tty(shell);
         bytes_read = getline(&shell->line, &args_len, stdin);
         check_getline_end(shell, bytes_read);
         if (my_strcmp(shell->line, "\n") == 0)
