@@ -61,6 +61,8 @@ int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
 int make_redir_heredoc(shell_t *shell, char *eof);
 
+void main_loop(shell_t *shell);
+
 int handle_pipes(shell_t *shell);
 int exec_pipe(shell_t *shell, char **commands);
 void make_right_to_left_red(shell_t *shell, char *filename);
@@ -100,5 +102,6 @@ int check_commands(shell_t *shell);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
+void print_prompt(void);
 
 #endif

@@ -6,6 +6,7 @@
 ##
 
 SRC =	src/main.c \
+		src/main_loop.c \
 		lib/lenarray.c \
 		lib/my_getnbr.c \
 		lib/my_put_nbr_ch.c \
@@ -25,6 +26,8 @@ SRC =	src/main.c \
 		lib/my_strcat_m.c \
 		lib/my_strcat.c \
 		src/utilities/init_struct.c \
+		src/utilities/ret_and_set_status.c \
+		src/utilities/print_prompt.c \
 		src/commands/execute_cmd.c \
 		src/commands/check_shell_args.c \
 		src/commands/check_command.c \
@@ -35,7 +38,6 @@ SRC =	src/main.c \
 		src/builtins/my_unsetenv.c \
 		src/builtins/my_env.c \
 		lib/str_to_warray.c \
-		src/utilities/ret_and_set_status.c \
 		lib/strip_str.c \
 		src/parsing/lexer.c \
 		src/parsing/lexer_utilities.c \
