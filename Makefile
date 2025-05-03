@@ -53,6 +53,12 @@ SRC =	src/main.c \
 		src/parsing/lexer_utilities.c \
 		src/parsing/parser.c \
 		src/parsing/parse_command.c \
+		src/parsing/parse_binary_operation.c \
+		src/parsing/parse_expression.c \
+		src/parsing/parse_parentheses.c \
+		src/parsing/parse_pipeline.c \
+		src/parsing/parse_program.c \
+		src/parsing/parse_statement.c \
 		src/parsing/parse_redirect.c \
 		src/parsing/parser_utilities.c \
 		src/interpret_ast/print_ast.c \

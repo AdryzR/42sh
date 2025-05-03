@@ -107,6 +107,7 @@ ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_expression(parser_t *parser);
 ast_t *parse_parentheses(parser_t *parser);
 ast_t *parse_command(parser_t *parser);
+ast_t *parse_pipeline(parser_t *parser);
 
 parser_t *create_parser(void);
 void parser_next(parser_t *parser);
