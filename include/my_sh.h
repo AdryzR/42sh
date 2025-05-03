@@ -10,6 +10,7 @@
     #define INPUT 0
     #define OUTPUT 1
     #define MY_SH
+    #define SH_PATH_MAX 4096
     #define CHECK_MALLOC(ptr, retval) if (ptr == NULL) return retval
     #define CURRENT_STATUS 150000
     #define ATTRIB(ptr) free_array(ptr) ENDL
@@ -26,6 +27,7 @@
     #include <sys/resource.h>
     #include <sys/wait.h>
     #include <sys/stat.h>
+    #include <parser.h>
 
 typedef enum error_e {
     FAILURE = 84,
@@ -50,8 +52,16 @@ typedef struct shell_s {
     char *home;
     char *old_pwd;
     int nb_pipes;
+    int nb_parths;
     bool should_skip_wait;
+    int saved_fds[2];
 } shell_t;
+
+int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
+int make_redirect_in(shell_t *shell, char *filename);
+int make_redir_heredoc(shell_t *shell, char *eof);
+
+void main_loop(shell_t *shell);
 
 int handle_pipes(shell_t *shell);
 int exec_pipe(shell_t *shell, char **commands);
@@ -76,6 +86,7 @@ int ret_and_set_status(int ret, shell_t *shell);
 char *my_getenv(char **env, char *tofind);
 void add_env_line(char *env, shell_t *shell);
 void delete_env_node(envi_t *current, shell_t *shell);
+char *my_getcwd(void);
 int my_cd(shell_t *shell);
 void init_struct(shell_t *shell, char **env);
 void free_array(char **array);
@@ -92,5 +103,6 @@ int check_commands(shell_t *shell);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
+void print_prompt(void);
 
 #endif

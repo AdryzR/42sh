@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "my.h"
-#include "my_printf.h"
+#include "printf.h"
 #include "my_sh.h"
 
 int too_many_args(shell_t *shell)

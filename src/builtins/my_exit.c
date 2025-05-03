@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "my.h"
-#include "my_printf.h"
+#include "printf.h"
 #include "my_sh.h"
 
 //TODO: free les choses que j'ai rajouté à la struct
@@ -64,7 +64,7 @@ static int exec_exit(shell_t *shell)
     int exit_status = shell->shell_status;
 
     if (isatty(0) == 1)
-        my_printf("exit\n");
+        printf("exit\n");
     free_all(shell);
     exit(exit_status);
     return (exit_status);

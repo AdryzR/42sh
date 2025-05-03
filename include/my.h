@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2024
-** my_printf
+** printf
 ** File description:
-** my_printf
+** printf
 */
 
 #ifndef MY_H
@@ -14,12 +14,10 @@
     #include <unistd.h>
     #include <stdlib.h>
     #include <stdarg.h>
-    #include "my_printf.h"
     #include <errno.h>
     #include <signal.h>
     #include <signal.h>
     #include <glob.h>
-
 
 char *my_strcpy(char *dest, const char *src);
 char *my_strdup(const char *str);
