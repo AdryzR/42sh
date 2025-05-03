@@ -29,31 +29,6 @@ static void getline_end(shell_t *shell)
     my_exit(shell, CURRENT_STATUS);
 }
 
-static void count_pipes(shell_t *shell)
-{
-    shell->nb_pipes = 0;
-    for (int i = 0; shell->line[i]; i++)
-        if (shell->line[i] == '|')
-            shell->nb_pipes++;
-}
-
-int setup_args(shell_t *shell)
-{
-    char **commands = str_to_warray(shell->line, ";");
-
-    if (!commands)
-        return 84;
-    free(shell->line);
-    for (int i = 0; commands[i]; i++) {
-        shell->line = commands[i];
-        count_pipes(shell);
-        handle_pipes(shell);
-    }
-    free_array(commands);
-    shell->line = NULL;
-    return 0;
-}
-
 static void clean_line(shell_t *shell)
 {
     if (shell->line[my_strlen(shell->line) - 1] == '\n')

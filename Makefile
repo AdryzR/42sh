@@ -33,22 +33,10 @@ SRC =	src/main.c \
 		src/builtins/my_cd.c \
 		src/builtins/my_setenv.c \
 		src/builtins/my_unsetenv.c \
-		src/separators/handle_redirections.c \
-		src/separators/left_to_right.c \
-		src/separators/double_left_to_right.c \
-		src/separators/errors/check_double_l_to_r_errors.c \
-		src/separators/errors/check_double_r_to_l_errors.c \
-		src/separators/errors/error_messages.c \
-		src/separators/errors/check_l_to_r_errors.c \
-		src/separators/errors/check_r_to_l_errors.c \
-		src/separators/setup_left_redirections.c \
-		src/separators/setup_right_redirections.c \
 		src/builtins/my_env.c \
 		src/str_to_warray.c \
 		src/ret_and_set_status.c \
 		src/strip_str.c \
-		src/separators/pipes/exec_pipe.c \
-		src/separators/pipes/handle_pipe.c \
 		src/parsing/lexer.c \
 		src/parsing/lexer_utilities.c \
 		src/parsing/parser.c \
@@ -61,6 +49,7 @@ SRC =	src/main.c \
 		src/parsing/parse_statement.c \
 		src/parsing/parse_redirect.c \
 		src/parsing/parser_utilities.c \
+		src/parsing/create_ast.c \
 		src/interpret_ast/print_ast.c \
 		src/interpret_ast/free_ast.c \
 		src/interpret_ast/interpreter.c \
