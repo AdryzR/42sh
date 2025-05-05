@@ -71,10 +71,11 @@ void my_perror(shell_t *shell)
 
     my_putstr_ch(2, shell->command[0]);
     my_putstr_ch(2, ": ");
-    if (!is_executable(shell->line)) {
-        my_putstr_ch(2, "Command not found.\n");
-        return;
-    }
+    if (errno != ENOEXEC)
+        if (!is_executable(shell->line)) {
+            my_putstr_ch(2, "Command not found.\n");
+            return;
+        }
     my_putstr_ch(2, strerror(errno));
     if (errno == ENOEXEC)
         my_putstr_ch(2, ". Binary file not executable");
