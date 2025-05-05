@@ -45,7 +45,7 @@ void main_loop(shell_t *shell)
         lexer = update_lexer(lexer, shell->line);
         ast = parser_parse(&lexer);
         if (!ast) {
-            shell->shell_status = 84;
+            shell->shell_status = 1;
             continue;
         }
         interpret(ast, shell);
