@@ -13,15 +13,22 @@
 #include "printf.h"
 #include "my_sh.h"
 
-// TODO: Implement print for SIGFPE
-static void check_signal_status(int status)
+static int check_signal_status(int status)
 {
-    if (WTERMSIG(status) != SIGSEGV)
-        return;
+    switch (WTERMSIG(status)) {
+    case SIGSEGV:
+        fprintf(stderr, "Segmentation fault");
+        break;
+    case SIGFPE:
+        fprintf(stderr, "Floating point exception");
+        break;
+    default:
+        break;
+    }
     if (WCOREDUMP(status))
-        printf("Segmentation fault (core dumped)\n");
-    else
-        printf("Segmentation fault\n");
+        fprintf(stderr, " (core dumped)");
+    fprintf(stderr, "\n");
+    return status;
 }
 
 int wait_for_pid(shell_t *shell, int c_pid)
@@ -32,8 +39,7 @@ int wait_for_pid(shell_t *shell, int c_pid)
         waitpid(c_pid, &status, 0);
     shell->shell_status = WEXITSTATUS(status);
     if (WIFSIGNALED(status)) {
-        check_signal_status(status);
-        shell->shell_status = 84;
+        shell->shell_status = check_signal_status(status);
     }
     return 0;
 }
