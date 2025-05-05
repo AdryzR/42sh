@@ -63,6 +63,14 @@ int loop_on_paths(shell_t *shell)
     return return_error(copy);
 }
 
+static void set_default_path(shell_t *shell)
+{
+    char *path = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:"
+    "/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin";
+
+    shell->path_copy = strdup(path);
+}
+
 int check_commands(shell_t *shell)
 {
     char *dir = NULL;
@@ -74,7 +82,7 @@ int check_commands(shell_t *shell)
             return 0;
         }
     if (!shell->path_copy)
-        return command_not_found(shell);
+        set_default_path(shell);
     status = loop_on_paths(shell);
     if (status == 84)
         return command_not_found(shell);

@@ -96,7 +96,7 @@ int execute_cmd(shell_t *shell)
     else {
         execve(shell->full_path, shell->command, env);
         my_perror(shell);
-        exit(84);
+        exit(1);
     }
     free_array(env);
     return 0;
