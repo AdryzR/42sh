@@ -69,6 +69,7 @@ int make_redir_heredoc(shell_t *shell, char *eof);
 
 void main_loop(shell_t *shell);
 
+void setup_path_copy(shell_t *shell);
 int wait_for_pid(shell_t *shell, int c_pid);
 int is_a_built_in(shell_t *shell);
 int missing_name_err(char **commands, shell_t *shell);

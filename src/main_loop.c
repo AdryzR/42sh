@@ -21,9 +21,10 @@ static void print_prompt_if_tty(shell_t *shell)
         print_prompt(shell);
 }
 
-static void check_getline_end(shell_t *shell, ssize_t bytes_read)
+static void update_args(shell_t *shell, ssize_t bytes_read)
 {
     shell->nb_args = 0;
+    setup_path_copy(shell);
     if (bytes_read == -1)
         my_exit(shell, CURRENT_STATUS);
 }
@@ -38,7 +39,7 @@ void main_loop(shell_t *shell)
     for (;;) {
         print_prompt_if_tty(shell);
         bytes_read = getline(&shell->line, &args_len, stdin);
-        check_getline_end(shell, bytes_read);
+        update_args(shell, bytes_read);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
         lexer = update_lexer(lexer, shell->line);
