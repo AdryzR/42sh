@@ -61,6 +61,8 @@ static int update_pwd(shell_t *shell, char *old_pwd)
 {
     envi_t *buff = shell->envi;
 
+    free(shell->old_pwd);
+    shell->old_pwd = strdup(old_pwd);
     for (; buff && my_strcmp(buff->parts[0], "OLDPWD") != 0;
         buff = buff->next);
     CHECK_MALLOC(buff, 84);
@@ -89,7 +91,6 @@ static int cd_home(shell_t *shell)
         status = chdir(buff->parts[1]);
     if (status < 0)
         return not_a_dir(shell);
-    shell->old_pwd = old_pwd;
     status = update_pwd(shell, old_pwd);
     shell->shell_status = status;
     return status;
@@ -104,7 +105,6 @@ static int exec_cd(shell_t *shell)
     result = chdir(shell->command[1]);
     if (result < 0)
         return not_a_dir(shell);
-    shell->old_pwd = old_pwd;
     status = update_pwd(shell, old_pwd);
     shell->shell_status = status;
     return status;
@@ -119,7 +119,6 @@ static int cd_minus(shell_t *shell)
     result = chdir(shell->old_pwd);
     if (result < 0)
         return not_a_dir(shell);
-    shell->old_pwd = old_pwd;
     status = update_pwd(shell, old_pwd);
     shell->shell_status = status;
     return status;

@@ -10,6 +10,7 @@
 #include "my.h"
 #include "printf.h"
 #include "my_sh.h"
+#include <interpreter.h>
 
 //TODO: free les choses que j'ai rajouté à la struct
 void free_str(char *str)

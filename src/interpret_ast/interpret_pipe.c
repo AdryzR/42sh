@@ -28,6 +28,7 @@ int interpret_pipe(const ast_t *ast, shell_t *shell)
     if (original_fd[0] < 0 || original_fd[1] < 0)
         return 84;
     shell->should_skip_wait = true;
+    shell->should_fork_builtin = true;
     for (size_t i = 0; i < ast->data.pipeline.count - 1; i++) {
         if (pipe(pipefd) != 0)
             return 84;
@@ -39,5 +40,6 @@ int interpret_pipe(const ast_t *ast, shell_t *shell)
     dup_and_close(original_fd[STDOUT], STDOUT);
     interpret(ast->data.pipeline.data[ast->data.pipeline.count - 1], shell);
     dup_and_close(original_fd[STDIN], STDIN);
+    shell->should_fork_builtin = false;
     return 0;
 }

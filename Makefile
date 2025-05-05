@@ -31,6 +31,7 @@ SRC =	src/main.c \
 		src/commands/execute_cmd.c \
 		src/commands/check_shell_args.c \
 		src/commands/check_command.c \
+		src/commands/is_a_built_in.c \
 		lib/my_strncmp.c \
 		lib/free_array.c \
 		src/builtins/my_cd.c \

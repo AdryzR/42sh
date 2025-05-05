@@ -10,6 +10,7 @@
     #define INPUT 0
     #define OUTPUT 1
     #define MY_SH
+    #define NOT_A_BUILTIN 1
     #define SH_PATH_MAX 4096
     #define CHECK_MALLOC(ptr, retval) if (ptr == NULL) return retval
     #define CURRENT_STATUS 150000
@@ -54,8 +55,13 @@ typedef struct shell_s {
     int nb_pipes;
     int nb_parths;
     bool should_skip_wait;
+    bool should_fork_builtin;
     int saved_fds[2];
+    ast_t *program;
 } shell_t;
+
+typedef int (*builtin_fn_t)(shell_t *shell);
+int builtin_exit(shell_t *shell);
 
 int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
@@ -63,21 +69,9 @@ int make_redir_heredoc(shell_t *shell, char *eof);
 
 void main_loop(shell_t *shell);
 
-int handle_pipes(shell_t *shell);
-int exec_pipe(shell_t *shell, char **commands);
-void make_right_to_left_red(shell_t *shell, char *filename);
-int check_double_r_to_l_errors(shell_t *shell);
-int check_r_to_l_errors(shell_t *shell);
-bool is_double_ltr_red(shell_t *shell);
-bool is_double_rtl_red(shell_t *shell);
-int double_left_to_right(shell_t *shell);
-void make_left_to_right_red(shell_t *shell, char *filename, bool append);
-bool is_ltr_red(shell_t *shell);
-bool is_rtl_red(shell_t *shell);
+int wait_for_pid(shell_t *shell, int c_pid);
+int is_a_built_in(shell_t *shell);
 int missing_name_err(char **commands, shell_t *shell);
-int check_l_to_r_errors(shell_t *shell);
-int ambiguous_redirect_err(char **commands, shell_t *shell, int type);
-int check_double_l_to_r_errors(shell_t *shell);
 char **str_to_warray(char *str, char *delim);
 int left_to_right(shell_t *shell);
 char *strip_str(char *str, char remove);

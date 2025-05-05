@@ -62,6 +62,8 @@ void free_ast_node(ast_t *ast)
 
 void free_ast(ast_t *ast)
 {
+    if (ast == NULL)
+        return;
     free_ast_node(ast);
     free(ast);
 }

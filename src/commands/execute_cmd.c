@@ -13,7 +13,8 @@
 #include "printf.h"
 #include "my_sh.h"
 
-void check_signal_status(int status)
+// TODO: Implement print for SIGFPE
+static void check_signal_status(int status)
 {
     if (WTERMSIG(status) != SIGSEGV)
         return;
@@ -23,7 +24,7 @@ void check_signal_status(int status)
         printf("Segmentation fault\n");
 }
 
-static int wait_for_pid(shell_t *shell, int c_pid)
+int wait_for_pid(shell_t *shell, int c_pid)
 {
     int status = 0;
 
