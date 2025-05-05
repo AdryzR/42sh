@@ -65,7 +65,6 @@ void save_fd(shell_t *shell)
 
 void init_struct(shell_t *shell, char **env)
 {
-    *shell = (shell_t){ 0 };
     for (int i = 0; env[i]; i++)
         add_env_line(env[i], shell);
     init_pwd(shell);

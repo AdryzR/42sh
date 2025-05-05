@@ -17,6 +17,8 @@
     #define OPTI_RET(ptr, retval) ATTRIB(ptr) return retval
     #define STDIN STDIN_FILENO
     #define STDOUT STDOUT_FILENO
+    #define LS_COLOR "ls --color"
+    #define NOT_A_BUILTIN 1
     #include "my.h"
     #include <string.h>
     #include <stdbool.h>
@@ -33,6 +35,12 @@ typedef enum error_e {
     FAILURE = 84,
     EMPTY_LINE = 42
 } error_t;
+
+typedef struct alias_s {
+    char *name;
+    char *cmd;
+    struct alias_s *next;
+} alias_t;
 
 typedef struct envi_s {
     char *env;
@@ -55,7 +63,10 @@ typedef struct shell_s {
     int nb_parths;
     bool should_skip_wait;
     int saved_fds[2];
+    alias_t *aliases;
 } shell_t;
+
+typedef int (*builtin_fn_t)(shell_t *shell);
 
 int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
@@ -103,6 +114,8 @@ int check_commands(shell_t *shell);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
+int my_alias(shell_t *shell);
 void print_prompt(shell_t *shell);
+int is_a_built_in(shell_t *shell);
 
 #endif

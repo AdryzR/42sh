@@ -53,7 +53,7 @@ static void print_ast_command(const ast_t *ast, unsigned short depth)
 static void print_ast_redirect(const ast_t *ast, unsigned short depth)
 {
     print_indent(depth);
-    printf("Redirect Node: path=%s, type=%d\n", ast->data.redirect.path,
+    ("Redirect Node: path=%s, type=%d\n", ast->data.redirect.path,
         ast->data.redirect.red_type);
 }
 

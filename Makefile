@@ -69,13 +69,15 @@ SRC =	src/main.c \
 		src/redirections/redirect_heredoc.c \
 		src/redirections/redirect_in.c \
 		src/redirections/redirect_out.c \
-		src/builtins/my_exit.c
+		src/builtins/my_exit.c	\
+		src/aliases.c	\
+		src/builtins.c
 
 OBJ = $(SRC:.c=.o)
 
 NAME =	42sh
 
-CFLAGS = -I./include
+CFLAGS = -I./include -g
 
 all: $(NAME)
 

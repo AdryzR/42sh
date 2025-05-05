@@ -40,18 +40,17 @@ void is_path_existing(shell_t *shell)
         use_previous_path(shell);
 }
 
-int is_a_built_in(shell_t *shell)
+static int is_alias(shell_t *shell)
 {
-    if (my_strcmp(shell->command[0], "exit") == 0)
-        return my_exit(shell, CURRENT_STATUS);
-    if (my_strcmp(shell->command[0], "setenv") == 0)
-        return my_setenv(shell);
-    if (my_strcmp(shell->command[0], "env") == 0)
-        return my_env(shell);
-    if (my_strcmp(shell->command[0], "unsetenv") == 0)
-        return my_unsetenv(shell);
-    if (my_strcmp(shell->command[0], "cd") == 0)
-        return my_cd(shell);
+    if (!shell->aliases->cmd)
+        return 1;
+    if (!shell->command)
+        return 1;
+    for (int i = 0; shell->command[i] != NULL; i++) {
+        if (strcmp(shell->command[i], shell->aliases->cmd) == 0)
+            shell->command[i] = strdup(shell->aliases->cmd);
+            return 0;
+    }
     return 1;
 }
 
@@ -74,6 +73,7 @@ int check_shell_args(shell_t *shell)
     shell->nb_args = len_array(shell->command);
     is_path_existing(shell);
     exec = is_a_built_in(shell);
+    is_alias(shell);
     if (exec == 1)
         exec = check_commands(shell);
     else
