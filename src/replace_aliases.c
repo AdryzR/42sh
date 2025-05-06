@@ -15,7 +15,7 @@ static bool alias_exists(alias_t *head, const char *name, size_t len)
 {
     for (; head; head = head->next)
         if (head->name && strlen(head->name) == len
-         && !strncmp(head->name, name, len))
+        && !strncmp(head->name, name, len))
             return true;
     return false;
 }
@@ -24,14 +24,16 @@ static const char *alias_get(alias_t *head, const char *name, size_t len)
 {
     for (; head; head = head->next)
         if (head->name && strlen(head->name) == len
-         && !strncmp(head->name, name, len))
+        && !strncmp(head->name, name, len))
             return head->cmd;
     return NULL;
 }
 
-static void ensure_capacity(char **buffer, size_t *capacity, char **cursor, size_t need)
+static void ensure_capacity(char **buffer, size_t *capacity,
+    char **cursor, size_t need)
 {
     size_t used = *cursor - *buffer;
+
     if (used + need > *capacity) {
         *capacity = (*capacity * 2) + need;
         *buffer = realloc(*buffer, *capacity);
@@ -56,15 +58,19 @@ static void process_token(token_t tok, const char *input, alias_t *aliases,
     const char *replacement;
     size_t token_len = tok.len;
     bool is_quoted = (tok.type == TT_RAW_STRING)
-                  || (tok.type == TT_BACKTICK)
-                  || (token_start > input && token_start[-1] == '"');
+    || (tok.type == TT_BACKTICK)
+    || (token_start > input && token_start[-1] == '"');
 
     if (!is_quoted && tok.type == TT_WORD
-     && alias_exists(aliases, token_start, token_len)) {
+    && alias_exists(aliases, token_start, token_len)) {
         replacement = alias_get(aliases, token_start, token_len);
-        append_text(buffer, capacity, cursor, replacement, strlen(replacement));
+        append_text(buffer, capacity, cursor,
+        replacement, strlen(replacement));
     } else {
-        if (is_quoted) { token_start--; token_len += 2; }
+        if (is_quoted) {
+            token_start--;
+            token_len += 2;
+        }
         append_text(buffer, capacity, cursor, token_start, token_len);
     }
 }
@@ -72,13 +78,13 @@ static void process_token(token_t tok, const char *input, alias_t *aliases,
 char *replace_aliases(char *input, alias_t *aliases)
 {
     lexer_t lexer;
-    lexer.start = input;
-    lexer.pos = 0;
     size_t capacity = strlen(input) * 2 + 1;
     char *result = malloc(sizeof(char) * (strlen(input) + 1));
     char *cursor = result;
     token_t tok;
 
+    lexer.start = input;
+    lexer.pos = 0;
     if (!result)
         return input;
     while ((tok = get_next_token(&lexer)).type != TT_EOF)

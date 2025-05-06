@@ -8,19 +8,36 @@
 #include "my.h"
 #include "my_sh.h"
 
-int print_alias(alias_t *list, shell_t *shell)
+static int print_no_aliases(void)
 {
-    if (list == NULL) {
-        printf("No aliases defined.\n");
-        return 0;
-    }
+    printf("No aliases defined.\n");
+    return 0;
+}
+
+static int print_single_alias(const alias_t *alias)
+{
+    printf("%s\n", alias->cmd);
+    return 0;
+}
+
+static int print_all_aliases(const alias_t *list)
+{
     for (; list != NULL; list = list->next) {
-        if (shell->nb_args == 1) {
-            printf("%s\t\t%s\n", list->name, list->cmd);
-        } else if (shell->nb_args == 2 && shell->command[1] != NULL) {
+        printf("%s\t\t%s\n", list->name, list->cmd);
+    }
+    return 0;
+}
+
+static int print_alias(alias_t *list, shell_t *shell)
+{
+    if (list == NULL)
+        return print_no_aliases();
+    if (shell->nb_args == 1)
+        return print_all_aliases(list);
+    if (shell->nb_args == 2 && shell->command[1] != NULL) {
+        for (; list != NULL; list = list->next) {
             if (strcmp(list->name, shell->command[1]) == 0) {
-                printf("%s\n", list->cmd);
-                return 0;
+                return print_single_alias(list);
             }
         }
     }
@@ -38,11 +55,12 @@ static char *concatenate_args(char **args)
     for (i = 0; args[i]; i++)
         len += strlen(args[i]) + 1;
     result = malloc(len);
-    if (!result) return NULL;
+    if (!result)
+        return NULL;
     result[0] = '\0';
     for (i = 0; args[i]; i++) {
         strcat(result, args[i]);
-        if (args[i+1])
+        if (args[i + 1])
             strcat(result, " ");
     }
     return result;
@@ -122,8 +140,7 @@ int my_alias(shell_t *shell)
             return 1;
         }
         return print_alias(shell->aliases, shell);
-    }
-    else if (shell->nb_args >= 3) {
+    } else if (shell->nb_args >= 3) {
         if (shell->command[1] == NULL || shell->command[2] == NULL) {
             fprintf(stderr, "alias: missing arguments\n");
             return 1;

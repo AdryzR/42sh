@@ -52,21 +52,6 @@ static int parse_line(shell_t *shell)
     return 0;
 }
 
-// void replace_aliases(shell_t *shell)
-// {
-//     char *alias_cmd = NULL;
-
-//     if (!shell || !shell->command)
-//         return;
-//     for (int i = 0; shell->command[i]; i++) {
-//         alias_cmd = get_alias_value(shell->aliases, shell->command[i]);
-//         if (alias_cmd) {
-//             free(shell->command[i]);
-//             shell->command[i] = strdup(alias_cmd);
-//         }
-//     }
-// }
-
 int check_shell_args(shell_t *shell)
 {
     int exec = 0;

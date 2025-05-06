@@ -34,6 +34,7 @@ void main_loop(shell_t *shell)
     ssize_t bytes_read = 0;
     ast_t *ast;
     lexer_t lexer = { 0 };
+    char **newline = NULL;
 
     for (;;) {
         print_prompt_if_tty(shell);
@@ -41,7 +42,7 @@ void main_loop(shell_t *shell)
         check_getline_end(shell, bytes_read);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
-        char *newline = replace_aliases(shell->line, shell->aliases);
+        newline = replace_aliases(shell->line, shell->aliases);
         lexer = update_lexer(lexer, newline);
         ast = parser_parse(&lexer);
         if (!ast) {
