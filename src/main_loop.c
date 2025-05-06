@@ -41,7 +41,8 @@ void main_loop(shell_t *shell)
         check_getline_end(shell, bytes_read);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
-        lexer = update_lexer(lexer, shell->line);
+        char *newline = replace_aliases(shell->line, shell->aliases);
+        lexer = update_lexer(lexer, newline);
         ast = parser_parse(&lexer);
         if (!ast) {
             shell->shell_status = 84;

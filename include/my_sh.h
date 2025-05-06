@@ -115,6 +115,7 @@ int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
 int my_alias(shell_t *shell);
+char *replace_aliases(char *input, alias_t *aliases);
 void print_prompt(shell_t *shell);
 int is_a_built_in(shell_t *shell);
 

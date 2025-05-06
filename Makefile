@@ -71,6 +71,7 @@ SRC =	src/main.c \
 		src/redirections/redirect_out.c \
 		src/builtins/my_exit.c	\
 		src/aliases.c	\
+		src/replace_aliases.c	\
 		src/builtins.c
 
 OBJ = $(SRC:.c=.o)

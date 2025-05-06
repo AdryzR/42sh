@@ -40,20 +40,6 @@ void is_path_existing(shell_t *shell)
         use_previous_path(shell);
 }
 
-static int is_alias(shell_t *shell)
-{
-    if (!shell->aliases->cmd)
-        return 1;
-    if (!shell->command)
-        return 1;
-    for (int i = 0; shell->command[i] != NULL; i++) {
-        if (strcmp(shell->command[i], shell->aliases->cmd) == 0)
-            shell->command[i] = strdup(shell->aliases->cmd);
-            return 0;
-    }
-    return 1;
-}
-
 static int parse_line(shell_t *shell)
 {
     if (shell->command != NULL)
@@ -66,6 +52,21 @@ static int parse_line(shell_t *shell)
     return 0;
 }
 
+// void replace_aliases(shell_t *shell)
+// {
+//     char *alias_cmd = NULL;
+
+//     if (!shell || !shell->command)
+//         return;
+//     for (int i = 0; shell->command[i]; i++) {
+//         alias_cmd = get_alias_value(shell->aliases, shell->command[i]);
+//         if (alias_cmd) {
+//             free(shell->command[i]);
+//             shell->command[i] = strdup(alias_cmd);
+//         }
+//     }
+// }
+
 int check_shell_args(shell_t *shell)
 {
     int exec = 0;
@@ -73,7 +74,6 @@ int check_shell_args(shell_t *shell)
     shell->nb_args = len_array(shell->command);
     is_path_existing(shell);
     exec = is_a_built_in(shell);
-    is_alias(shell);
     if (exec == 1)
         exec = check_commands(shell);
     else
