@@ -37,6 +37,17 @@ static void check_where(shell_t *shell, char *command, int *state)
     return;
 }
 
+static int check_path(shell_t *shell, char *command)
+{
+    for (int i = 0; command[i]; ++i)
+        if (command[i] == '/') {
+            shell->shell_status = 1;
+            my_putstr_ch(2, "where: / in command makes no sense\n");
+            return 84;
+        }
+    return 0;
+}
+
 int my_where(shell_t *shell)
 {
     int state = 0;
@@ -48,13 +59,9 @@ int my_where(shell_t *shell)
         my_putstr_ch(2, "where: Too few arguments.\n");
         return 84;
     }
-    for (int i = 0; shell->command[1][i]; ++i)
-        if (shell->command[1][i] == '/') {
-            shell->shell_status = 1;
-            my_putstr_ch(2, "where: / in command makes no sense\n");
-            return 84;
-        }
     for (int i = 1; shell->command[i]; ++i) {
+        if (check_path(shell, shell->command[i]) == 84)
+            continue;
         command = strdup(shell->command[i]);
         check_where(shell, command, &state);
     }
