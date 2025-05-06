@@ -48,6 +48,7 @@ typedef struct envi_s {
 
 typedef struct history_s {
     int index;
+    int tmp_index;
 } history_t;
 
 typedef struct shell_s {
@@ -107,11 +108,13 @@ int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
 int history_gest(shell_t *shell, history_t *hist);
-int history_up(shell_t *shell, int index);
-int history_down(shell_t *shell, history_t *hist, int index);
+int history_up(shell_t *shell, history_t *hist);
+int history_down(shell_t *shell, history_t *hist);
 int arrows_key(shell_t *shell, history_t *hist, char c);
 int getinput_gest(shell_t *shell, char **env);
 int specific_case(shell_t *shell, char c, char *line);
 int init_output(struct termios *newt, struct termios *oldt);
+void set_index(shell_t *shell, history_t *hist);
+int print_history();
 
 #endif

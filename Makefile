@@ -40,6 +40,8 @@ SRC =	src/main.c \
 		src/history_arrows/arrows_key.c \
 		read_input.c \
 		handle_specific_case_read.c \
+		src/set_history.c \
+		src/print_history.c \
 
 OBJ = $(SRC:.c=.o)
 

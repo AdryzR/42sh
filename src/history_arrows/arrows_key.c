@@ -10,15 +10,13 @@
 
 void check_arrows(char buff, shell_t *shell, history_t *hist)
 {
-    // int tmp_index = hist->index;
-
     buff = getchar();
     switch (buff) {
         case 'A':
-            // tmp_index = history_up(shell, tmp_index);
+            history_up(shell, hist);
             break;
         case 'B':
-            // tmp_index = history_down(shell, hist, tmp_index);
+            history_down(shell, hist);
             break;
         case 'C':
             if (shell->cursor_pos < shell->args_len) {

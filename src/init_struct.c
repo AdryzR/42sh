@@ -64,6 +64,9 @@ int init_struct(shell_t *shell, char **env)
         add_env_line(env[i], shell);
     init_pwd(shell);
     setup_path_copy(shell);
+    shell->history = malloc(sizeof(history_t));
+    shell->history->index = 0;
+    shell->history->tmp_index = 0;
     if (!shell)
         return 84;
     return 0;

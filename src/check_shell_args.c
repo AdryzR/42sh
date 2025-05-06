@@ -52,6 +52,8 @@ int is_a_built_in(shell_t *shell)
         return my_unsetenv(shell);
     if (my_strcmp(shell->command[0], "cd") == 0)
         return my_cd(shell);
+    if (my_strcmp(shell->command[0], "history") == 0)
+        return print_history();
     return 1;
 }
 

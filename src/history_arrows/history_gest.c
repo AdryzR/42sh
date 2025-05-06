@@ -8,44 +8,51 @@
 #include "my_sh.h"
 #include "my.h"
 
-int history_up(shell_t *shell, int index)
+int history_up(shell_t *shell, history_t *hist)
 {
+    size_t len = 0;
     char *line = NULL;
-    FILE *file = fopen(".history.txt", "r");
+    FILE *file = fopen(".history", "r");
+    int size = 0;
 
     if (!file)
         return ret_and_set_status(84, shell);
-    index--;
-    if (index == 0)
+    if (hist->index == 0)
         return 0;
-    fread(&line, index, 0, file);
+    hist->index--;
+    fgets(line, 1024, file);
+    len = strlen(line);
+    write(0, line, len);
     fclose(file);
-    return index;
+    return 0;
 }
 
-int history_down(shell_t *shell, history_t *hist, int index)
+int history_down(shell_t *shell, history_t *hist)
 {
+    size_t len = 0;
     char *line = NULL;
-    FILE *file = fopen(".history.txt", "r");
+    FILE *file = fopen(".history", "r");
 
     if (!file)
         return ret_and_set_status(84, shell);
-    index++;
-    if (index == hist->index)
+    hist->index++;
+    if (hist->index == hist->index)
         return 0;
-    fread(&line, index, 0, file);
+    fread(&line, hist->index, 0, file);
+    len = strlen(line);
+    write(0, line, len);
     fclose(file);
-    return index;
+    return 0;
 }
 
 int history_gest(shell_t *shell, history_t *hist)
 {
     FILE *ptr;
 
-    ptr = fopen(".history.txt", "a");
+    ptr = fopen(".history", "a");
     if (!ptr)
         return ret_and_set_status(84, shell);
-    fprintf(ptr, shell->line, "%s\n");
+    fprintf(ptr, "%s\n", shell->line);
     fclose(ptr);
     hist->index++;
     return 0;

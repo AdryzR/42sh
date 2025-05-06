@@ -47,12 +47,14 @@ int setup_args(shell_t *shell)
     return 0;
 }
 
-int while_loop(shell_t *shell, char **env)
+int while_loop(shell_t *shell, char **env, history_t *history)
 {
     signal(SIGINT, handle_sigint);
     while (42) {
+        set_index(shell, history);
         write(0, "> ", 2);
         getinput_gest(shell, env);
+        history_gest(shell, history);
         if (shell->line[0] == '\0')
             continue;
         setup_args(shell);
@@ -65,6 +67,6 @@ int main(int ac, char **av, char **env)
 
     if (init_struct(shell, env))
         return 84;
-    while_loop(shell, env);
+    while_loop(shell, env, shell->history);
     return 0;
 }
