@@ -16,6 +16,7 @@
 int main(int ac, char **av, char **env)
 {
     shell_t *shell = malloc(sizeof(shell_t));
+    ssize_t bytes_read = 0;
 
     *shell = (shell_t){ 0 };
     shell->aliases = malloc(sizeof(alias_t));
@@ -25,6 +26,6 @@ int main(int ac, char **av, char **env)
     if (!shell)
         return 84;
     init_struct(shell, env);
-    main_loop(shell);
+    main_loop(shell, bytes_read);
     return 0;
 }
