@@ -64,7 +64,7 @@ int check_shell_args(shell_t *shell)
     else
         return exec;
     if (exec == 84) {
-        shell->shell_status = 84;
+        shell->shell_status = 1;
         return 84;
     }
     execute_cmd(shell);

@@ -18,7 +18,7 @@ static int not_a_dir(shell_t *shell)
     my_putstr_ch(2, ": ");
     my_putstr_ch(2, strerror(errno));
     my_putstr_ch(2, ".\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
@@ -46,14 +46,14 @@ static int update_env_line(envi_t *buff, shell_t *shell, char *type,
 static int cd_too_many_args(shell_t *shell)
 {
     my_putstr_ch(2, "cd: Too many arguments.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
 static int no_home_dir(shell_t *shell)
 {
     my_putstr_ch(2, "cd: No home directory.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 

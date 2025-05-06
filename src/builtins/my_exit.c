@@ -49,14 +49,14 @@ static bool is_alphanumeric(char c)
 static int error_numbers(shell_t *shell)
 {
     my_putstr_ch(2, "exit: Badly formed number.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
 static int error_syntax(shell_t *shell)
 {
     my_putstr_ch(2, "exit: Expression Syntax.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 

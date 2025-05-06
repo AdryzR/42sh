@@ -13,7 +13,7 @@
 
 int too_many_args(shell_t *shell)
 {
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     my_putstr_ch(2, "setenv: Too many arguments.\n");
     return 84;
 }
@@ -98,14 +98,14 @@ static int check_env_arg(shell_t *shell)
 {
     if (is_char_allowed(shell->command[1][0]) == false) {
         my_putstr_ch(2, "setenv: Variable name must begin with a letter.\n");
-        shell->shell_status = 84;
+        shell->shell_status = 1;
         return 84;
     }
     for (int i = 1; shell->command[1][i]; i++)
         if (is_alphanumeric(shell->command[1][i]) == false) {
             my_putstr_ch(2, "setenv: Variable name must contain alphanumeric "
                 "characters.\n");
-            shell->shell_status = 84;
+            shell->shell_status = 1;
             return 84;
         }
     return 0;
