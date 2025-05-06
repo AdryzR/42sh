@@ -5,6 +5,9 @@
 ** execute_sudo
 */
 
+#include <unistd.h>
+#include <string.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -73,19 +76,25 @@ static bool is_executable(const char *filename)
 
 void my_perror(shell_t *shell)
 {
-    struct stat st;
+    int err = errno;
 
-    my_putstr_ch(2, shell->command[0]);
-    my_putstr_ch(2, ": ");
-    if (errno != ENOEXEC)
-        if (!is_executable(shell->line)) {
-            my_putstr_ch(2, "Command not found.\n");
-            return;
-        }
-    my_putstr_ch(2, strerror(errno));
-    if (errno == ENOEXEC)
-        my_putstr_ch(2, ". Binary file not executable");
-    my_putstr_ch(2, ".\n");
+    fprintf(stderr, "%s", shell->command[0]);
+    fprintf(stderr, ": ");
+    if (err == ENOENT) {
+        fprintf(stderr, "Command not found.\n");
+        return;
+    }
+    if (!is_executable(shell->full_path)) {
+        fprintf(stderr, "Permission denied.\n");
+        return;
+    }
+    if (err == ENOEXEC) {
+        fprintf(stderr, "%s", strerror(err));
+        fprintf(stderr, ". Binary file not executable.\n");
+        return;
+    }
+    fprintf(stderr, "%s", strerror(err));
+    fprintf(stderr, ".\n");
 }
 
 int execute_cmd(shell_t *shell)

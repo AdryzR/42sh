@@ -2,7 +2,13 @@
 *.o
 .vscode
 lib/libmy.a
+
+# Tests:
 tester
 my_segfault
 invalid_bin
 binaire-mac
+test_div_zero_with_core.sh
+test_divzero_no_core.sh
+divzero
+divzero.c
