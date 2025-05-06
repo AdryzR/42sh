@@ -20,6 +20,12 @@ static void check_which(shell_t *shell, char *command, int *state)
         free(command);
         return;
     }
+    for (int i = 0; command[i]; ++i)
+        if (command[i] == '/') {
+            printf("%s\n", command);
+            free(command);
+            return;
+        }
     printf("%s\n", shell->full_path);
     free(command);
     return;
