@@ -28,10 +28,9 @@ static void check_getline_end(shell_t *shell, ssize_t bytes_read)
         my_exit(shell, CURRENT_STATUS);
 }
 
-void main_loop(shell_t *shell)
+void main_loop(shell_t *shell, ssize_t bytes_read)
 {
     size_t args_len = 0;
-    ssize_t bytes_read = 0;
     ast_t *ast;
     lexer_t lexer = { 0 };
 

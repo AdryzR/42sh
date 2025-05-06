@@ -72,7 +72,7 @@ int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
 int make_redir_heredoc(shell_t *shell, char *eof);
 
-void main_loop(shell_t *shell);
+void main_loop(shell_t *shell, ssize_t bytes_read);
 
 int handle_pipes(shell_t *shell);
 int exec_pipe(shell_t *shell, char **commands);
