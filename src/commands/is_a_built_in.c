@@ -14,6 +14,8 @@ static const char *builtin_names[] = {
     "env",
     "unsetenv",
     "cd",
+    "which",
+    "where",
     NULL
 };
 
@@ -23,7 +25,9 @@ static const builtin_fn_t builtin_fns[] = {
     my_setenv,
     my_env,
     my_unsetenv,
-    my_cd
+    my_cd,
+    my_which,
+    my_where
 };
 
 /*
@@ -62,12 +66,13 @@ static int call_builtin(builtin_fn_t builtin, shell_t *shell)
 Return 1 si l'input pas un builtin, sinon éxecute le builtin et return
 ce qu'il return
 */
-int is_a_built_in(shell_t *shell)
+int is_a_built_in(shell_t *shell, char *command, bool exec)
 {
     for (int i = 0; builtin_names[i] != NULL; i++) {
-        if (strcmp(shell->command[0], builtin_names[i]) == 0) {
+        if (strcmp(command, builtin_names[i]) == 0 && exec == true)
             return call_builtin(builtin_fns[i], shell);
-        }
+        if (strcmp(command, builtin_names[i]) == 0 && exec == false)
+            return 0;
     }
     return NOT_A_BUILTIN;
 }

@@ -58,9 +58,9 @@ int check_shell_args(shell_t *shell)
 
     shell->nb_args = len_array(shell->command);
     is_path_existing(shell);
-    exec = is_a_built_in(shell);
+    exec = is_a_built_in(shell, shell->command[0], true);
     if (exec == NOT_A_BUILTIN)
-        exec = check_commands(shell);
+        exec = check_commands(shell, shell->command[0], true);
     else
         return exec;
     if (exec == 84) {

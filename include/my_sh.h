@@ -71,7 +71,7 @@ void main_loop(shell_t *shell);
 
 void setup_path_copy(shell_t *shell);
 int wait_for_pid(shell_t *shell, int c_pid);
-int is_a_built_in(shell_t *shell);
+int is_a_built_in(shell_t *shell, char *command, bool exec);
 int missing_name_err(char **commands, shell_t *shell);
 char **str_to_warray(char *str, char *delim);
 int left_to_right(shell_t *shell);
@@ -94,10 +94,12 @@ int new_env_line(envi_t *buff, shell_t *shell);
 int check_shell_args(shell_t *shell);
 int my_setenv(shell_t *shell);
 void free_all(shell_t *shell);
-int check_commands(shell_t *shell);
+int check_commands(shell_t *shell, char *command, bool print);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
 void print_prompt(shell_t *shell);
+int my_which(shell_t *shell);
+int my_where(shell_t *shell);
 
 #endif

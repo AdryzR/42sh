@@ -70,7 +70,9 @@ SRC =	src/main.c \
 		src/redirections/redirect_heredoc.c \
 		src/redirections/redirect_in.c \
 		src/redirections/redirect_out.c \
-		src/builtins/my_exit.c
+		src/builtins/my_exit.c	\
+		src/builtins/my_which.c	\
+		src/builtins/my_where.c
 
 OBJ = $(SRC:.c=.o)
 
