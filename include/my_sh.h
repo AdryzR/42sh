@@ -119,4 +119,15 @@ char *replace_aliases(char *input, alias_t *aliases);
 void print_prompt(shell_t *shell);
 int is_a_built_in(shell_t *shell);
 
+// alias
+alias_t *find_alias(alias_t *head, const char *name);
+void prepend_alias_to_list(alias_t **head, alias_t *node);
+int init_alias_node(alias_t *node, const char *name, const char *cmd);
+void add_alias(alias_t **head, const char *name, const char *cmd);
+static int print_no_aliases(void);
+static int print_single_alias(const alias_t *alias);
+static int print_all_aliases(const alias_t *list);
+static int find_and_print_alias(shell_t *shell, const alias_t *list);
+int print_alias(alias_t *list, shell_t *shell);
+
 #endif
