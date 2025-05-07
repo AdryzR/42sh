@@ -9,21 +9,14 @@
 #include "parser.h"
 #include "interpreter.h"
 
-static void repeat_loop(int n, shell_t *shell, char *line)
+static void repeat_loop(int n, shell_t *shell)
 {
-    lexer_t lexer = { 0 };
-    ast_t *ast;
+    char **args = shell->command;
 
-    for (int i = n; i > 0; i--) {
-        lexer = update_lexer(lexer, line);
-        ast = parser_parse(&lexer);
-        if (!ast) {
-            shell->shell_status = 1;
-            continue;
-        }
-        interpret(ast, shell);
-        free_ast(ast);
-    }
+    shell->command = shell->command + 2;
+    for (int i = 0; i < n; i++)
+        check_shell_args(shell);
+    shell->command = args;
 }
 
 static int manage_error(shell_t *shell)
@@ -45,15 +38,10 @@ int my_repeat(shell_t *shell)
 {
     int n = 0;
     int k = 0;
-    char *line = NULL;
 
     if (manage_error(shell) == 84)
         return 84;
     n = my_getnbr(shell->command[1]);
-    line = word_array_to_str(shell->command, " ", 2);
-    free_array(shell->command);
-    shell->command = NULL;
-    repeat_loop(n, shell, line);
-    free(line);
+    repeat_loop(n, shell);
     return 0;
 }
