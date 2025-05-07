@@ -19,7 +19,7 @@ static void check_where(shell_t *shell, char *co, int *state)
     char **temp = NULL;
 
     if (is_a_built_in(shell, co, false) == 0 || strcmp(co, "echo") == 0) {
-        printf("%s: shell built-in co.\n", co);
+        printf("%s: shell built-in command.\n", co);
         free(co);
         return;
     }
