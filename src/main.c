@@ -53,7 +53,7 @@ int while_loop(shell_t *shell, char **env, history_t *history)
     while (42) {
         set_index(shell, history);
         write(0, "> ", 2);
-        getinput_gest(shell, env);
+        shell->line = read_line(shell, env);
         history_gest(shell, history);
         if (shell->line[0] == '\0')
             continue;

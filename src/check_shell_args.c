@@ -29,7 +29,6 @@ void use_previous_path(shell_t *shell)
     free(new_line);
 }
 
-//TODO: maybe add here a check if a full path is gave ex "/src/myprogram"
 void is_path_existing(shell_t *shell)
 {
     envi_t *buff = shell->envi;

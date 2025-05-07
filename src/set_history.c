@@ -20,6 +20,5 @@ void set_index(shell_t *shell, history_t *hist)
         if (c == '\n')
             hist->index++;
     }
-    printf("index set at: %d\n", hist->index);
     fclose(file);
 }

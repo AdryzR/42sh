@@ -11,7 +11,6 @@
 #include "my_printf.h"
 #include "my_sh.h"
 
-//TODO: free les choses que j'ai rajouté à la struct
 void free_str(char *str)
 {
     if (str)
