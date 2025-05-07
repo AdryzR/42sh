@@ -65,7 +65,7 @@ int builtin_exit(shell_t *shell);
 
 int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
-int make_redir_heredoc(shell_t *shell, char *eof);
+int make_redir_heredoc(shell_t *shell, const char *eof);
 
 void main_loop(shell_t *shell);
 

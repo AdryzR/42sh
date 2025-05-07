@@ -18,9 +18,10 @@ int interpret_redirect(const ast_t *ast, shell_t *shell)
         status = make_redirect_out(shell, redir->path, redir->red_type);
     } else {
         shell->saved_fds[STDIN] = dup(STDIN);
-        status = (redir->red_type == TT_HEREDOC)
-        ? make_redir_heredoc(shell, redir->path)
-        : make_redirect_in(shell, redir->path);
+        if (redir->red_type == REDIR_HEREDOC)
+            status = make_redir_heredoc(shell, redir->path);
+        else
+            status = make_redirect_in(shell, redir->path);
     }
     return status;
 }
