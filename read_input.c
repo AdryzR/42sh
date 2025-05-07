@@ -44,6 +44,7 @@ char *read_line(shell_t *shell, char **env)
     struct termios newt;
     char *line = NULL;
 
+    shell->history->tmp_index = shell->history->index;
     if (init_output(&newt, &oldt) == -1)
         return NULL;
     line = read_loop(shell, &oldt, line);

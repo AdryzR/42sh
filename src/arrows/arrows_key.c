@@ -49,21 +49,6 @@ char *check_arrows_l_r(char buff, shell_t *shell, history_t *hist, char *line)
     return line;
 }
 
-char *check_arrows_u_d(char buff, shell_t *shell, history_t *hist, char *line)
-{
-    buff = getchar();
-    switch (buff) {
-        case 'A':
-            history_up(shell, hist);
-            break;
-        case 'B':
-            history_down(shell, hist);
-            break;
-        default:
-            return check_arrows_l_r(buff, shell, hist, line);
-    }
-}
-
 static char *handle_delete_char(shell_t *shell, char *line)
 {
     if (shell->args_len < 1 || shell->cursor_pos < 1)
@@ -110,7 +95,7 @@ char *arrows_key(shell_t *shell, history_t *hist, char c, char *line)
         if (read(STDIN_FILENO, &c, 1) == 0)
             return line;
         if (c == '[') {
-            line = check_arrows_u_d(c, shell, hist, line);
+            line = check_arrows_l_r(c, shell, hist, line);
             return line;
         }
     }
