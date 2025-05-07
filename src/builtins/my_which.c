@@ -7,27 +7,27 @@
 
 #include "my_sh.h"
 
-static void check_which(shell_t *shell, char *command, int *state)
+static void check_which(shell_t *shell, char *co, int *state)
 {
-    if (is_a_built_in(shell, command, false) == 0) {
-        printf("%s: shell built-in command.\n", command);
-        free(command);
+    if (is_a_built_in(shell, co, false) == 0 || strcmp(co, "echo") == 0) {
+        printf("%s: shell built-in co.\n", co);
+        free(co);
         return;
     }
-    (*state) = check_commands(shell, command, true);
+    (*state) = check_cos(shell, co, true);
     if ((*state) == 84) {
         shell->shell_status = 1;
-        free(command);
+        free(co);
         return;
     }
-    for (int i = 0; command[i]; ++i)
-        if (command[i] == '/') {
-            printf("%s\n", command);
-            free(command);
+    for (int i = 0; co[i]; ++i)
+        if (co[i] == '/') {
+            printf("%s\n", co);
+            free(co);
             return;
         }
     printf("%s\n", shell->full_path);
-    free(command);
+    free(co);
     return;
 }
 

@@ -26,17 +26,29 @@ static void repeat_loop(int n, shell_t *shell, char *line)
     }
 }
 
+static int manage_error(shell_t *shell)
+{
+    if (!shell->command[1] || !shell->command[2]) {
+        shell->shell_status = 1;
+        my_putstr_ch(2, "repeat: Too few arguments.\n");
+        return 84;
+    }
+    if (my_str_isnum(shell->command[1]) == 0) {
+        shell->shell_status = 1;
+        my_putstr_ch(2, "repeat: Badly formed number.\n");
+        return 84;
+    }
+    return 0;
+}
+
 int my_repeat(shell_t *shell)
 {
     int n = 0;
     int k = 0;
     char *line = NULL;
 
-    if (!shell->command[1] || !shell->command[2]) {
-        shell->shell_status = 1;
-        my_putstr_ch(2, "repeat: Too few arguments.\n");
+    if (manage_error(shell) == 84)
         return 84;
-    }
     n = my_getnbr(shell->command[1]);
     line = word_array_to_str(shell->command, " ", 2);
     free_array(shell->command);
