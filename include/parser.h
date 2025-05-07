@@ -89,7 +89,7 @@ static inline bool is_paren_end(parser_t *parser)
         parser->current.type == TT_EOF;
 }
 
-static inline bool is_a_redirect(parser_t *parser)
+static inline bool is_a_redirect(const parser_t *parser)
 {
     return
         parser->current.type == TT_REDIRECT_IN ||

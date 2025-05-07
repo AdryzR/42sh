@@ -18,11 +18,9 @@ static void check_where(shell_t *shell, char *command, int *state)
 {
     char **temp = NULL;
 
-    if (is_a_built_in(shell, command, false) == 0) {
+    if (is_a_built_in(shell, command, false) == 0 ||
+    strcmp(command, "echo") == 0)
         printf("%s: shell built-in command.\n", command);
-        free(command);
-        return;
-    }
     (*state) = check_commands(shell, command, false);
     if ((*state) == 84) {
         shell->shell_status = 1;

@@ -65,7 +65,7 @@ int builtin_exit(shell_t *shell);
 
 int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
-int make_redir_heredoc(shell_t *shell, char *eof);
+int make_redir_heredoc(shell_t *shell, const char *eof);
 
 void main_loop(shell_t *shell);
 
@@ -101,5 +101,8 @@ int my_putstr_ch(int fd, char const *str);
 void print_prompt(shell_t *shell);
 int my_which(shell_t *shell);
 int my_where(shell_t *shell);
+lexer_t update_lexer(lexer_t lexer, char *line);
+int my_repeat(shell_t *shell);
+char *word_array_to_str(char **tab, char *delim, int start);
 
 #endif

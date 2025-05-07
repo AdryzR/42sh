@@ -10,7 +10,7 @@
 #include <parser.h>
 
 // TODO: change pipe() by using a temporary file to avoid blocking pipes.
-int make_redir_heredoc(shell_t *shell, char *eof)
+int make_redir_heredoc(shell_t *shell, const char *eof)
 {
     int pipefd[2];
     ssize_t bytes_read = 0;
@@ -18,12 +18,13 @@ int make_redir_heredoc(shell_t *shell, char *eof)
     size_t len = 0;
 
     pipe(pipefd);
-    do {
-        bytes_read = getline(&line, &len, stdin);
+    bytes_read = getline(&line, &len, stdin);
+    while (bytes_read > 0) {
         if (strstr(line, eof) == line && line[strlen(eof)] == '\n')
             break;
         write(pipefd[1], line, bytes_read);
-    } while (bytes_read != -1);
+        bytes_read = getline(&line, &len, stdin);
+    }
     close(pipefd[1]);
     dup2(pipefd[0], STDIN);
     close(pipefd[0]);

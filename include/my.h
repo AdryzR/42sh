@@ -33,5 +33,7 @@ int my_put_nbr_ch(int nb, int fd);
 int my_putstr(char const *str);
 int my_strlen(char const *str);
 int my_getnbr(char const *str);
+int my_char_isnum(char c);
+int my_str_isnum(char const *str);
 
 #endif
