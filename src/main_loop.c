@@ -8,7 +8,7 @@
 #include <my_sh.h>
 #include <interpreter.h>
 
-static lexer_t update_lexer(lexer_t lexer, char *line)
+lexer_t update_lexer(lexer_t lexer, char *line)
 {
     lexer_t new = {.start = line};
 
