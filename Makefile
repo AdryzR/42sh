@@ -74,7 +74,9 @@ SRC =	src/main.c \
 		src/builtins/my_which.c	\
 		src/builtins/my_where.c	\
 		src/builtins/my_repeat.c \
-		src/word_array_to_str.c
+		src/word_array_to_str.c	\
+		src/my_str_isnum.c 		\
+		src/my_char_isnum.c
 
 OBJ = $(SRC:.c=.o)
 
