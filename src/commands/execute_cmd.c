@@ -23,7 +23,7 @@ static int check_signal_status(int status)
         fprintf(stderr, "Segmentation fault");
         break;
     case SIGFPE:
-        fprintf(stderr, "Floating point exception");
+        fprintf(stderr, "Floating exception");
         break;
     default:
         break;
