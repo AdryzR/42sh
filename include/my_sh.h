@@ -16,6 +16,7 @@
     #define OPTI_RET(ptr, retval) ATTRIB(ptr) return retval
     #define STDIN STDIN_FILENO
     #define STDOUT STDOUT_FILENO
+    #define MAX_LINES 100
     #include "my.h"
     #include <string.h>
     #include <stdbool.h>
@@ -115,6 +116,6 @@ int getinput_gest(shell_t *shell, char **env);
 int specific_case(shell_t *shell, char c, char *line);
 int init_output(struct termios *newt, struct termios *oldt);
 void set_index(shell_t *shell, history_t *hist);
-int print_history();
+int print_history(void);
 
 #endif

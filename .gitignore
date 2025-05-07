@@ -8,3 +8,5 @@ invalid_bin
 binaire-mac
 a.out
 *libmy.a
+.history
+coding-style-reports.log

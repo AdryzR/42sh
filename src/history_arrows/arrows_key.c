@@ -8,16 +8,9 @@
 #include "my_sh.h"
 #include "my.h"
 
-void check_arrows(char buff, shell_t *shell, history_t *hist)
+void check_arrows_l_r(char buff, shell_t *shell, history_t *hist)
 {
-    buff = getchar();
     switch (buff) {
-        case 'A':
-            history_up(shell, hist);
-            break;
-        case 'B':
-            history_down(shell, hist);
-            break;
         case 'C':
             if (shell->cursor_pos < shell->args_len) {
                 dprintf(STDOUT_FILENO, "\033[C");
@@ -30,6 +23,21 @@ void check_arrows(char buff, shell_t *shell, history_t *hist)
                 shell->cursor_pos--;
             }
             break;
+    }
+}
+
+void check_arrows_u_d(char buff, shell_t *shell, history_t *hist)
+{
+    buff = getchar();
+    switch (buff) {
+        case 'A':
+            history_up(shell, hist);
+            break;
+        case 'B':
+            history_down(shell, hist);
+            break;
+        default:
+            return check_arrows_l_r(buff, shell, hist);
     }
 }
 
@@ -77,7 +85,7 @@ int arrows_key(shell_t *shell, history_t *hist, char c)
         if (read(STDIN_FILENO, &c, 1) == 0)
             return 0;
         if (c == '[') {
-            check_arrows(c, shell, hist);
+            check_arrows_u_d(c, shell, hist);
             return 0;
         }
     }
