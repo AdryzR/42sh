@@ -101,5 +101,8 @@ int my_putstr_ch(int fd, char const *str);
 void print_prompt(shell_t *shell);
 int my_which(shell_t *shell);
 int my_where(shell_t *shell);
+lexer_t update_lexer(lexer_t lexer, char *line);
+int my_repeat(shell_t *shell);
+char *word_array_to_str(char **tab, char *delim, int start);
 
 #endif

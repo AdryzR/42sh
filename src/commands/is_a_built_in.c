@@ -16,6 +16,7 @@ static const char *builtin_names[] = {
     "cd",
     "which",
     "where",
+    "repeat",
     NULL
 };
 
@@ -27,7 +28,8 @@ static const builtin_fn_t builtin_fns[] = {
     my_unsetenv,
     my_cd,
     my_which,
-    my_where
+    my_where,
+    my_repeat
 };
 
 /*
