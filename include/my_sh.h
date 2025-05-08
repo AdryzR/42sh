@@ -86,7 +86,6 @@ typedef struct shell_s {
     int nb_pipes;
     int nb_parths;
     bool should_skip_wait;
-    alloc_t *alloc;
     history_t *history;
     bool should_fork_builtin;
     int saved_fds[2];
@@ -101,7 +100,7 @@ int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
 int make_redir_heredoc(shell_t *shell, const char *eof);
 
-void main_loop(shell_t *shell);
+void main_loop(shell_t *shell, ssize_t bytes_read);
 
 void setup_path_copy(shell_t *shell);
 int wait_for_pid(shell_t *shell, int c_pid);
@@ -135,11 +134,6 @@ int my_putstr_ch(int fd, char const *str);
 
 // History
 int history_gest(shell_t *shell, history_t *hist);
-int history_up(shell_t *shell, history_t *hist);
-int history_down(shell_t *shell, history_t *hist);
-char *arrows_key(shell_t *shell, history_t *hist, char c, char *line);
-char *read_line(shell_t *shell);
-int specific_case(shell_t *shell, char c, char *line);
 int init_output(struct termios *newt, struct termios *oldt);
 void set_index(shell_t *shell, history_t *hist);
 int print_history(void);

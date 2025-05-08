@@ -21,10 +21,12 @@ static void print_prompt_if_tty(shell_t *shell)
         print_prompt(shell);
 }
 
-static void update_args(shell_t *shell)
+static void update_args(shell_t *shell, ssize_t bytes_read)
 {
     shell->nb_args = 0;
     setup_path_copy(shell);
+    if (bytes_read == -1)
+        my_exit(shell, CURRENT_STATUS);
 }
 
 static int start_execution(shell_t *shell)
@@ -44,18 +46,16 @@ static int start_execution(shell_t *shell)
     return 0;
 }
 
-void main_loop(shell_t *shell)
+void main_loop(shell_t *shell, ssize_t bytes_read)
 {
     size_t args_len = 0;
 
     for (;;) {
         set_index(shell, shell->history);
         print_prompt_if_tty(shell);
-        shell->line = read_line(shell);
+        bytes_read = getline(&shell->line, &args_len, stdin);
         history_gest(shell, shell->history);
-        if (shell->line[0] == '\0')
-            continue;
-        update_args(shell);
+        update_args(shell, bytes_read);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
         shell->input = replace_aliases(shell, shell->line, shell->aliases);

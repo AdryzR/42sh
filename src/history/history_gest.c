@@ -12,10 +12,12 @@ int history_gest(shell_t *shell, history_t *hist)
 {
     FILE *ptr;
 
+    if (strcmp(shell->line, "\n") == 0)
+        return 0;
     ptr = fopen(".history", "a");
     if (!ptr)
         return ret_and_set_status(84, shell);
-    fprintf(ptr, "%s\n", shell->line);
+    fprintf(ptr, "%s", shell->line);
     fclose(ptr);
     hist->index++;
     return 0;
