@@ -63,12 +63,17 @@ void save_fd(shell_t *shell)
     shell->saved_fds[1] = -1;
 }
 
+static void init_alias(shell_t *shell)
+{
+    shell->aliases = NULL;
+}
+
 void init_struct(shell_t *shell, char **env)
 {
     *shell = (shell_t){ 0 };
+    init_alias(shell);
     for (int i = 0; env[i]; i++)
         add_env_line(env[i], shell);
-    shell->program = NULL;
     init_pwd(shell);
     save_fd(shell);
     setup_path_copy(shell);

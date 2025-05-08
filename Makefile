@@ -25,6 +25,7 @@ SRC =	src/main.c \
 		lib/my_strncpy.c \
 		lib/my_strcat_m.c \
 		lib/my_strcat.c \
+		lib/join_words.c \
 		src/utilities/init_struct.c \
 		src/utilities/ret_and_set_status.c \
 		src/utilities/print_prompt.c \
@@ -70,19 +71,23 @@ SRC =	src/main.c \
 		src/redirections/redirect_heredoc.c \
 		src/redirections/redirect_in.c \
 		src/redirections/redirect_out.c \
-		src/builtins/my_exit.c	\
+		src/builtins/my_exit.c \
 		src/builtins/my_which.c	\
 		src/builtins/my_where.c	\
 		src/builtins/my_repeat.c \
 		src/word_array_to_str.c	\
-		src/my_str_isnum.c 		\
-		src/my_char_isnum.c
+		src/my_str_isnum.c \
+		src/my_char_isnum.c \
+		src/replace_aliases.c \
+		src/aliases/aliases.c \
+		src/aliases/add.c \
+		src/aliases/print.c
 
 OBJ = $(SRC:.c=.o)
 
 NAME =	42sh
 
-CFLAGS = -I./include
+CFLAGS = -I./include -g
 
 all: $(NAME)
 

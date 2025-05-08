@@ -29,12 +29,26 @@ static void update_args(shell_t *shell, ssize_t bytes_read)
         my_exit(shell, CURRENT_STATUS);
 }
 
-void main_loop(shell_t *shell)
+static int start_execution(shell_t *shell)
 {
-    size_t args_len = 0;
-    ssize_t bytes_read = 0;
     ast_t *ast;
     lexer_t lexer = { 0 };
+
+    lexer = update_lexer(lexer, shell->input);
+    ast = parser_parse(&lexer);
+    if (!ast) {
+        shell->shell_status = 1;
+        return 84;
+    }
+    interpret(ast, shell);
+    free_ast(ast);
+    free(shell->input);
+    return 0;
+}
+
+void main_loop(shell_t *shell, ssize_t bytes_read)
+{
+    size_t args_len = 0;
 
     for (;;) {
         print_prompt_if_tty(shell);
@@ -42,13 +56,10 @@ void main_loop(shell_t *shell)
         update_args(shell, bytes_read);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
-        lexer = update_lexer(lexer, shell->line);
-        ast = parser_parse(&lexer);
-        if (!ast) {
-            shell->shell_status = 1;
+        shell->input = replace_aliases(shell, shell->line, shell->aliases);
+        if (shell->input == NULL)
             continue;
-        }
-        interpret(ast, shell);
-        free_ast(ast);
+        if (start_execution(shell) != 0)
+            continue;
     }
 }
