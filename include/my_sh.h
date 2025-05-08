@@ -17,6 +17,7 @@
     #define OPTI_RET(ptr, retval) ATTRIB(ptr) return retval
     #define STDIN STDIN_FILENO
     #define STDOUT STDOUT_FILENO
+    #define ALIAS_LOOP 10000
     #define LS_COLOR "ls --color"
     #define NOT_A_BUILTIN 1
     #include "my.h"
@@ -64,6 +65,7 @@ typedef struct shell_s {
     bool should_skip_wait;
     int saved_fds[2];
     alias_t *aliases;
+    char *input;
 } shell_t;
 
 typedef int (*builtin_fn_t)(shell_t *shell);
@@ -115,11 +117,11 @@ int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
 int my_alias(shell_t *shell);
-char *replace_aliases(char *input, alias_t *aliases);
 void print_prompt(shell_t *shell);
 int is_a_built_in(shell_t *shell);
 
 // alias
+char *replace_aliases(shell_t *shell, char *input, alias_t *aliases);
 alias_t *find_alias(alias_t *head, const char *name);
 void prepend_alias_to_list(alias_t **head, alias_t *node);
 int init_alias_node(alias_t *node, const char *name, const char *cmd);

@@ -18,11 +18,6 @@ int main(int ac, char **av, char **env)
     shell_t *shell = malloc(sizeof(shell_t));
     ssize_t bytes_read = 0;
 
-    *shell = (shell_t){ 0 };
-    shell->aliases = malloc(sizeof(alias_t));
-    shell->aliases->cmd = NULL;
-    shell->aliases->name = NULL;
-    shell->aliases->next = NULL;
     if (!shell)
         return 84;
     init_struct(shell, env);

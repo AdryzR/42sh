@@ -25,6 +25,7 @@ SRC =	src/main.c \
 		lib/my_strncpy.c \
 		lib/my_strcat_m.c \
 		lib/my_strcat.c \
+		lib/join_words.c \
 		src/utilities/init_struct.c \
 		src/utilities/ret_and_set_status.c \
 		src/utilities/print_prompt.c \

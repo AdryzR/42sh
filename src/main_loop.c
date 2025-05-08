@@ -28,12 +28,26 @@ static void check_getline_end(shell_t *shell, ssize_t bytes_read)
         my_exit(shell, CURRENT_STATUS);
 }
 
+static int start_execution(shell_t *shell)
+{
+    ast_t *ast;
+    lexer_t lexer = { 0 };
+
+    lexer = update_lexer(lexer, shell->input);
+    ast = parser_parse(&lexer);
+    if (!ast) {
+        shell->shell_status = 84;
+        return 84;
+    }
+    interpret(ast, shell);
+    free_ast(ast);
+    free(shell->input);
+    return 0;
+}
+
 void main_loop(shell_t *shell, ssize_t bytes_read)
 {
     size_t args_len = 0;
-    ast_t *ast;
-    lexer_t lexer = { 0 };
-    char **newline = NULL;
 
     for (;;) {
         print_prompt_if_tty(shell);
@@ -41,14 +55,10 @@ void main_loop(shell_t *shell, ssize_t bytes_read)
         check_getline_end(shell, bytes_read);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
-        newline = replace_aliases(shell->line, shell->aliases);
-        lexer = update_lexer(lexer, newline);
-        ast = parser_parse(&lexer);
-        if (!ast) {
-            shell->shell_status = 84;
+        shell->input = replace_aliases(shell, shell->line, shell->aliases);
+        if (shell->input == NULL)
             continue;
-        }
-        interpret(ast, shell);
-        free_ast(ast);
+        if (start_execution(shell) != 0)
+            continue;
     }
 }

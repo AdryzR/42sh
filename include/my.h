@@ -19,6 +19,7 @@
     #include <signal.h>
     #include <glob.h>
 
+char *join_words(char **words);
 char *my_strcpy(char *dest, const char *src);
 char *my_strdup(const char *str);
 char **my_str_to_word_array(char *str, char *delim);
