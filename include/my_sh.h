@@ -49,7 +49,14 @@ typedef struct envi_s {
 
 typedef struct history_s {
     int index;
+    int tmp_index;
+    int last_return;
 } history_t;
+
+typedef struct alloc_s {
+    int nb_char;
+    int nb_alloc;
+} alloc_t;
 
 typedef struct shell_s {
     int nb_args;
@@ -65,6 +72,7 @@ typedef struct shell_s {
     char *old_pwd;
     int nb_pipes;
     bool should_skip_wait;
+    alloc_t *alloc;
     history_t *history;
 } shell_t;
 
@@ -108,6 +116,8 @@ int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
 int history_gest(shell_t *shell, history_t *hist);
+int history_up(shell_t *shell, history_t *hist);
+int history_down(shell_t *shell, history_t *hist);
 char *arrows_key(shell_t *shell, history_t *hist, char c, char *line);
 char *read_line(shell_t *shell, char **env);
 int specific_case(shell_t *shell, char c, char *line);
