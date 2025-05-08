@@ -65,11 +65,11 @@ static int update_pwd(shell_t *shell, char *old_pwd)
     shell->old_pwd = strdup(old_pwd);
     for (; buff && my_strcmp(buff->parts[0], "OLDPWD") != 0;
         buff = buff->next);
-    CHECK_MALLOC(buff, 1);
+    CHECK_MALLOC(buff, 84);
     update_env_line(buff, shell, "OLPWD", old_pwd);
     for (buff = shell->envi; buff && my_strcmp(buff->parts[0], "PWD") != 0;
         buff = buff->next);
-    CHECK_MALLOC(buff, 1);
+    CHECK_MALLOC(buff, 84);
     update_env_line(buff, shell, "PWD", my_getcwd());
     return 0;
 }
