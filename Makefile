@@ -29,6 +29,7 @@ SRC =	src/main.c \
 		src/utilities/init_struct.c \
 		src/utilities/ret_and_set_status.c \
 		src/utilities/print_prompt.c \
+		src/utilities/free_all.c \
 		src/commands/execute_cmd.c \
 		src/commands/check_shell_args.c \
 		src/commands/check_command.c \

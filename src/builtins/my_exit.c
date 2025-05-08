@@ -12,35 +12,6 @@
 #include "my_sh.h"
 #include <interpreter.h>
 
-//TODO: free les choses que j'ai rajouté à la struct
-void free_str(char *str)
-{
-    if (str)
-        free(str);
-}
-
-void free_all(shell_t *shell)
-{
-    envi_t *buff = NULL;
-
-    while (shell->envi) {
-        buff = shell->envi;
-        free(buff->env);
-        free_array(buff->parts);
-        shell->envi = shell->envi->next;
-        free(buff);
-    }
-    free(shell->envi);
-    free_str(shell->line);
-    free_array(shell->command);
-    free_str(shell->path_copy);
-    free_str(shell->full_path);
-    free_str(shell->home);
-    free_str(shell->old_pwd);
-    if (shell != NULL)
-        free(shell);
-}
-
 static bool is_alphanumeric(char c)
 {
     return (c >= '0' && c <= '9');
