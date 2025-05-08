@@ -26,7 +26,7 @@ static int command_not_found(shell_t *shell, char *command, bool print)
         my_putstr_ch(2, command);
         my_putstr_ch(2, ": Command not found.\n");
     }
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
