@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include "my.h"
-#include "my_printf.h"
+#include "printf.h"
 #include "my_sh.h"
 
 static int not_a_dir(shell_t *shell)
@@ -18,7 +18,7 @@ static int not_a_dir(shell_t *shell)
     my_putstr_ch(2, ": ");
     my_putstr_ch(2, strerror(errno));
     my_putstr_ch(2, ".\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
@@ -46,14 +46,14 @@ static int update_env_line(envi_t *buff, shell_t *shell, char *type,
 static int cd_too_many_args(shell_t *shell)
 {
     my_putstr_ch(2, "cd: Too many arguments.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
 static int no_home_dir(shell_t *shell)
 {
     my_putstr_ch(2, "cd: No home directory.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
@@ -61,6 +61,8 @@ static int update_pwd(shell_t *shell, char *old_pwd)
 {
     envi_t *buff = shell->envi;
 
+    free(shell->old_pwd);
+    shell->old_pwd = strdup(old_pwd);
     for (; buff && my_strcmp(buff->parts[0], "OLDPWD") != 0;
         buff = buff->next);
     CHECK_MALLOC(buff, 84);
@@ -68,14 +70,14 @@ static int update_pwd(shell_t *shell, char *old_pwd)
     for (buff = shell->envi; buff && my_strcmp(buff->parts[0], "PWD") != 0;
         buff = buff->next);
     CHECK_MALLOC(buff, 84);
-    update_env_line(buff, shell, "PWD", getcwd(NULL, 0));
+    update_env_line(buff, shell, "PWD", my_getcwd());
     return 0;
 }
 
 static int cd_home(shell_t *shell)
 {
     envi_t *buff = shell->envi;
-    char *old_pwd = getcwd(NULL, 0);
+    char *old_pwd = my_getcwd();
     int status = 0;
 
     for (; buff && my_strcmp(buff->parts[0], "HOME") != 0;
@@ -89,7 +91,6 @@ static int cd_home(shell_t *shell)
         status = chdir(buff->parts[1]);
     if (status < 0)
         return not_a_dir(shell);
-    shell->old_pwd = old_pwd;
     status = update_pwd(shell, old_pwd);
     shell->shell_status = status;
     return status;
@@ -97,14 +98,13 @@ static int cd_home(shell_t *shell)
 
 static int exec_cd(shell_t *shell)
 {
-    char *old_pwd = getcwd(NULL, 0);
+    char *old_pwd = my_getcwd();
     int status = 0;
     int result = 0;
 
     result = chdir(shell->command[1]);
     if (result < 0)
         return not_a_dir(shell);
-    shell->old_pwd = old_pwd;
     status = update_pwd(shell, old_pwd);
     shell->shell_status = status;
     return status;
@@ -112,14 +112,13 @@ static int exec_cd(shell_t *shell)
 
 static int cd_minus(shell_t *shell)
 {
-    char *old_pwd = getcwd(NULL, 0);
+    char *old_pwd = my_getcwd();
     int status = 0;
     int result = 0;
 
     result = chdir(shell->old_pwd);
     if (result < 0)
         return not_a_dir(shell);
-    shell->old_pwd = old_pwd;
     status = update_pwd(shell, old_pwd);
     shell->shell_status = status;
     return status;

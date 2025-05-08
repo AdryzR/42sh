@@ -8,36 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "my.h"
-#include "my_printf.h"
+#include "printf.h"
 #include "my_sh.h"
-
-void free_str(char *str)
-{
-    if (str)
-        free(str);
-}
-
-void free_all(shell_t *shell)
-{
-    envi_t *buff = NULL;
-
-    while (shell->envi) {
-        buff = shell->envi;
-        free(buff->env);
-        free_array(buff->parts);
-        shell->envi = shell->envi->next;
-        free(buff);
-    }
-    free(shell->envi);
-    free_str(shell->line);
-    free_array(shell->command);
-    free_str(shell->path_copy);
-    free_str(shell->full_path);
-    free_str(shell->home);
-    free_str(shell->old_pwd);
-    if (shell != NULL)
-        free(shell);
-}
 
 static bool is_alphanumeric(char c)
 {
@@ -47,14 +19,14 @@ static bool is_alphanumeric(char c)
 static int error_numbers(shell_t *shell)
 {
     my_putstr_ch(2, "exit: Badly formed number.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
 static int error_syntax(shell_t *shell)
 {
     my_putstr_ch(2, "exit: Expression Syntax.\n");
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
@@ -63,7 +35,7 @@ static int exec_exit(shell_t *shell)
     int exit_status = shell->shell_status;
 
     if (isatty(0) == 1)
-        my_printf("exit\n");
+        printf("exit\n");
     free_all(shell);
     exit(exit_status);
     return (exit_status);

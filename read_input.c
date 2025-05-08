@@ -29,6 +29,7 @@ void set_struct_values(shell_t *shell)
 char *realloc_size(char *line, alloc_t *alloc)
 {
     char *tmp;
+
     alloc->nb_char++;
     if (alloc->nb_char >= (alloc->nb_alloc - 1)) {
         tmp = realloc(line, alloc->nb_alloc * 2);
@@ -56,12 +57,12 @@ char *read_loop(shell_t *shell, struct termios *oldt, char *line)
         fflush(stdout);
         byte_read = read(STDIN_FILENO, &c, 1);
     }
-    my_printf("\n");
+    puts("\n");
     tcsetattr(STDIN_FILENO, TCSANOW, oldt);
     return error_case(c, byte_read, line);
 }
 
-char *read_line(shell_t *shell, char **env)
+char *read_line(shell_t *shell)
 {
     struct termios oldt;
     struct termios newt;

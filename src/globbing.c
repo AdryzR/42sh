@@ -6,7 +6,6 @@
 */
 
 #include "my.h"
-#include "my_printf.h"
 #include "my_sh.h"
 #include <glob.h>
 #include <stdio.h>

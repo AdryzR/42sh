@@ -5,15 +5,15 @@
 ** my_getenv
 */
 
-#include "my.h"
+#include "my_sh.h"
 
-char *my_getenv(char **env, char *tofind)
+char *my_getenv(shell_t *shell, char *tofind)
 {
-    char **env_line;
+    envi_t *line = shell->envi;
 
-    for (int i = 0; env[i]; i++) {
-        env_line = my_str_to_word_array(env[i], " =");
-        if (my_strcmp(env_line[0], tofind) == 0)
-            return env_line[1];
-    }
+    for (line = shell->envi; line && strcmp(line->parts[0], tofind) != 0;
+        line = line->next);
+    if (!line)
+        return NULL;
+    return line->parts[1];
 }

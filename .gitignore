@@ -2,6 +2,8 @@
 *.o
 .vscode
 lib/libmy.a
+
+# Tests:
 tester
 my_segfault
 invalid_bin
@@ -10,3 +12,7 @@ a.out
 *libmy.a
 .history
 coding-style-reports.log
+test_div_zero_with_core.sh
+test_divzero_no_core.sh
+divzero
+divzero.c
