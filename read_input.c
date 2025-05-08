@@ -57,7 +57,7 @@ char *read_loop(shell_t *shell, struct termios *oldt, char *line)
         fflush(stdout);
         byte_read = read(STDIN_FILENO, &c, 1);
     }
-    puts("\n");
+    write(0, "\n", 1);
     tcsetattr(STDIN_FILENO, TCSANOW, oldt);
     return error_case(c, byte_read, line);
 }

@@ -18,6 +18,7 @@ static const char *builtin_names[] = {
     "where",
     "repeat",
     "alias",
+    "history",
     NULL
 };
 
@@ -31,7 +32,8 @@ static const builtin_fn_t builtin_fns[] = {
     my_which,
     my_where,
     my_repeat,
-    my_alias
+    my_alias,
+    exec_print_history
 };
 
 /*
@@ -41,6 +43,12 @@ Utilisation d'un argument pour le my_exit en cas de call builtin,
 int builtin_exit(shell_t *shell)
 {
     return my_exit(shell, CURRENT_STATUS);
+}
+
+int exec_print_history(shell_t *shell)
+{
+    (void)shell;
+    return print_history();
 }
 
 static pid_t fork_builtin(builtin_fn_t builtin, shell_t *shell)

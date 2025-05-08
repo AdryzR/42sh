@@ -143,6 +143,7 @@ int specific_case(shell_t *shell, char c, char *line);
 int init_output(struct termios *newt, struct termios *oldt);
 void set_index(shell_t *shell, history_t *hist);
 int print_history(void);
+int exec_print_history(shell_t *shell);
 
 void print_prompt(shell_t *shell);
 int my_which(shell_t *shell);
