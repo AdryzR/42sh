@@ -80,6 +80,6 @@ void init_struct(shell_t *shell, char **env)
     shell->history = malloc(sizeof(history_t));
     shell->history->index = 0;
     shell->history->tmp_index = 0;
-    if (!shell)
+    if (!shell->history)
         exit(1);
 }
