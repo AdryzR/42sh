@@ -19,6 +19,7 @@ static const char *builtin_names[] = {
     "repeat",
     "alias",
     "history",
+    "echo",
     NULL
 };
 
@@ -33,7 +34,8 @@ static const builtin_fn_t builtin_fns[] = {
     my_where,
     my_repeat,
     my_alias,
-    exec_print_history
+    exec_print_history,
+    my_echo
 };
 
 /*

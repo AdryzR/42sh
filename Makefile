@@ -94,7 +94,8 @@ SRC =	src/main.c \
 		src/replace_aliases.c \
 		src/aliases/aliases.c \
 		src/aliases/add.c \
-		src/aliases/print.c
+		src/aliases/print.c \
+		src/builtins/my_echo.c
 
 OBJ = $(SRC:.c=.o)
 

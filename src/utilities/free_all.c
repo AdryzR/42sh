@@ -51,6 +51,9 @@ void free_all(shell_t *shell)
     free_str(shell->full_path);
     free_str(shell->home);
     free_str(shell->old_pwd);
+    free(shell->history);
+    if (shell->alloc)
+        free(shell->alloc);
     if (shell != NULL)
         free(shell);
 }

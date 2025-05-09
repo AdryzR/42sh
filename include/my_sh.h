@@ -132,6 +132,7 @@ int check_commands(shell_t *shell, char *command, bool print);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
+int my_echo(shell_t *shell);
 
 char *read_line(shell_t *shell);
 char *arrows_key(shell_t *shell, history_t *hist, char c, char *line);

@@ -10,15 +10,26 @@
 
 static char *error_case(char c, ssize_t byte_read, char *line)
 {
-    if (c == 4)
-        exit(0);
-    if (byte_read <= 0)
+    if (c == 4) {
+        free(line);
         return NULL;
+    }
+    if (byte_read <= 0) {
+        free(line);
+        return NULL;
+    }
+    write(0, "\n", 1);
     return line;
 }
 
 void set_struct_values(shell_t *shell)
 {
+    if (shell->alloc)
+        free(shell->alloc);
+    if (shell->line) {
+        free(shell->line);
+        shell->line = NULL;
+    }
     shell->alloc = malloc(sizeof(alloc_t));
     shell->alloc->nb_alloc = 10;
     shell->alloc->nb_char = 10;
@@ -57,7 +68,6 @@ char *read_loop(shell_t *shell, struct termios *oldt, char *line)
         fflush(stdout);
         byte_read = read(STDIN_FILENO, &c, 1);
     }
-    write(0, "\n", 1);
     tcsetattr(STDIN_FILENO, TCSANOW, oldt);
     return error_case(c, byte_read, line);
 }

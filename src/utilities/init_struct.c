@@ -19,6 +19,10 @@ void setup_path_copy(shell_t *shell)
         my_strncmp(buff->env, "PATH=", 5) != 0; buff = buff->next);
     if (!buff || !buff->parts[1])
         return;
+    if (shell->path_copy) {
+        free(shell->path_copy);
+        shell->path_copy = NULL;
+    }
     shell->path_copy = my_strdup(buff->parts[1]);
 }
 
