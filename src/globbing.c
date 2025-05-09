@@ -12,11 +12,12 @@
 
 glob_t globbing(char *pattern)
 {
+    int flags = GLOB_BRACE | GLOB_TILDE;
     glob_t res;
 
     if (!pattern)
         return (glob_t){ 0 };
-    if (glob(pattern, 0, NULL, &res) != 0) {
+    if (glob(pattern, flags, NULL, &res) != 0) {
         globfree(&res);
         return (glob_t){ 0 };
     }
