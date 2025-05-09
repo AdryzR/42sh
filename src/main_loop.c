@@ -72,9 +72,9 @@ void main_loop(shell_t *shell, ssize_t bytes_read)
         print_prompt_if_tty(shell);
         set_index(shell, shell->history);
         bytes_read = get_input(shell);
+        update_args(shell, bytes_read);
         if (shell->line[0] == '\n')
             continue;
-        update_args(shell, bytes_read);
         if (shell->line[0] == '\0' || strcmp(shell->line, "exit") == 0)
             my_exit(shell, CURRENT_STATUS);
         history_gest(shell, shell->history);
