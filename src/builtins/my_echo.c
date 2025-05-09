@@ -9,11 +9,19 @@
 
 int my_echo(shell_t *shell)
 {
-    for (int i = 1; shell->command[i]; ++i) {
+    bool n = 0;
+    int start = 1;
+
+    if (strcmp(shell->command[1], "-n") == 0) {
+        n = true;
+        start = 2;
+    }
+    for (int i = start; shell->command[i]; ++i) {
         printf("%s", shell->command[i]);
         if (shell->command[i + 1])
             printf(" ");
     }
-    printf("\n");
+    if (n == false)
+        printf("\n");
     return 0;
 }
