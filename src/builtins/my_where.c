@@ -14,27 +14,34 @@ static void print_tab_n(char **tab, int i)
     printf("\n");
 }
 
-static void check_where(shell_t *shell, char *co, int *state)
+static void free_check_where(char **to_free, char *cmd_to_free)
+{
+    free_array(to_free);
+    free(cmd_to_free);
+}
+
+static void check_where(shell_t *shell, char *cmd, int *state)
 {
     char **temp = NULL;
+    char buffer[4096] = {0};
     int b = 1;
 
-    if (is_a_built_in(shell, co, false) == 0) {
-        printf("%s is a shell built-in\n", co);
+    if (is_a_built_in(shell, cmd, false) == 0) {
+        printf("%s is a shell built-in\n", cmd);
         b = 0;
     }
-    (*state) = check_commands(shell, co, false);
+    (*state) = check_commands(shell, cmd, false);
     if ((*state) == 84) {
         shell->shell_status = b;
-        free(co);
-        return;
+        return (void)free(cmd);
     }
-    temp = my_str_to_word_array(shell->full_path, "/\n");
-    for (int i = 0; strcmp(temp[i], co) != 0; ++i)
-        print_tab_n(temp, i);
-    free_array(temp);
-    free(co);
-    return;
+    temp = my_str_to_word_array(shell->path_copy, ":");
+    for (int i = 0; temp[i]; i++) {
+        snprintf(buffer, sizeof(buffer), "%s/%s", temp[i], cmd);
+        if (!access(buffer, X_OK))
+            dprintf(1, "%s\n", buffer);
+    }
+    free_check_where(temp, cmd);
 }
 
 static int check_path(shell_t *shell, char *command)
