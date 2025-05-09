@@ -5,7 +5,7 @@
 ** main_loop
 */
 
-#include <my_sh.h>
+#include "my_sh.h"
 #include <interpreter.h>
 
 lexer_t update_lexer(lexer_t lexer, char *line)
@@ -21,10 +21,12 @@ static void print_prompt_if_tty(shell_t *shell)
         print_prompt(shell);
 }
 
-static void update_args(shell_t *shell)
+static void update_args(shell_t *shell, int bytes_read)
 {
     shell->nb_args = 0;
     setup_path_copy(shell);
+    if (!shell->line || bytes_read == -1)
+        my_exit(shell, CURRENT_STATUS);
 }
 
 static int start_execution(shell_t *shell)
@@ -44,18 +46,26 @@ static int start_execution(shell_t *shell)
     return 0;
 }
 
-void main_loop(shell_t *shell)
+static ssize_t get_input(shell_t *shell)
 {
     size_t args_len = 0;
 
+    if (isatty(0) == 0)
+        return getline(&shell->line, &args_len, stdin);
+    shell->line = read_line(shell);
+    return 0;
+}
+
+void main_loop(shell_t *shell, ssize_t bytes_read)
+{
     for (;;) {
-        set_index(shell, shell->history);
         print_prompt_if_tty(shell);
-        shell->line = read_line(shell);
+        set_index(shell, shell->history);
+        bytes_read = get_input(shell);
+        update_args(shell, bytes_read);
         history_gest(shell, shell->history);
         if (shell->line[0] == '\0')
             continue;
-        update_args(shell);
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
         shell->input = replace_aliases(shell, shell->line, shell->aliases);

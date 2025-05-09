@@ -16,8 +16,9 @@
 int main(int ac, char **av, char **env)
 {
     shell_t *shell = malloc(sizeof(shell_t));
+    ssize_t bytes_read = 0;
 
     init_struct(shell, env);
-    main_loop(shell);
+    main_loop(shell, bytes_read);
     return 0;
 }

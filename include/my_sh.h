@@ -101,7 +101,7 @@ int make_redirect_out(shell_t *shell, char *filename, redir_type_t type);
 int make_redirect_in(shell_t *shell, char *filename);
 int make_redir_heredoc(shell_t *shell, const char *eof);
 
-void main_loop(shell_t *shell);
+void main_loop(shell_t *shell, ssize_t bytes_read);
 
 void setup_path_copy(shell_t *shell);
 int wait_for_pid(shell_t *shell, int c_pid);

@@ -6,6 +6,7 @@ lib/libmy.a
 # Tests:
 tester
 my_segfault
+tests
 invalid_bin
 binaire-mac
 a.out
