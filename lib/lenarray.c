@@ -9,9 +9,11 @@
 
 int len_array(char **array)
 {
-    int i = 0;
+    size_t i = 0;
 
+    if (!array)
+        return 0;
     while (array[i])
-        i++;
+        ++i;
     return i;
 }

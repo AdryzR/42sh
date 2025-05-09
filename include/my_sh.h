@@ -103,6 +103,8 @@ int make_redir_heredoc(shell_t *shell, const char *eof);
 
 void main_loop(shell_t *shell, ssize_t bytes_read);
 
+glob_t globbing(char *pattern);
+
 void setup_path_copy(shell_t *shell);
 int wait_for_pid(shell_t *shell, int c_pid);
 int is_a_built_in(shell_t *shell, char *command, bool exec);
