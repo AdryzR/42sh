@@ -26,7 +26,7 @@ static int command_not_found(shell_t *shell, char *command, bool print)
         my_putstr_ch(2, command);
         my_putstr_ch(2, ": Command not found.\n");
     }
-    shell->shell_status = 1;
+    shell->shell_status = 84;
     return 84;
 }
 
@@ -40,41 +40,6 @@ static int return_error(char *copy)
 {
     free(copy);
     return 84;
-}
-
-int command_is_path(char *command)
-{
-    int fd = open(command, O_RDONLY);
-
-    if (fd == -1) {
-        return 0;
-    }
-    for (int i = 0; command[i]; i++) {
-        if (command[i] == '/') {
-            close(fd);
-            return 1;
-        }
-    }
-    close(fd);
-    return 0;
-}
-
-char *check_path(char *command)
-{
-    int b = 0;
-
-    for (int i = 0; command[i]; i++) {
-        if (command[i] != '/' && command[i] != '.') {
-            b = 0;
-            break;
-        }
-        b = 1;
-    }
-    if (b == 1) {
-        free(command);
-        return NULL;
-    }
-    return command;
 }
 
 int loop_on_paths(shell_t *shell, char *command, bool print)
@@ -116,8 +81,9 @@ int check_commands(shell_t *shell, char *command, bool print)
     char *dir = NULL;
     int status = 0;
 
-    if (command_is_path(command) == 1) {
-        command = check_path(command);
+    for (int i = 0; shell->command[0][i]; i++)
+    if (shell->command[0][i] == '/') {
+        shell->full_path = my_strdup(shell->command[0]);
         return 0;
     }
     if (!shell->path_copy)
