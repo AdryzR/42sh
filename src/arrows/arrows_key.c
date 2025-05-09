@@ -95,6 +95,7 @@ char *arrows_key(shell_t *shell, history_t *hist, char c, char *line)
         if (read(STDIN_FILENO, &c, 1) == 0)
             return line;
         if (c == '[') {
+            read(STDIN_FILENO, &c, 1);
             line = check_arrows_l_r(c, shell, hist, line);
             return line;
         }

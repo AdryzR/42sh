@@ -17,4 +17,5 @@ void print_prompt(shell_t *shell)
     if (getcwd(path, SH_PATH_MAX) != NULL)
         printf("\033[0;36m>%s", path);
     printf("> \033[0m");
+    fflush(stdout);
 }

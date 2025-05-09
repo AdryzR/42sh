@@ -90,6 +90,7 @@ typedef struct shell_s {
     bool should_fork_builtin;
     int saved_fds[2];
     alias_t *aliases;
+    alloc_t *alloc;
     char *input;
 } shell_t;
 
@@ -131,6 +132,9 @@ int check_commands(shell_t *shell, char *command, bool print);
 int my_exit(shell_t *shell, int exit_status);
 int execute_cmd(shell_t *box);
 int my_putstr_ch(int fd, char const *str);
+
+char *read_line(shell_t *shell);
+char *arrows_key(shell_t *shell, history_t *hist, char c, char *line);
 
 // History
 int history_gest(shell_t *shell, history_t *hist);
