@@ -17,7 +17,7 @@ int history_gest(shell_t *shell, history_t *hist)
     ptr = fopen(".history", "a");
     if (!ptr)
         return 1;
-    fprintf(ptr, "%s", shell->line);
+    fprintf(ptr, "%s\n", shell->line);
     fclose(ptr);
     hist->index++;
     return 0;
