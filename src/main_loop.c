@@ -66,6 +66,7 @@ static ssize_t get_input(shell_t *shell)
 
 void main_loop(shell_t *shell, ssize_t bytes_read)
 {
+    setbuf(stdout, NULL);
     signal(SIGINT, handle_sigint);
     for (;;) {
         print_prompt_if_tty(shell);
