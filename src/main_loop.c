@@ -21,6 +21,14 @@ static void print_prompt_if_tty(shell_t *shell)
         print_prompt(shell);
 }
 
+static void handle_sigint(__attribute__((unused)) int sig)
+{
+    shell_t shell = {0};
+
+    my_putchar('\n');
+    print_prompt_if_tty(&shell);
+}
+
 static void update_args(shell_t *shell, int bytes_read)
 {
     shell->nb_args = 0;
@@ -58,16 +66,17 @@ static ssize_t get_input(shell_t *shell)
 
 void main_loop(shell_t *shell, ssize_t bytes_read)
 {
+    signal(SIGINT, handle_sigint);
     for (;;) {
         print_prompt_if_tty(shell);
         set_index(shell, shell->history);
         bytes_read = get_input(shell);
         update_args(shell, bytes_read);
-        history_gest(shell, shell->history);
         if (shell->line[0] == '\0')
             continue;
         if (my_strcmp(shell->line, "\n") == 0)
             continue;
+        history_gest(shell, shell->history);
         shell->input = replace_aliases(shell, shell->line, shell->aliases);
         if (shell->input == NULL)
             continue;
