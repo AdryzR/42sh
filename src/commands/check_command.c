@@ -26,7 +26,7 @@ static int command_not_found(shell_t *shell, char *command, bool print)
         my_putstr_ch(2, command);
         my_putstr_ch(2, ": Command not found.\n");
     }
-    shell->shell_status = 84;
+    shell->shell_status = 1;
     return 84;
 }
 
@@ -82,10 +82,10 @@ int check_commands(shell_t *shell, char *command, bool print)
     int status = 0;
 
     for (int i = 0; shell->command[0][i]; i++)
-    if (shell->command[0][i] == '/') {
-        shell->full_path = my_strdup(shell->command[0]);
-        return 0;
-    }
+        if (shell->command[0][i] == '/') {
+            shell->full_path = my_strdup(shell->command[0]);
+            return 0;
+        }
     if (!shell->path_copy)
         set_default_path(shell);
     status = loop_on_paths(shell, command, print);
