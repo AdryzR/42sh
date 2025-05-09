@@ -18,6 +18,8 @@ static char *error_case(char c, ssize_t byte_read, char *line)
         free(line);
         return NULL;
     }
+    if (c == '\n' && strlen(line) == 0)
+        line[0] = '\n';
     write(0, "\n", 1);
     return line;
 }
