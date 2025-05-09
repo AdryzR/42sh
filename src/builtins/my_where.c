@@ -14,27 +14,26 @@ static void print_tab_n(char **tab, int i)
     printf("\n");
 }
 
-static void check_where(shell_t *shell, char *command, int *state)
+static void check_where(shell_t *shell, char *co, int *state)
 {
     char **temp = NULL;
+    int b = 1;
 
-    if (is_a_built_in(shell, command, false) == 0 ||
-    strcmp(command, "echo") == 0) {
-        printf("%s is a shell built-in\n", command);
-        free(command);
-        return;
+    if (is_a_built_in(shell, co, false) == 0 || strcmp(co, "echo") == 0) {
+        printf("%s is a shell built-in\n", co);
+        b = 0;
     }
-    (*state) = check_commands(shell, command, false);
+    (*state) = check_commands(shell, co, false);
     if ((*state) == 84) {
-        shell->shell_status = 1;
-        free(command);
+        shell->shell_status = b;
+        free(co);
         return;
     }
     temp = my_str_to_word_array(shell->full_path, "/\n");
-    for (int i = 0; strcmp(temp[i], command) != 0; ++i)
+    for (int i = 0; strcmp(temp[i], co) != 0; ++i)
         print_tab_n(temp, i);
     free_array(temp);
-    free(command);
+    free(co);
     return;
 }
 
