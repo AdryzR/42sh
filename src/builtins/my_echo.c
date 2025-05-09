@@ -23,5 +23,6 @@ int my_echo(shell_t *shell)
     }
     if (n == false)
         printf("\n");
+    shell->shell_status = 0;
     return 0;
 }
