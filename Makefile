@@ -89,8 +89,8 @@ SRC =	src/main.c \
 		src/history/history_gest.c \
 		src/history/print_history.c \
 		src/history/set_history.c \
-		read_input.c \
-		handle_specific_case_read.c \
+		src/read/read_input.c \
+		src/read/handle_specific_case_read.c \
 		src/replace_aliases.c \
 		src/aliases/aliases.c \
 		src/aliases/add.c \
