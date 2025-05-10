@@ -8,6 +8,13 @@
 #include <parser.h>
 #include <interpreter.h>
 
+static void print_basic_error_if_needed(parser_t *parser)
+{
+    if (parser->error_msg == NULL)
+        fputs("Input is badly formatted, or an error occured in parsing.\n",
+            stderr);
+}
+
 //todo: gestion d'erreur à approfondir (ex: passe ici si ')' missing)
 ast_t *parse_program(parser_t *parser)
 {
@@ -24,7 +31,7 @@ ast_t *parse_program(parser_t *parser)
             break;
     } while (IS_SEPARATOR(parser->current.type));
     if (parser->current.type != TT_EOF) {
-        fputs("ERROR IN PARSING\n", stderr);
+        print_basic_error_if_needed(parser);
         free_ast(tree);
         return NULL;
     }
