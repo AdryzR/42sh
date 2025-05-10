@@ -14,8 +14,6 @@
     #define SH_PATH_MAX 4096
     #define CHECK_MALLOC(ptr, retval) if (ptr == NULL) return retval
     #define CURRENT_STATUS 150000
-    #define ATTRIB(ptr) free_array(ptr) ENDL
-    #define OPTI_RET(ptr, retval) ATTRIB(ptr) return retval
     #define STDIN STDIN_FILENO
     #define STDOUT STDOUT_FILENO
     #define MAX_LINES 100

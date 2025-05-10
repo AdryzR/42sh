@@ -13,25 +13,6 @@ RST            = \033[0m
 
 SRC =	src/main.c \
 		src/main_loop.c \
-		lib/lenarray.c \
-		lib/my_getnbr.c \
-		lib/my_put_nbr_ch.c \
-		lib/my_put_nbr.c \
-		lib/my_putchar_ch.c \
-		lib/my_putchar.c \
-		lib/my_putstr_ch.c \
-		lib/my_putstr.c \
-		lib/my_getcwd.c \
-		lib/my_str_to_warray.c \
-		lib/my_str_to_word_array.c \
-		lib/my_strcmp.c \
-		lib/my_strcpy.c \
-		lib/my_strdup.c \
-		lib/my_strlen.c \
-		lib/my_strncpy.c \
-		lib/my_strcat_m.c \
-		lib/my_strcat.c \
-		lib/join_words.c \
 		src/utilities/init_struct.c \
 		src/utilities/ret_and_set_status.c \
 		src/utilities/print_prompt.c \
@@ -40,16 +21,16 @@ SRC =	src/main.c \
 		src/commands/check_shell_args.c \
 		src/commands/check_command.c \
 		src/commands/is_a_built_in.c \
-		lib/my_strncmp.c \
-		lib/free_array.c \
+		src/commands/globbing.c \
 		src/builtins/my_cd.c \
 		src/builtins/my_setenv.c \
 		src/builtins/my_unsetenv.c \
 		src/builtins/my_env.c \
-		src/my_getenv.c \
-		src/globbing.c \
-		lib/str_to_warray.c \
-		lib/strip_str.c \
+		src/builtins/my_exit.c \
+		src/builtins/my_which.c	\
+		src/builtins/my_where.c	\
+		src/builtins/my_repeat.c \
+		src/builtins/my_echo.c \
 		src/parsing/lexer.c \
 		src/parsing/lexer_utilities.c \
 		src/parsing/parser.c \
@@ -78,24 +59,43 @@ SRC =	src/main.c \
 		src/redirections/redirect_heredoc.c \
 		src/redirections/redirect_in.c \
 		src/redirections/redirect_out.c \
-		src/builtins/my_exit.c \
-		src/builtins/my_which.c	\
-		src/builtins/my_where.c	\
-		src/builtins/my_repeat.c \
-		src/word_array_to_str.c	\
 		src/arrows/arrows_key.c \
-		src/my_str_isnum.c \
-		src/my_char_isnum.c \
 		src/history/history_gest.c \
 		src/history/print_history.c \
 		src/history/set_history.c \
 		src/read/read_input.c \
 		src/read/handle_specific_case_read.c \
-		src/replace_aliases.c \
+		src/aliases/replace_aliases.c \
 		src/aliases/aliases.c \
 		src/aliases/add.c \
 		src/aliases/print.c \
-		src/builtins/my_echo.c
+		lib/my_getenv.c \
+		lib/word_array_to_str.c	\
+		lib/my_str_isnum.c \
+		lib/my_char_isnum.c \
+		lib/lenarray.c \
+		lib/my_getnbr.c \
+		lib/my_put_nbr_ch.c \
+		lib/my_put_nbr.c \
+		lib/my_putchar_ch.c \
+		lib/my_putchar.c \
+		lib/my_putstr_ch.c \
+		lib/my_putstr.c \
+		lib/my_getcwd.c \
+		lib/my_str_to_warray.c \
+		lib/my_str_to_word_array.c \
+		lib/my_strcmp.c \
+		lib/my_strcpy.c \
+		lib/my_strdup.c \
+		lib/my_strlen.c \
+		lib/my_strncpy.c \
+		lib/my_strcat_m.c \
+		lib/my_strcat.c \
+		lib/join_words.c \
+		lib/my_strncmp.c \
+		lib/free_array.c \
+		lib/str_to_warray.c \
+		lib/strip_str.c
 
 OBJ = $(SRC:.c=.o)
 
