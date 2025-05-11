@@ -7,7 +7,7 @@
 
 #include <parser.h>
 
-static token_type_t get_operation_type(const parser_t *parser)
+static ast_type_t get_operation_type(const parser_t *parser)
 {
     switch (parser->current.type) {
     case TT_AND:

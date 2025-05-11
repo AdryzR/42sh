@@ -13,4 +13,5 @@
 int my_putstr_ch(int fd, char const *str)
 {
     write(fd, str, my_strlen(str));
+    return 0;
 }
