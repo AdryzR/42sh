@@ -29,7 +29,7 @@ The project includes support for built-ins, line editing, redirections, pipes, c
 - Unix‐like environment (Linux, macOS, etc.)
 
 ## Compile Instructions
-To compile the standard version of robot_factory,
+To compile the standard version of 42sh,
 simply run make:
 
 ```bash
