@@ -11,7 +11,7 @@ The project includes support for built-ins, line editing, redirections, pipes, c
 
 - **External command execution** via `fork()` / `execve()`.
 - **Built‐ins**:
-  - `cd`, `env`, `exit`, `setenv`, `unsetenv`, `which`, `where`, `repeat`, `echo`, `alias`, `history`
+  - `cd`, `env`, `exit`, `setenv`, `unsetenv`, `which`, `where`, `repeat`, `echo`, `alias`, `history`.
 - **Robust parsing**:
   - LL‐style parser for command input to build an AST, followed by AST interpretation.
 - **Redirections**:

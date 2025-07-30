@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-CPE-101-STG-1-1-myprintf-kevser.akcan
+** 42sh
 ** File description:
 ** my_char_isnum.c
 */

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-PSU-200-STG-2-1-42sh-adrien.raphanaud
+** 42sh
 ** File description:
 ** my_where.c
 */

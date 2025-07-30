@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** minishell2
+** 42sh
 ** File description:
 ** str_to_warray
 */

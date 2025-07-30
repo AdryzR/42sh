@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** my_str_isnum
+** 42sh
 ** File description:
 ** Returns 1 if the string only contains digits and
 ** 0 otherwise

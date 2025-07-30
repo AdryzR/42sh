@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** 42sh_trop_banger
+** 42sh
 ** File description:
 ** read_input
 */

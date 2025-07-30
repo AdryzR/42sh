@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-CPE-110-STG-1-1-settingup-adrien.raphanaud
+** 42sh
 ** File description:
 ** my_getnbr
 */

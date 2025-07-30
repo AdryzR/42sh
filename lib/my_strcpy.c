@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** Workshop_LinkedList
+** 42sh
 ** File description:
 ** my_strcpuf
 */

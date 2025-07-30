@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** minishell1
+** 42sh
 ** File description:
 ** my_strncmp
 */

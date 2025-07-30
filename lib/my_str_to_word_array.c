@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** test
+** 42sh
 ** File description:
 ** my_str_to_word_array
 */

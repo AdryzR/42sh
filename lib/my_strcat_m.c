@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** my_strcat
+** 42sh
 ** File description:
 ** my_strcat
 */

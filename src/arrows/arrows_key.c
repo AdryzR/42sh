@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2022
-** bootstrap
+** 42sh
 ** File description:
 ** arrows_key
 */

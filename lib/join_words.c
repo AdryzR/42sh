@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** builtin
+** 42sh
 ** File description:
 ** join_words
 */

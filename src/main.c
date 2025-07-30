@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** B-CPE-110-STG-1-1-secured-mateo.antoni-christ
+** 42sh
 ** File description:
 ** secured
 */

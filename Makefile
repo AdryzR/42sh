@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2024
-## Minishell2
+## 42sh
 ## File description:
 ## Makefile
 ##

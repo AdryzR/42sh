@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-PSU-100-STG-1-1-myls-adrien.raphanaud
+** 42sh
 ** File description:
 ** lenarray
 */

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** Sudo
+** 42sh
 ** File description:
 ** my_putstr_ch
 */

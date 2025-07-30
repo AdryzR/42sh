@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2024
-** printf
+** 42sh
 ** File description:
-** printf
+** 42sh
 */
 
 #ifndef MY_H

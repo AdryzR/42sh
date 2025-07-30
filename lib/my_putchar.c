@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** my_putchar
+** 42sh
 ** File description:
 ** my_putchar
 */

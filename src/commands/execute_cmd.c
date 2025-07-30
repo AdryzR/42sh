@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** Sudo
+** 42sh
 ** File description:
 ** execute_sudo
 */
